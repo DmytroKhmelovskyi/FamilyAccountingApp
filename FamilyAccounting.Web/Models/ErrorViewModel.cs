@@ -1,6 +1,6 @@
 using System;
 
-namespace FamilyAccounting.MVC.Models
+namespace FamilyAccounting.Web.Models
 {
     public class ErrorViewModel
     {
