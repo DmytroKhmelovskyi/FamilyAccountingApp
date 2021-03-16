@@ -23,7 +23,7 @@ namespace FamilyAccounting.Web
         {
             services.AddControllersWithViews();
         }
-
+        //pussshh
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
