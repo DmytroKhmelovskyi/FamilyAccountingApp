@@ -25,6 +25,7 @@ namespace FamilyAccounting.Web
         }
         //pussshh
         //rerg
+        //fdsf
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
