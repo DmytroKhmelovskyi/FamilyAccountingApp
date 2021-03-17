@@ -9,10 +9,10 @@ namespace FamilyAccounting.DAL.Entities
         public string Description { get; set; }
         public decimal Balance { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
-        public bool CashType { get; set; }
+        public bool IsCash { get; set; }
         public Card Card { get; set; }
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
-
+        public bool IsActive { get; set; }
     }
 }
