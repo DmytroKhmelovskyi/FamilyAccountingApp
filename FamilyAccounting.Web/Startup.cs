@@ -1,3 +1,4 @@
+using FamilyAccounting.DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,8 @@ namespace FamilyAccounting.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddRepositories(connectionString);
         }
       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
