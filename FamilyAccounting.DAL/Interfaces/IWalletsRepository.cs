@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
-    interface IWalletsRepository
+   public interface IWalletsRepository
     {
     }
 }

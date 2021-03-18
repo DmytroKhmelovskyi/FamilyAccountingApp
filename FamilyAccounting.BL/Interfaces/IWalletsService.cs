@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FamilyAccounting.DAL.Interfaces
+namespace FamilyAccounting.BL.Interfaces
 {
-    public interface ICardsRepository
+    interface IWalletsService
     {
     }
 }

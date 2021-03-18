@@ -1,4 +1,6 @@
-﻿using FamilyAccounting.Web.Models;
+﻿using FamilyAccounting.BL.DTO;
+using FamilyAccounting.BL.Services;
+using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +14,19 @@ namespace FamilyAccounting.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private PersonsService personsService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, PersonsService personsService)
         {
             _logger = logger;
+            this.personsService = personsService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<PersonDTO> personDTOs = personsService.GetListOfPersons();
+            PersonViewModel bvm = new PersonViewModel { Persons = personDTOs };
+            return View(bvm);
         }
 
         public IActionResult Privacy()
