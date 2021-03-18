@@ -34,8 +34,8 @@ namespace FamilyAccounting.BL.Services
         {
             try
             {
-                var newPerson = mapper.Map<Person>(person);
-                var updatedPerson = personsRepository.Update(id, newPerson);
+                Person newPerson = mapper.Map<Person>(person);
+                Person updatedPerson = personsRepository.Update(id, newPerson);
                 return mapper.Map<PersonDTO>(updatedPerson);
             }
             catch (Exception ex)
