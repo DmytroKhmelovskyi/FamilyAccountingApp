@@ -59,5 +59,15 @@ namespace FamilyAccounting.DAL.Repositories
 
             return person;
         }
+        public Person Update(int id, Person person)
+        {
+            string sqlExpression = $"EXEC PR_Persons_Update {id}, '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.ExecuteNonQuery();
+            sql.Close();
+            return person;
+        }
     }
 }
