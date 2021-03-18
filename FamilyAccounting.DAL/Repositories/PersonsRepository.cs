@@ -47,14 +47,6 @@ namespace FamilyAccounting.DAL.Repositories
 
         public Person Add(Person person)
         {
-            Person newPerson = new Person
-            {
-                FirstName = person.FirstName,
-                LastName = person.LastName,
-                Email = person.Email,
-                Phone = person.Phone
-            };
-
             string sqlExpression = $"EXEC PR_Persons_Create '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
 
             SqlConnection sql = new SqlConnection(connectionString);
@@ -65,7 +57,7 @@ namespace FamilyAccounting.DAL.Repositories
 
             sql.Close();
 
-            return newPerson;
+            return person;
         }
     }
 }
