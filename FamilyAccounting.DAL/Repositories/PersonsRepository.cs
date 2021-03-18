@@ -3,6 +3,8 @@ using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace FamilyAccounting.DAL.Repositories
@@ -42,6 +44,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return table;
         }
+
         public Person Add(Person person)
         {
             Person newPerson = new Person
