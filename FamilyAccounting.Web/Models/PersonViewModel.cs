@@ -15,7 +15,7 @@ namespace FamilyAccounting.Web.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public decimal Balance { get; set; }
-       public IEnumerable<WalletViewModel> Wallets { get; set; }
+        public IEnumerable<WalletViewModel> Wallets { get; set; }
         public decimal TotalIncome { get; set; }
         public decimal TotalExpense { get; set; }
         public bool IsActive { get; set; }
