@@ -12,11 +12,12 @@ namespace FamilyAccounting.Web.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
         public decimal Balance { get; set; }
-       // public IEnumerable<WalletDTO> Wallets { get; set; }
+       public IEnumerable<WalletViewModel> Wallets { get; set; }
         public decimal TotalIncome { get; set; }
         public decimal TotalExpense { get; set; }
         public bool IsActive { get; set; }
-       public IEnumerable<PersonDTO> Persons { get; set; }
     }
 }

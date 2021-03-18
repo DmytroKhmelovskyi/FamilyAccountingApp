@@ -10,7 +10,8 @@ namespace FamilyAccounting.BL.DTO
         public decimal Amount { get; set; }
         public WalletDTO SourceWallet { get; set; }
         public WalletDTO TargetWallet { get; set; }
-        public PersonDTO Person { get; set; }
+        public string Description { get; set; }
+        public DateTime TimeStamp { get; set; }
         public CategoryDTO Category { get; set; }
         public bool State { get; set; }
         public TransactionTypeDTO TransactionType { get; set; }

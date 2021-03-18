@@ -1,4 +1,6 @@
-﻿namespace FamilyAccounting.DAL.Entities
+﻿using System;
+
+namespace FamilyAccounting.DAL.Entities
 {
     public class Transaction
     {
@@ -6,8 +8,9 @@
         public decimal Amount { get; set; }
         public Wallet SourceWallet { get; set; }
         public Wallet TargetWallet { get; set; }
-        public Person Person { get; set; }
         public Category Category { get; set; }
+        public string Description { get; set; }
+        public DateTime TimeStamp { get; set; }
         public bool State { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal BalanceBefore { get; set; }
