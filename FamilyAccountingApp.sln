@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.DAL", "FamilyAccounting.DAL\FamilyAccounting.DAL.csproj", "{E4779366-45DD-4A92-BF88-1507CAB3A43C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.DAL", "FamilyAccounting.DAL\FamilyAccounting.DAL.csproj", "{E4779366-45DD-4A92-BF88-1507CAB3A43C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.Web", "FamilyAccounting.Web\FamilyAccounting.Web.csproj", "{51342B70-B6CF-4144-BB34-029C1061D3DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.Web", "FamilyAccounting.Web\FamilyAccounting.Web.csproj", "{51342B70-B6CF-4144-BB34-029C1061D3DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.Tests", "FamilyAccounting.Tests\FamilyAccounting.Tests.csproj", "{12B856B0-AD6C-4920-B272-72567A6963FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.Tests", "FamilyAccounting.Tests\FamilyAccounting.Tests.csproj", "{12B856B0-AD6C-4920-B272-72567A6963FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.BL", "FamilyAccounting.BL\FamilyAccounting.BL.csproj", "{564C8B9B-4B1B-418A-882D-E08C4DE2CB19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.BL", "FamilyAccounting.BL\FamilyAccounting.BL.csproj", "{564C8B9B-4B1B-418A-882D-E08C4DE2CB19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.AutoMapper", "FamilyAccounting.AutoMapper\FamilyAccounting.AutoMapper.csproj", "{86FE4C68-9920-463F-BE8A-5345CFCC2B82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{564C8B9B-4B1B-418A-882D-E08C4DE2CB19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{564C8B9B-4B1B-418A-882D-E08C4DE2CB19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{564C8B9B-4B1B-418A-882D-E08C4DE2CB19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86FE4C68-9920-463F-BE8A-5345CFCC2B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86FE4C68-9920-463F-BE8A-5345CFCC2B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86FE4C68-9920-463F-BE8A-5345CFCC2B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86FE4C68-9920-463F-BE8A-5345CFCC2B82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace FamilyAccounting.BL.Interfaces
 {
-    interface ICardsService
+    public interface ICardsService
     {
+
     }
 }

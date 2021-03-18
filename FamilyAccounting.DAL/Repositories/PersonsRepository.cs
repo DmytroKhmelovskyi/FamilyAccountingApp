@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 
 namespace FamilyAccounting.DAL.Repositories
 {
+
     class PersonsRepository : IPersonsRepository
     {
         private readonly string connectionString;
