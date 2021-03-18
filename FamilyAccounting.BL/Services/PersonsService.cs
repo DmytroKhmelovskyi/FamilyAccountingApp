@@ -5,7 +5,6 @@ using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -43,7 +42,6 @@ namespace FamilyAccounting.BL.Services
             {
                 throw new Exception(ex.Message);
             }
-
         }
     }
 }

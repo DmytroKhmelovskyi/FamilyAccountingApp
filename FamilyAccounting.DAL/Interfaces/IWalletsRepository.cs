@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FamilyAccounting.DAL.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
    public interface IWalletsRepository
     {
+        IEnumerable<Wallet> GetListOfWallets();
     }
 }
