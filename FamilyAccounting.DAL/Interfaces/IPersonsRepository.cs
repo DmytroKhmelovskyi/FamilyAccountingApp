@@ -5,8 +5,9 @@ using System.Text;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
-    interface IPersonsRepository
+    public interface IPersonsRepository
     {
         public Person Add(Person person);
+        IEnumerable<Person> GetListOfPersons();
     }
 }
