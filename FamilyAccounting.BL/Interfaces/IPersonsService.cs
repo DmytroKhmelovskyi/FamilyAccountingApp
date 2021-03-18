@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Interfaces
 {
-    interface IPersonsService
+    public interface IPersonsService
     {
-        IEnumerable<PersonDTO> GetListOfPersons();
+        public IEnumerable<PersonDTO> GetListOfPersons();
+        public PersonDTO Add(PersonDTO);
     }
 }
