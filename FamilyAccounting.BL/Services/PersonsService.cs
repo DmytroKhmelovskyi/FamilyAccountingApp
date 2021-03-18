@@ -30,6 +30,19 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+        public PersonDTO Update(int id,PersonDTO person)
+        {
+            try
+            {
+                Person newPerson = mapper.Map<Person>(person);
+                Person updatedPerson = personsRepository.Update(id, newPerson);
+                return mapper.Map<PersonDTO>(updatedPerson);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public IEnumerable<PersonDTO> Get()
         {
