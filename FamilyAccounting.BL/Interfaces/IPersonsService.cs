@@ -7,5 +7,6 @@ namespace FamilyAccounting.BL.Interfaces
     {
         public IEnumerable<PersonDTO> Get();
         public PersonDTO Add(PersonDTO person);
+        public PersonDTO Update(int id, PersonDTO person);
     }
 }
