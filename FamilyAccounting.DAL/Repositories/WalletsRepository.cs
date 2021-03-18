@@ -14,7 +14,7 @@ namespace FamilyAccounting.DAL.Repositories
         {
             connectionString = dbConfig.ConnectionString;
         }
-        public IEnumerable<Wallet> GetListOfWallets()
+        public IEnumerable<Wallet> Get()
         {
             string sqlProcedure = "PR_Wallets_Read";
             List<Wallet> table = new List<Wallet>();

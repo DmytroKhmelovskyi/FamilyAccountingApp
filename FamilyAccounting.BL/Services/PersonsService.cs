@@ -35,7 +35,7 @@ namespace FamilyAccounting.BL.Services
         {
             try
             {
-                IEnumerable<Person> person = personsRepository.GetListOfPersons();
+                IEnumerable<Person> person = personsRepository.Get();
                 return mapper.Map<IEnumerable<PersonDTO>>(person);
             }
             catch (Exception ex)

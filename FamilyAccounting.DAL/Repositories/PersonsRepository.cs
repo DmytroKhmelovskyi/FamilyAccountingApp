@@ -16,7 +16,7 @@ namespace FamilyAccounting.DAL.Repositories
             connectionString = dbConfig.ConnectionString;
         }
 
-        public IEnumerable<Person> GetListOfPersons()
+        public IEnumerable<Person> Get()
         {
             string sqlProcedure = "PR_Persons_Read";
             List<Person> table = new List<Person>();
