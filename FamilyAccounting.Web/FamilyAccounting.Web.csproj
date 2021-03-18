@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FamilyAccounting.AutoMapper\FamilyAccounting.AutoMapper.csproj" />
     <ProjectReference Include="..\FamilyAccounting.BL\FamilyAccounting.BL.csproj" />
   </ItemGroup>
 

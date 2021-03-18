@@ -5,7 +5,7 @@ namespace FamilyAccounting.BL.Interfaces
 {
     public interface IPersonsService
     {
-        public IEnumerable<PersonDTO> GetListOfPersons();
-        public PersonDTO Add(PersonDTO);
+        public IEnumerable<PersonDTO> Get();
+        public PersonDTO Add(PersonDTO person);
     }
 }

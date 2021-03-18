@@ -1,3 +1,4 @@
+using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -27,8 +28,9 @@ namespace FamilyAccounting.Web
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddRepositories(connectionString);
             services.AddServices();
+            services.AddMapping();
         }
-      
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

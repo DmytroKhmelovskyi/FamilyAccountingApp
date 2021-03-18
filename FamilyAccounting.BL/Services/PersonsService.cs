@@ -12,32 +12,38 @@ namespace FamilyAccounting.BL.Services
     public class PersonsService : IPersonsService
     {
         private readonly IPersonsRepository personsRepository;
-        public PersonsService(IPersonsRepository personsRepository)
+        private readonly IMapper mapper;
+        public PersonsService(IPersonsRepository personsRepository, IMapper mapper)
         {
             this.personsRepository = personsRepository;
+            this.mapper = mapper;
         }
 
-        public PersonDTO Add(PersonDTO person)
+        public PersonDTO Add(PersonDTO model)
         {
             try
             {
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<Person, PersonDTO>());
-                var mapper = new Mapper(config);
-                Person addedPerson = personsRepository.Add(mapper.Map<Person>(person));
-
-                return person;
+                Person person = personsRepository.Add(mapper.Map<Person>(model));
+                return mapper.Map<PersonDTO>(person);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public IEnumerable<PersonDTO> GetListOfPersons()
+        public IEnumerable<PersonDTO> Get()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Person, PersonDTO>());
-            var mapper = new Mapper(config);
-            return mapper.Map<IEnumerable<PersonDTO>> (personsRepository.GetListOfPersons());
+            try
+            {
+                IEnumerable<Person> person = personsRepository.GetListOfPersons();
+                return mapper.Map<IEnumerable<PersonDTO>>(person);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

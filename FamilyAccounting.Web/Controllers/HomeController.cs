@@ -1,4 +1,6 @@
-﻿using FamilyAccounting.BL.DTO;
+﻿using AutoMapper;
+using FamilyAccounting.BL.DTO;
+using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +13,13 @@ using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private PersonsService personsService;
+        private IPersonsService personsService;
 
-        public HomeController(ILogger<HomeController> logger, PersonsService personsService)
+        public HomeController(ILogger<HomeController> logger, IPersonsService personsService)
         {
             _logger = logger;
             this.personsService = personsService;
@@ -24,9 +27,11 @@ namespace FamilyAccounting.Web.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<PersonDTO> personDTOs = personsService.GetListOfPersons();
-            PersonViewModel bvm = new PersonViewModel { Persons = personDTOs };
-            return View(bvm);
+            IEnumerable<PersonDTO> personDTOs = personsService.Get();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+            var mapper = new Mapper(config);
+            var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
+            return View(personVM);
         }
 
         public IActionResult Privacy()

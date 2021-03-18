@@ -9,6 +9,7 @@ using System.Text;
 
 namespace FamilyAccounting.DAL.Repositories
 {
+
     class PersonsRepository : IPersonsRepository
     {
         private readonly string connectionString;
@@ -35,7 +36,7 @@ namespace FamilyAccounting.DAL.Repositories
                         Person person = new Person
                         {
                             FirstName = reader.GetString(1),
-                            LastName=reader.GetString(2)
+                            LastName = reader.GetString(2)
                         };
                         table.Add(person);
                     }
