@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FamilyAccounting.DAL.Repositories
 {
-    class CardsRepository:ICardsRepository
+    class CardsRepository : ICardsRepository
     {
     }
 }

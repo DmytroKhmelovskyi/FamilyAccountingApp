@@ -7,6 +7,7 @@ namespace FamilyAccounting.DAL.Interfaces
 {
     public interface IPersonsRepository
     {
+        public Person Add(Person person);
         IEnumerable<Person> GetListOfPersons();
     }
 }
