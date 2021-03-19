@@ -108,5 +108,18 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return person;
         }
+
+        public void Delete(int id)
+        {
+            string sqlExpression = $"EXEC PR_Persons_Delete {id}";
+
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.ExecuteNonQuery();
+
+            sql.Close();
+        }
     }
 }
