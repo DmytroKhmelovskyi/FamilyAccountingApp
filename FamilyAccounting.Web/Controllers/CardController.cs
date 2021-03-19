@@ -11,12 +11,10 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class CardController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private ICardService cardService;
+        private readonly ICardService cardService;
 
-        public CardController(ILogger<HomeController> logger, ICardService cardService)
+        public CardController(ICardService cardService)
         {
-            _logger = logger;
             this.cardService = cardService;
         }
     }
