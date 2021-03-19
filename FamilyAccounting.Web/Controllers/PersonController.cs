@@ -43,10 +43,23 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Update(int id, PersonDTO person)
         {
-
-
             PersonDTO updatedPerson = personsService.Update(id, person);
             return RedirectToAction("Index");
+        }
+        public IActionResult Details(int Id)
+        {
+            try
+            {
+                PersonDTO personDTOs = personsService.Get(Id);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+                var mapper = new Mapper(config);
+                var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
+                return View(personVM);
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
