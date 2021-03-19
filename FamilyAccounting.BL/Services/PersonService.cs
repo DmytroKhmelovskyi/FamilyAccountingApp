@@ -62,5 +62,17 @@ namespace FamilyAccounting.BL.Services
             Person person = personsRepository.Get(id);
             return mapper.Map<PersonDTO>(person);
         }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                personsRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
