@@ -9,11 +9,11 @@ using System.Collections.Generic;
 namespace FamilyAccounting.BL.Services
 {
 
-    class WalletsService:IWalletsService
+    public class WalletService : IWalletService
     {
         private readonly IMapper mapper;
-        private IWalletsRepository walletsRepository;
-        public WalletsService(IMapper mapper, IWalletsRepository walletsRepository)
+        private IWalletRepository walletsRepository;
+        public WalletService(IMapper mapper, IWalletRepository walletsRepository)
         {
             this.mapper = mapper;
             this.walletsRepository = walletsRepository;

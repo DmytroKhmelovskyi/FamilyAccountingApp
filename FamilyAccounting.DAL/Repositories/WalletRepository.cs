@@ -7,10 +7,10 @@ using System.Data.SqlClient;
 
 namespace FamilyAccounting.DAL.Repositories
 {
-    class WalletsRepository : IWalletsRepository
+    class WalletRepository : IWalletRepository
     {
         private readonly string connectionString;
-        public WalletsRepository(DbConfig dbConfig)
+        public WalletRepository(DbConfig dbConfig)
         {
             connectionString = dbConfig.ConnectionString;
         }

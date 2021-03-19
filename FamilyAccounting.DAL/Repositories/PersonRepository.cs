@@ -8,10 +8,10 @@ using System.Data.SqlClient;
 namespace FamilyAccounting.DAL.Repositories
 {
 
-    class PersonsRepository : IPersonsRepository
+    class PersonRepository : IPersonRepository
     {
         private readonly string connectionString;
-        public PersonsRepository(DbConfig dbConfig)
+        public PersonRepository(DbConfig dbConfig)
         {
             connectionString = dbConfig.ConnectionString;
         }
