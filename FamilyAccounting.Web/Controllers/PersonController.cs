@@ -30,6 +30,22 @@ namespace FamilyAccounting.Web.Controllers
             return View(personVM);
         }
 
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+            var mapper = new Mapper(config);
+            PersonDTO updatedPerson = personsService.Get(id);
+            mapper.Map<PersonViewModel>(updatedPerson);
+            return View(updatedPerson);
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, PersonDTO person)
+        {
+            PersonDTO updatedPerson = personsService.Update(id, person);
+            return RedirectToAction("Index");
+        }
         public IActionResult Details(int Id)
         {
             try
