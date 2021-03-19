@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
-    public interface IPersonsRepository
+    public interface IPersonRepository
     {
         public Person Add(Person person);
         public Person Update(int id, Person person);

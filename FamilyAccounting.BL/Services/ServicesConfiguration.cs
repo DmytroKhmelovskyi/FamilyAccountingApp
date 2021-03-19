@@ -7,7 +7,9 @@ namespace FamilyAccounting.BL.Services
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IPersonsService, PersonsService>();
+            services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<ICardService, CardService>();
+            services.AddScoped<IWalletService, WalletService>();
             return services;
         }
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Interfaces
 {
-    public interface IPersonsService
+    public interface IPersonService
     {
         public IEnumerable<PersonDTO> Get();
         public PersonDTO Add(PersonDTO person);

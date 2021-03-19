@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
-   public interface IWalletsRepository
+   public interface IWalletRepository
     {
         IEnumerable<Wallet> Get();
     }
