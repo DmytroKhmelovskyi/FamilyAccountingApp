@@ -11,5 +11,6 @@ namespace FamilyAccounting.DAL.Interfaces
         public Person Update(int id, Person person);
         IEnumerable<Person> Get();
         public Person Get(int id);
+        public void Delete(int id);
     }
 }
