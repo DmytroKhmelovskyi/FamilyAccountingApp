@@ -41,6 +41,25 @@ namespace FamilyAccounting.Web.Controllers
             }
         }
 
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(PersonViewModel person)
+        {
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>());
+                var mapper = new Mapper(config);
+                var createdPerson = personsService.Add(mapper.Map<PersonDTO>(person));
+                return RedirectToAction("Index");
+            }
+
+            return Content("Invalid inputs");
+        }
+
         [HttpGet]
         public IActionResult Update(int id)
         {
