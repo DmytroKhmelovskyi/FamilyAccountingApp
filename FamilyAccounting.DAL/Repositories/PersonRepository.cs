@@ -101,12 +101,25 @@ namespace FamilyAccounting.DAL.Repositories
                         p.IsActive = dr.GetBoolean("inactive");
                         p.Balance = dr.GetDecimal("active_balance");
                         p.TotalIncome = dr.GetDecimal("total_income");
-                       // p.TotalExpense = dr.GetDecimal("total_expence");
+                      //p.TotalExpense = dr.GetDecimal("total_expence");
                         person = p;
                     }
                 }
             }
             return person;
+        }
+
+        public void Delete(int id)
+        {
+            string sqlExpression = $"EXEC PR_Persons_Delete {id}";
+
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.ExecuteNonQuery();
+
+            sql.Close();
         }
     }
 }
