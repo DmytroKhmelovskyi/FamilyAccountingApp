@@ -56,5 +56,11 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public PersonDTO Get(int id)
+        {
+            Person person = personsRepository.Get(id);
+            return mapper.Map<PersonDTO>(person);
+        }
     }
 }
