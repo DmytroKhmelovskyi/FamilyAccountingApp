@@ -34,9 +34,10 @@ namespace FamilyAccounting.DAL.Repositories
                     {
                         Person person = new Person
                         {
-                            Id = reader.GetInt32(0),
-                            FirstName = reader.GetString(1),
-                            LastName = reader.GetString(2)
+                            Id = reader.GetInt32("id"),
+                            FirstName = reader.GetString("name"),
+                            LastName = reader.GetString("surname"),
+                            WalletsCount = reader.GetInt32("active_wallets")
                         };
                         table.Add(person);
                     }
@@ -90,7 +91,6 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
-
                         var p = new Person();
                         p.Id = dr.GetInt32("id");
                         p.FirstName = dr.GetString("name");

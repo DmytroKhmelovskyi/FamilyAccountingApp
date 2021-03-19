@@ -23,11 +23,22 @@ namespace FamilyAccounting.Web.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<PersonDTO> personDTOs = personsService.Get();
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
-            var mapper = new Mapper(config);
-            var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
-            return View(personVM);
+            try
+            {
+                IEnumerable<PersonDTO> personDTOs = personsService.Get();
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+                var mapper = new Mapper(config);
+                var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
+                var indexVM = new IndexPersonViewModel
+                {
+                    Persons = personVM
+                };
+                return View(indexVM);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]

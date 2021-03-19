@@ -1,0 +1,47 @@
+﻿@model FamilyAccounting.Web.Models.IndexPersonViewModel
+
+@{
+    ViewData["Title"] = "Family list";
+}
+
+<h1 style="float:left;">@ViewData["Title"]</h1>
+<table style="float: right;">
+    <tbody>
+        <tr>
+            <td style="padding-right: 200px;">
+                <a asp-controller="" asp-action=""
+                   class="btn btn-outline-dark">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    Create
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Quantity of wallets</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Persons)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WalletsCount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
