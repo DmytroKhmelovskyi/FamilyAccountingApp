@@ -25,7 +25,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             try
             {
-                IEnumerable<PersonDTO> personDTOs = personsService.Get();
+                var personDTOs = personsService.Get();
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
                 var mapper = new Mapper(config);
                 var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
@@ -65,22 +65,24 @@ namespace FamilyAccounting.Web.Controllers
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
             var mapper = new Mapper(config);
-            PersonDTO updatedPerson = personsService.Get(id);
+            var updatedPerson = personsService.Get(id);
             mapper.Map<PersonViewModel>(updatedPerson);
-            return View(updatedPerson);
+            return View(mapper.Map<PersonViewModel>(updatedPerson));
         }
 
         [HttpPost]
-        public IActionResult Update(int id, PersonDTO person)
+        public IActionResult Update(int id, PersonViewModel person)
         {
-            PersonDTO updatedPerson = personsService.Update(id, person);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>());
+            var mapper = new Mapper(config);
+            var updatedPerson = personsService.Update(id, mapper.Map<PersonDTO>(person));
             return RedirectToAction("Index");
         }
         public IActionResult Details(int Id)
         {
             try
             {
-                PersonDTO personDTOs = personsService.Get(Id);
+                var personDTOs = personsService.Get(Id);
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
                 var mapper = new Mapper(config);
                 var personVM = mapper.Map<IEnumerable<PersonViewModel>>(personDTOs);
