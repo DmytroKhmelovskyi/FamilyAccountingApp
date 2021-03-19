@@ -79,7 +79,7 @@ namespace FamilyAccounting.DAL.Repositories
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = $"PR_Persons_Read @_Id = {id}";
+                cmd.CommandText = $"EXEC PR_Persons_Read @_Id = {id}";
 
                 if (conn.State != ConnectionState.Open)
                 {
