@@ -11,7 +11,7 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class WalletController : Controller
     {
-        private IWalletService walletService;
+        private readonly IWalletService walletService;
 
         public WalletController(IWalletService walletService)
         {

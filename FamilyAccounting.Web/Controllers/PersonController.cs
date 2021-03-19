@@ -14,9 +14,9 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class PersonController : Controller
     {
-        private IPersonService personsService;
+        private readonly IPersonService personsService;
 
-        public PersonController(ILogger<HomeController> logger, IPersonService personsService)
+        public PersonController(IPersonService personsService)
         {
             this.personsService = personsService;
         }

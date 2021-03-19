@@ -16,12 +16,10 @@ namespace FamilyAccounting.Web.Controllers
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private IPersonService personsService;
+        private readonly IPersonService personsService;
 
-        public HomeController(ILogger<HomeController> logger, IPersonService personsService)
+        public HomeController(IPersonService personsService)
         {
-            _logger = logger;
             this.personsService = personsService;
         }
 
