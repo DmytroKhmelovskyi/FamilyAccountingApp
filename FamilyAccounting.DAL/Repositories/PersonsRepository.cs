@@ -44,7 +44,7 @@ namespace FamilyAccounting.DAL.Repositories
                 reader.Close();
             }
             return table;
-        }       
+        }
 
         public Person Add(Person person)
         {
@@ -68,6 +68,40 @@ namespace FamilyAccounting.DAL.Repositories
             SqlCommand command = new SqlCommand(sqlExpression, sql);
             command.ExecuteNonQuery();
             sql.Close();
+            return person;
+        }
+
+        public Person Get(int id)
+        {
+            var person = new Person();
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = $"EXEC PR_Persons_Read @_Id = {id}";
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+
+                        var p = new Person();
+                        p.Id = dr.GetInt32("id");
+                        p.FirstName = dr.GetString("name");
+                        p.LastName = dr.GetString("surname");
+                        p.Email = dr.GetString("email");
+                        p.Phone = dr.GetString("phone");
+                        p.IsActive = dr.GetBoolean("inactive");
+                        person = p;
+                    }
+                }
+            }
             return person;
         }
     }

@@ -10,5 +10,6 @@ namespace FamilyAccounting.DAL.Interfaces
         public Person Add(Person person);
         public Person Update(int id, Person person);
         IEnumerable<Person> Get();
+        public Person Get(int id);
     }
 }
