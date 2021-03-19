@@ -9,9 +9,9 @@ namespace FamilyAccounting.DAL.Repositories
         public static IServiceCollection AddRepositories(this IServiceCollection services, string connectionString)
         {
             services.AddSingleton(_ => new DbConfig { ConnectionString = connectionString });
-            services.AddTransient<IPersonsRepository, PersonsRepository>();
-            services.AddTransient<ICardsRepository, CardsRepository>();
-            services.AddTransient<IWalletsRepository, WalletsRepository>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddTransient<ICardRepository, CardRepository>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
             return services;
         }
 

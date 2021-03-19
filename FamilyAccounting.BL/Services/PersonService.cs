@@ -8,11 +8,11 @@ using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Services
 {
-    public class PersonsService : IPersonsService
+    public class PersonService : IPersonService
     {
-        private readonly IPersonsRepository personsRepository;
+        private readonly IPersonRepository personsRepository;
         private readonly IMapper mapper;
-        public PersonsService(IPersonsRepository personsRepository, IMapper mapper)
+        public PersonService(IPersonRepository personsRepository, IMapper mapper)
         {
             this.personsRepository = personsRepository;
             this.mapper = mapper;
