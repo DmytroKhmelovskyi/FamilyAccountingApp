@@ -97,7 +97,11 @@ namespace FamilyAccounting.DAL.Repositories
                         p.LastName = dr.GetString("surname");
                         p.Email = dr.GetString("email");
                         p.Phone = dr.GetString("phone");
+                        p.WalletsCount = dr.GetInt32("active_wallets");
                         p.IsActive = dr.GetBoolean("inactive");
+                        p.Balance = dr.GetDecimal("active_balance");
+                        p.TotalIncome = dr.GetDecimal("total_income");
+                        p.TotalExpense = dr.GetDecimal("total_expence");
                         person = p;
                     }
                 }

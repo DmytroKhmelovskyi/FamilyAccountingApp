@@ -9,6 +9,7 @@ namespace FamilyAccounting.DAL.Entities
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public int WalletsCount { get; set; }
         public decimal Balance { get; set; }
         public IEnumerable<Wallet> Wallets { get; set; }
         public decimal TotalIncome { get; set; }
