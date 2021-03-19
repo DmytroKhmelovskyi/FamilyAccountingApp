@@ -93,5 +93,23 @@ namespace FamilyAccounting.Web.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        public ViewResult Delete(int? id)
+        {
+            var person = personsService.Get((int)id);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>());
+            var mapper = new Mapper(config);
+            var personVM = mapper.Map<PersonViewModel>(person);
+            return View(personVM);
+        }
+
+        [ActionName("Delete")]
+        [HttpPost]
+        public IActionResult DeletePerson(int? id)
+        {
+            personsService.Delete((int)id);
+            return RedirectToAction("Index");
+        }
     }
 }
