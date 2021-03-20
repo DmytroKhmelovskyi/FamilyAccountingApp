@@ -30,5 +30,11 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public WalletDTO Get(int id)
+        {
+            Wallet wallet = walletsRepository.Get(id);
+            return mapper.Map<WalletDTO>(wallet);
+        }
     }
 }
