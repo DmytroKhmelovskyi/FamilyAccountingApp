@@ -26,6 +26,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Assert
             Assert.IsNotNull(result.Model);
         }
+
         [Test]
         public void Index_ThrowsException()
         {
@@ -38,6 +39,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Assert
             Assert.That(() => mock.Object.Get(), Throws.Exception);
         }
+
         [Test]
         public void Index_VerifyOnce()
         {
@@ -49,6 +51,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             // assert
             mock.Verify(a => a.Get(), Times.Once);
         }
+
         [Test]
         public void PersonController_CreateAnObject()
         {
@@ -61,8 +64,8 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.IsNotNull(controller);
             Assert.AreEqual(expected, controller.GetType().Name);
         }
-        [Test]
 
+        [Test]
         public void AddShouldCallAddPersonInBlOnce()
         {
             //Arrange
@@ -112,6 +115,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.That(result, Is.TypeOf<ViewResult>());
         }
 
+        [Test]
         public void Update_ReturnsRedirect_ToActionResut()
         {
             // Arrange
