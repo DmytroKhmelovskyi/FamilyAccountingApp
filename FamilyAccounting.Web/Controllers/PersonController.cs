@@ -3,6 +3,7 @@ using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using X.PagedList;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -14,13 +15,17 @@ namespace FamilyAccounting.Web.Controllers
             this.personsService = personsService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
             try
             {
+                var pageNumber = page ?? 1;
                 var person = personsService.Get();
                 var IndexVM = MapperService.PersonMap(person);
-                return View(IndexVM);
+                var onePageOfPersons = IndexVM.Persons.ToPagedList(pageNumber, 8);
+                ViewBag.OnePageOfPersons = onePageOfPersons;
+                    //return View(IndexVM);
+                return View();
             }
             catch (Exception)
             {

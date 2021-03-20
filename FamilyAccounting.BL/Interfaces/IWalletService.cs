@@ -7,5 +7,6 @@ namespace FamilyAccounting.BL.Interfaces
     {
         IEnumerable<WalletDTO> Get();
         WalletDTO Get(int id);
+        WalletDTO Update(int id, WalletDTO wallet);
     }
 }
