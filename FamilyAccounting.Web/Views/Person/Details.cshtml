@@ -10,12 +10,7 @@
     <h4>Person</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -41,12 +36,6 @@
             @Html.DisplayFor(model => model.Phone)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Wallets)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Wallets)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.WalletsCount)
         </dt>
         <dd class="col-sm-10">
@@ -65,6 +54,40 @@
             @Html.DisplayFor(model => model.TotalIncome)
         </dd>
     </dl>
+</div>
+<div>
+    <table style="text-align:center" class="table">
+        <thead>
+            <tr>
+                <th>Wallet</th>
+                <th>Balance</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Wallets)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Wallet" asp-action="Details" asp-route-id="@item.Id"> @item.Description </a>
+                    </td>
+                    <td>
+                        @item.Balance
+                    </td>
+                    <td>
+                        @if (!item.IsCash)
+                        {
+                            <p>Cash</p>
+                        }
+                        else
+                        {
+                            <p>Credit card</p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Update" asp-route-id="@Model.Id">Update</a> |

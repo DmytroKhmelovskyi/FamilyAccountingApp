@@ -137,10 +137,11 @@ namespace FamilyAccounting.DAL.Repositories
                     {
                         Wallet wallet = new Wallet
                         {
-                            //Id = reader.GetInt32("id"),
+                            Id = reader.GetInt32("id"),
                             Description = reader.GetString("description"),
-                           // IsActive = reader.GetBoolean("inactive"),
-                           // IsCash = reader.GetBoolean("is_cash")
+                            IsActive = reader.GetBoolean("inactive"),
+                            IsCash = reader.GetBoolean("is_cash"),
+                            Balance = reader.GetDecimal("balance")
                         };
                         table.Add(wallet);
                     }
