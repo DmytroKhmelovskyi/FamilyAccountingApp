@@ -80,7 +80,7 @@ namespace FamilyAccounting.DAL.Repositories
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = $"EXEC PR_Persons_Read @_Id = {id}";
+                cmd.CommandText = $"EXEC PR_Persons_Read {id}";
 
                 if (conn.State != ConnectionState.Open)
                 {
@@ -101,7 +101,7 @@ namespace FamilyAccounting.DAL.Repositories
                         p.IsActive = dr.GetBoolean("inactive");
                         p.Balance = dr.GetDecimal("active_balance");
                         p.TotalIncome = dr.GetDecimal("total_income");
-                      //p.TotalExpense = dr.GetDecimal("total_expence");
+                        p.TotalExpense = dr.GetDecimal("total_expence");
                         person = p;
                     }
                 }

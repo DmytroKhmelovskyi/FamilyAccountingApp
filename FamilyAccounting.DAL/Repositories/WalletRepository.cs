@@ -32,10 +32,13 @@ namespace FamilyAccounting.DAL.Repositories
                     {
                         Wallet wallet = new Wallet
                         {
-                            Id = reader.GetInt32(0),
-                            Description = reader.GetString(4),
-                            IsCash = reader.GetBoolean(5),
-                            Balance = reader.GetDecimal(9)
+                            Id = reader.GetInt32("id"),
+                            Description = reader.GetString("description"),
+                            IsActive = reader.GetBoolean("inactive"),
+                            IsCash = reader.GetBoolean("is_cash"),
+                            Balance = reader.GetDecimal("positive_bal"),
+                            Income = reader.GetDecimal("total_income"),
+                            Expense = reader.GetDecimal("total_expence")
                         };
                         table.Add(wallet);
                     }
