@@ -58,7 +58,7 @@ namespace FamilyAccounting.DAL.Repositories
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlParameter idParam = new SqlParameter
                 {
-                    ParameterName = "@id",
+                    ParameterName = "_id",
                     Value = id
                 };
                 cmd.Parameters.Add(idParam);

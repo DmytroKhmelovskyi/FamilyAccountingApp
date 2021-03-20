@@ -1,0 +1,48 @@
+﻿@model FamilyAccounting.Web.Models.WalletViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsCash)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsCash)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Expense)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Expense)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Income)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Income)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a>Update</a> |
+    <a>Delete</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

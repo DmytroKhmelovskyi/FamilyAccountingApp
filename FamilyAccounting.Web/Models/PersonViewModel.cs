@@ -13,7 +13,7 @@ namespace FamilyAccounting.Web.Models
         public decimal Balance { get; set; }
         public IEnumerable<WalletViewModel> Wallets { get; set; }
         public decimal TotalIncome { get; set; }
-       // public decimal TotalExpense { get; set; }
+        public decimal TotalExpense { get; set; }
         public bool IsActive { get; set; }
     }
 }
