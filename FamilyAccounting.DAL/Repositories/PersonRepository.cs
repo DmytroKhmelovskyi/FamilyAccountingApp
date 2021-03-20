@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 namespace FamilyAccounting.DAL.Repositories
 {
 
-    class PersonRepository : IPersonRepository
+    public class PersonRepository : IPersonRepository
     {
         private readonly string connectionString;
         public PersonRepository(DbConfig dbConfig)
@@ -101,7 +101,7 @@ namespace FamilyAccounting.DAL.Repositories
                         p.IsActive = dr.GetBoolean("inactive");
                         p.Balance = dr.GetDecimal("active_balance");
                         p.TotalIncome = dr.GetDecimal("total_income");
-                        p.TotalExpense = dr.GetDecimal("total_expence");
+                        p.TotalExpense = dr.GetDecimal("total_expense");
                         person = p;
                     }
                 }

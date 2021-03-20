@@ -2,18 +2,50 @@
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
+using FamilyAccounting.DAL.Connection;
+using FamilyAccounting.DAL.Interfaces;
+using FamilyAccounting.DAL.Repositories;
+using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FamilyAccounting.Tests.ServiceTests
 {
     public class PersonServiceTests
     {
+        [Test]
+        public void PersonService_CreateAnObject()
+        {
+            // arrange
+            DbConfig dbConfig = new DbConfig();
+            IPersonRepository personRepository = new PersonRepository(dbConfig);
+            var mock = new Mock<IMapper>();
+            string expected = "PersonService";
+
+            // act
+            PersonService libService = new PersonService(personRepository, mock.Object);
+
+            //assert
+            Assert.IsNotNull(libService);
+            Assert.AreEqual(expected, libService.GetType().Name);
+        }
+
+        [Test]
+        public void GetListOfPersons_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<IPersonService>();
+
+            //Act
+            mock.Setup(a => a.Get()).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Get(), Throws.Exception);
+        }
+
         [Test]
         public void PersonService_Verify_UpdatingCalledOnce()
         {
@@ -31,6 +63,20 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //assert
             serviceMock.Verify(m => m.Update(id, person), Times.Once);
+        }
+
+        [Test]
+        public void PersonService_Verify_GetListOfPersonsCalledOnce()
+        {
+            //arrange
+
+            var serviceMock = new Mock<IPersonService>();
+
+            //act
+            serviceMock.Object.Get();
+
+            //assert
+            serviceMock.Verify(m => m.Get(), Times.Once);
         }
 
         [Test]
@@ -102,6 +148,20 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(shouldBe.GetType().Name, result.GetType().Name);
+        }
+
+        [Test]
+        public void PersonService_GetListOfPersons_ShouldNotNull()
+        {
+            //arrange
+
+            var serviceMock = new Mock<IPersonService>();
+
+            //act
+            var result = serviceMock.Setup(a => a.Get());
+
+            //assert
+            Assert.IsNotNull(result);
         }
     }
 }
