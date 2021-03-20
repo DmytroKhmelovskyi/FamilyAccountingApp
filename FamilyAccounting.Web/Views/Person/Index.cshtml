@@ -1,8 +1,13 @@
-﻿@model FamilyAccounting.Web.Models.IndexPersonViewModel
+﻿@*@model FamilyAccounting.Web.Models.IndexPersonViewModel*@
 
 @{
     ViewData["Title"] = "Family list";
+    var pagedList = (IPagedList)ViewBag.OnePageOfPersons; 
 }
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+
 
 <h1 style="float:left;">@ViewData["Title"]</h1>
 <table style="float: right;">
@@ -26,18 +31,22 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Persons)
+        @foreach (var item in ViewBag.OnePageOfPersons)
         {
-        <tr>           
+            <tr>
                 <td>
-                    <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName) </a>
-                </td>               
-                <td>
-                    @Html.DisplayFor(modelItem => item.WalletsCount)
+                    <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
                 </td>
-        </tr>
+                <td>
+                    @item.WalletsCount
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
-
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfPersons, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+})
