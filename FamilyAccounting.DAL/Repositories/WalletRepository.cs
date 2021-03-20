@@ -80,5 +80,15 @@ namespace FamilyAccounting.DAL.Repositories
                 return wallet;
             }
         }
+        public Wallet Update(int id, Wallet wallet)
+        {
+            string sqlExpression = $"EXEC PR_Wallets_Update {id}, '{wallet.Description}'";
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.ExecuteNonQuery();
+            sql.Close();
+            return wallet;
+        }
     }
 }

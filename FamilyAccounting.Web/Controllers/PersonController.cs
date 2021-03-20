@@ -38,7 +38,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var createdPerson = personsService.Add(MapperService.PersonMap(person));
+                personsService.Add(MapperService.PersonMap(person));
                 return RedirectToAction("Index");
             }
 
