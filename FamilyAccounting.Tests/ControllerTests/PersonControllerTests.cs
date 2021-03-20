@@ -1,5 +1,7 @@
-﻿using FamilyAccounting.BL.Interfaces;
+﻿using FamilyAccounting.BL.DTO;
+using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
+using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -58,6 +60,44 @@ namespace FamilyAccounting.Tests.ControllerTests
             //assert
             Assert.IsNotNull(controller);
             Assert.AreEqual(expected, controller.GetType().Name);
+        }
+        [Test]
+
+        public void Update_ReturnsRedirect_ToActionResut()
+        {
+            // Arrange
+            var personId = 1;
+            var person = new PersonViewModel() { Id = personId };
+            var mock = new Mock<IPersonService>();
+            mock.Setup(p => p.Update(personId, It.IsAny<PersonDTO>()));
+            var controller = new PersonController(mock.Object);
+
+            // Act
+            var result = controller.Update(personId, person);
+
+            // Assert
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Index", redirectToActionResult.ActionName);
+        }
+
+        [Test]
+        public void Update_NotNull_ViewResultIsNotNull()
+        {
+            //Arrange
+            var guest = new PersonViewModel()
+            {
+                Id = 1,
+                FirstName = "Person",
+                LastName = "New"
+            };
+            var mock = new Mock<IPersonService>();
+            var controller = new PersonController(mock.Object);
+
+            //Act
+            var result = controller.Update(guest.Id, guest);
+
+            //Assert
+            Assert.IsNotNull(result);
         }
     }
 }

@@ -44,22 +44,43 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
+        public void PersonService_UpdatePerson_ThrowsException()
+        {
+            //arrange
+            PersonDTO person = new PersonDTO()
+            {
+                Id = 1,
+                FirstName = "new",
+                LastName = "person"
+            };
+            var personId = person.Id;
+            var mock = new Mock<IPersonService>();
+
+            //Act
+            mock.Setup(a => a.Update(personId, person)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Update(personId, person), Throws.Exception);
+        }
+
+        [Test]
         public void PersonService_Verify_UpdatingCalledOnce()
         {
             //arrange
             PersonDTO person = new PersonDTO()
             {
+                Id = 1,
                 FirstName = "new",
                 LastName = "person"
             };
-            int id = 1;
+            var personId = person.Id;
             var serviceMock = new Mock<IPersonService>();
 
             //act
-            serviceMock.Object.Update(id,person);
+            serviceMock.Object.Update(personId, person);
 
             //assert
-            serviceMock.Verify(m => m.Update(id, person), Times.Once);
+            serviceMock.Verify(m => m.Update(personId, person), Times.Once);
         }
 
         [Test]
@@ -82,18 +103,20 @@ namespace FamilyAccounting.Tests.ServiceTests
             //arrange
             PersonDTO person = new PersonDTO()
             {
+                Id = 1,
                 FirstName = "new",
                 LastName = "person"
             };
-            int id = 1;
+            var personId = person.Id;
             var serviceMock = new Mock<IPersonService>();
 
             //act
-            var result = serviceMock.Setup(a => a.Update(id, person));
+            var result = serviceMock.Setup(a => a.Update(personId, person));
 
             //assert
             Assert.IsNotNull(result);
         }
+
 
         [Test]
         public void PersonService_GetListOfPersons_ShouldNotNull()
