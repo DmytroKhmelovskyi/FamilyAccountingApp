@@ -8,6 +8,9 @@ namespace FamilyAccounting.Web.Models
         public PersonViewModel Person { get; set; }
         public string Description { get; set; }
         public decimal Balance { get; set; }
+        //public IEnumerable<Transaction> Transactions { get; set; }
+        public bool IsCash { get; set; }
+        //public Card Card { get; set; }
         public IEnumerable<TransactionViewModel> Transactions { get; set; }
         public bool IsCash { get; set; }
         public CardViewModel Card { get; set; }

@@ -25,6 +25,15 @@ namespace FamilyAccounting.Web.Services
             var personVM = mapper.Map<PersonViewModel>(personDTO);
             return personVM;
         }
+        public static PersonViewModel PersonMap(PersonDTO personDTO, IEnumerable<WalletDTO> walletDTO)
+        {
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<PersonDTO, PersonViewModel>(); cfg.CreateMap<WalletDTO, WalletViewModel>(); });
+
+            var mapper = new Mapper(config);
+            var personVM = mapper.Map<PersonViewModel>(personDTO);
+            personVM.Wallets = mapper.Map<IEnumerable<WalletViewModel>>(walletDTO);
+            return personVM;
+        }
         public static PersonDTO PersonMap(PersonViewModel personVM)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>());

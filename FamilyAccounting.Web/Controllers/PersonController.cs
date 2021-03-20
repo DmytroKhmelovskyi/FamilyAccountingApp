@@ -78,12 +78,14 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var person = personsService.Get(Id);
-                return View(MapperService.PersonMap(person));
+                person.Wallets = personsService.GetWallets(Id);
+                return View(MapperService.PersonMap(person, person.Wallets));
             }
             catch (Exception)
             {
                 return BadRequest();
             }
+
         }
 
         [HttpGet]
