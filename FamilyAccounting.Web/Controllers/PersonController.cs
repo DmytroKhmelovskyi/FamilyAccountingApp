@@ -48,14 +48,24 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var updatedPerson = personsService.Get(id);
-            return View(MapperService.PersonMap(updatedPerson));
+            try
+            {
+                var updatedPerson = personsService.Get(id);
+                return View(MapperService.PersonMap(updatedPerson));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]
         public IActionResult Update(int id, PersonViewModel person)
         {
-            var updatedPerson = personsService.Update(id, MapperService.PersonMap(person));
+            if (ModelState.IsValid)
+            {
+                personsService.Update(id, MapperService.PersonMap(person));
+            }
             return RedirectToAction("Index");
         }
         public IActionResult Details(int Id)
