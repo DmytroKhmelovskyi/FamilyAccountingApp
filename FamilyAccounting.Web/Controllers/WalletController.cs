@@ -14,6 +14,19 @@ namespace FamilyAccounting.Web.Controllers
         {
             this.walletService = walletService;
         }
+        public IActionResult Index()
+        {
+            try
+            {
+                var wallet = walletService.Get();
+                var IndexVM = MapperService.WalletMap(wallet);
+                return View(IndexVM);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
 
         public IActionResult Details(int Id)
         {
