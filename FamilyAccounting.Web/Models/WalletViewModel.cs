@@ -12,7 +12,6 @@ namespace FamilyAccounting.Web.Models
         public bool IsCash { get; set; }
         //public Card Card { get; set; }
         public IEnumerable<TransactionViewModel> Transactions { get; set; }
-        public bool IsCash { get; set; }
         public CardViewModel Card { get; set; }
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
