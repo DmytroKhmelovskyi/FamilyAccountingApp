@@ -44,5 +44,38 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return table;
         }
+        public Wallet Get(int id)
+        {
+            Wallet wallet = new Wallet();
+            using (var con = new SqlConnection(connectionString))
+            {
+                string sqlProcedure = "PR_Wallets_Read";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter idParam = new SqlParameter
+                {
+                    ParameterName = "@id",
+                    Value = id
+                };
+                cmd.Parameters.Add(idParam);
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        Wallet w = new Wallet
+                        {
+                            Description = dr.GetString("description"),
+                            Balance = dr.GetDecimal("balance"),
+                            IsActive = dr.GetBoolean("inactive"),
+                            Income = dr.GetDecimal("total_income"),
+                            Expense = dr.GetDecimal("total_expense")
+                        };
+                        wallet = w;
+                    }
+                }
+                return wallet;
+            }
+        }
     }
 }
