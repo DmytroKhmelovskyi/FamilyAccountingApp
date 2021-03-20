@@ -1,15 +1,7 @@
-﻿using AutoMapper;
-using FamilyAccounting.BL.DTO;
-using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.BL.Services;
+﻿using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Controllers
 {
