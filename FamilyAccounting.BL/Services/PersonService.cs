@@ -74,5 +74,18 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public IEnumerable<WalletDTO> GetWallets(int id)
+        {
+            try
+            {
+                IEnumerable<Wallet> wallets = personsRepository.GetWallets(id);
+                return mapper.Map<IEnumerable<WalletDTO>>(wallets);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

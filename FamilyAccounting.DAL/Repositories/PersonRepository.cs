@@ -121,5 +121,34 @@ namespace FamilyAccounting.DAL.Repositories
 
             sql.Close();
         }
+
+        public IEnumerable<Wallet> GetWallets(int id)
+        {
+            string sqlProcedure = $"EXEC PR_WalletsPersons_Read {id}";
+            List<Wallet> table = new List<Wallet>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Wallet wallet = new Wallet
+                        {
+                            //Id = reader.GetInt32("id"),
+                            Description = reader.GetString("description"),
+                           // IsActive = reader.GetBoolean("inactive"),
+                           // IsCash = reader.GetBoolean("is_cash")
+                        };
+                        table.Add(wallet);
+                    }
+                }
+                reader.Close();
+            }
+            return table;
+
+        }
     }
 }
