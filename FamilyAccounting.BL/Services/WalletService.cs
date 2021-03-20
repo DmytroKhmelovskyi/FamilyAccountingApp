@@ -36,5 +36,19 @@ namespace FamilyAccounting.BL.Services
             Wallet wallet = walletsRepository.Get(id);
             return mapper.Map<WalletDTO>(wallet);
         }
+
+        public WalletDTO Update(int id, WalletDTO wallet)
+        {
+            try
+            {
+                Wallet newWallet = mapper.Map<Wallet>(wallet);
+                Wallet updatedWallet = walletsRepository.Update(id, newWallet);
+                return mapper.Map<WalletDTO>(updatedWallet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
