@@ -21,10 +21,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             PersonController controller = new PersonController(mock.Object);
 
             //Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = controller.Index(3) as ViewResult;
 
             //Assert
-            Assert.IsNotNull(result.Model);
+            Assert.IsNotNull(result);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mock.Setup(a => a.Get()).Throws(new Exception("Test Exception"));
             PersonController controller = new PersonController(mock.Object);
             //Act
-            ContentResult result = controller.Index() as ContentResult;
+            ContentResult result = controller.Index(1) as ContentResult;
             //Assert
             Assert.That(() => mock.Object.Get(), Throws.Exception);
         }
@@ -47,7 +47,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mock = new Mock<IPersonService>();
             PersonController controller = new PersonController(mock.Object);
             // act
-            RedirectToActionResult result = controller.Index() as RedirectToActionResult;
+            RedirectToActionResult result = controller.Index(1) as RedirectToActionResult;
             // assert
             mock.Verify(a => a.Get(), Times.Once);
         }
