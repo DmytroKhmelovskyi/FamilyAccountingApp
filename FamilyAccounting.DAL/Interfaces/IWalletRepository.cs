@@ -6,5 +6,6 @@ namespace FamilyAccounting.DAL.Interfaces
    public interface IWalletRepository
     {
         IEnumerable<Wallet> Get();
+        Wallet Get(int id);
     }
 }
