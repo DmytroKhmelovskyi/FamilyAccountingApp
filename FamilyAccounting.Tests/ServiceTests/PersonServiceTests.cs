@@ -9,6 +9,7 @@ using FamilyAccounting.DAL.Entities;
 using Moq;
 using NUnit.Framework;
 using System;
+using FamilyAccounting.AutoMapper;
 
 namespace FamilyAccounting.Tests.ServiceTests
 {
@@ -183,6 +184,31 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void GetSinglePerson_Success_IsNotNull()
+        {
+            //Arrenge
+            var personDTO = new PersonDTO()
+            {
+                Id = 1
+            };
+            var personRepoMock = new Mock<IPersonRepository>();
+            personRepoMock.Setup(r => r.Get(It.IsAny<int>())).Returns(new Person());
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            var personService = new PersonService(personRepoMock.Object, mapper);
+
+            //Act
+            var result = personService.Get(personDTO.Id);
+
+            //Assert
+            Assert.IsNotNull(result);
+
         }
     }
 }

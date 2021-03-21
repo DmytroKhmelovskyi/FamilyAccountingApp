@@ -1,4 +1,6 @@
-﻿using FamilyAccounting.BL.DTO;
+﻿using AutoMapper;
+using FamilyAccounting.AutoMapper;
+using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
 using FamilyAccounting.Web.Models;
@@ -151,6 +153,41 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void Details_PersonExists_ReturnsAViewResultWithPerson()
+        {
+            //Arrange
+            var personId = 1;
+            var testPerson = new PersonDTO() { Id = personId };
+            var personsRepo = new Mock<IPersonService>();
+            personsRepo.Setup(g => g.Get(personId)).Returns(testPerson);         
+            var controller = new PersonController(personsRepo.Object);
+
+            // Act
+            var result = controller.Details(personId);
+
+            // Assert
+            var viewResult = result as ViewResult;
+            var model = viewResult.ViewData.Model as PersonViewModel;
+            Assert.AreEqual(personId, model.Id);
+        }
+
+        [Test]
+        public void Details_PersonDoesNotExist_ReturnsNotFoundResults()
+        {
+            // Arrange
+            var personsRepo = new Mock<IPersonService>();
+            personsRepo.Setup(g => g.Get(It.IsAny<int>())).Throws(It.IsAny<Exception>());
+            var controller = new PersonController(personsRepo.Object);
+
+            // Act
+            var result = controller.Details(12346743);
+
+            // Assert
+            Assert.That(result, Is.TypeOf<BadRequestResult>());
+
         }
     }
 }
