@@ -18,6 +18,19 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
             this.walletsRepository = walletsRepository;
         }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                walletsRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public IEnumerable<WalletDTO> Get()
         {
             try
@@ -50,5 +63,6 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

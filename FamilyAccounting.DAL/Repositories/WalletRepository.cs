@@ -68,6 +68,7 @@ namespace FamilyAccounting.DAL.Repositories
                     {
                         Wallet w = new Wallet
                         {
+                            Id = dr.GetInt32("id"),
                             Description = dr.GetString("description"),
                             Balance = dr.GetDecimal("balance"),
                             IsActive = dr.GetBoolean("inactive"),
@@ -89,6 +90,20 @@ namespace FamilyAccounting.DAL.Repositories
             command.ExecuteNonQuery();
             sql.Close();
             return wallet;
+        }
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = $"EXEC PR_Wallets_Delete {id}";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
