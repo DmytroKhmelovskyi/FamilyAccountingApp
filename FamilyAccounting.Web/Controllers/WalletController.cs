@@ -65,6 +65,19 @@ namespace FamilyAccounting.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ViewResult Delete(int? id)
+        {
+            var wallet = walletService.Get((int)id);
+            return View(MapperService.WalletMap(wallet));
+        }
 
+        [ActionName("Delete")]
+        [HttpPost]
+        public IActionResult DeleteWallet(int? id)
+        {
+            walletService.Delete((int)id);
+            return RedirectToAction("Index");
+        }
     }
 }
