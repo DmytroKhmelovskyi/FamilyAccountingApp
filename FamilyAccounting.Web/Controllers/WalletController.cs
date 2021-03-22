@@ -65,7 +65,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 walletService.Update(id, MapperService.WalletMap(wallet));
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
         [HttpGet]
         public ViewResult Delete(int? id)
