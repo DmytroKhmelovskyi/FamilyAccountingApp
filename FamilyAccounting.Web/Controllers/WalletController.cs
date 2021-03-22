@@ -79,5 +79,22 @@ namespace FamilyAccounting.Web.Controllers
             walletService.Delete((int)id);
             return RedirectToAction("Index");
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(WalletViewModel wallet)
+        {
+            if (ModelState.IsValid)
+            {
+                walletService.Create(MapperService.WalletMap(wallet));
+                return RedirectToAction("Index");
+            }
+
+            return Content("Invalid inputs");
+        }
     }
 }
