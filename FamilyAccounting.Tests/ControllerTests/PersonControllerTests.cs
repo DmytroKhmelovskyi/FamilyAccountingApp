@@ -96,7 +96,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldRedirectToAddView()
+        public void AddShouldRedirectToActionAdd()
         {
             // Arrange
             var mock = new Mock<IPersonService>();
@@ -110,7 +110,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldReturnAddView()
+        public void AddShouldReturnViewResult()
         {
             // Arrange
             var mock = new Mock<IPersonService>();
@@ -193,7 +193,49 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             // Assert
             Assert.That(result, Is.TypeOf<BadRequestResult>());
+        }
 
+        [Test]
+        public void DeleteShouldCallDeletePersonInBlOnce()
+        {
+            //Arrange
+            var mock = new Mock<IPersonService>();
+            var controller = new PersonController(mock.Object);
+            mock.Setup(x => x.Delete(1));
+
+            //Act
+            controller.DeletePerson(1);
+
+            //Assert
+            mock.Verify(x => x.Delete(1), Times.Once);
+        }
+
+        [Test]
+        public void DeleteShouldRedirectToActionDelete()
+        {
+            // Arrange
+            var mock = new Mock<IPersonService>();
+            var controller = new PersonController(mock.Object);
+
+            // Act
+            var result = controller.RedirectToAction("Delete");
+
+            // Assert
+            Assert.That(result.ActionName, Is.EqualTo("Delete"));
+        }
+
+        [Test]
+        public void DeleteShouldReturnViewResult()
+        {
+            // Arrange
+            var mock = new Mock<IPersonService>();
+            var controller = new PersonController(mock.Object);
+
+            // Act
+            var result = controller.Add();
+
+            // Assert
+            Assert.That(result, Is.TypeOf<ViewResult>());
         }
     }
 }

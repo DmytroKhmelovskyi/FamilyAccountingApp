@@ -18,16 +18,16 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void PersonService_CreateAnObject()
         {
-            // arrange
+            //Arrange
             DbConfig dbConfig = new DbConfig();
             IPersonRepository personRepository = new PersonRepository(dbConfig);
             var mock = new Mock<IMapper>();
             string expected = "PersonService";
-
-            // act
+      
+            //Act
             PersonService personService = new PersonService(personRepository, mock.Object);
 
-            //assert
+            //Assert
             Assert.IsNotNull(personService);
             Assert.AreEqual(expected, personService.GetType().Name);
         }
@@ -48,7 +48,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void PersonService_UpdatePerson_ThrowsException()
         {
-            //arrange
+            //Arrange
             PersonDTO person = new PersonDTO()
             {
                 Id = 1,
@@ -68,7 +68,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void PersonService_Verify_UpdatingCalledOnce()
         {
-            //arrange
+            //Arrange
             PersonDTO person = new PersonDTO()
             {
                 Id = 1,
@@ -78,30 +78,30 @@ namespace FamilyAccounting.Tests.ServiceTests
             var personId = person.Id;
             var serviceMock = new Mock<IPersonService>();
 
-            //act
+            //Act
             serviceMock.Object.Update(personId, person);
 
-            //assert
+            //Assert
             serviceMock.Verify(m => m.Update(personId, person), Times.Once);
         }
 
         [Test]
         public void PersonService_Verify_GetListOfPersonsCalledOnce()
         {
-            //arrange
+            //Arrange
             var serviceMock = new Mock<IPersonService>();
 
-            //act
+            //Act
             serviceMock.Object.Get();
 
-            //assert
+            //Assert
             serviceMock.Verify(m => m.Get(), Times.Once);
         }
 
         [Test]
         public void PersonService_UpdatingPerson_ShouldNotNull()
         {
-            //arrange
+            //Arrange
             PersonDTO person = new PersonDTO()
             {
                 Id = 1,
@@ -111,10 +111,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var personId = person.Id;
             var serviceMock = new Mock<IPersonService>();
 
-            //act
+            //Act
             var result = serviceMock.Setup(a => a.Update(personId, person));
 
-            //assert
+            //Assert
             Assert.IsNotNull(result);
         }
 
@@ -174,13 +174,13 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void PersonService_GetListOfPersons_ShouldNotNull()
         {
-            //arrange
+            //Arrange
             var serviceMock = new Mock<IPersonService>();
 
-            //act
+            //Act
             var result = serviceMock.Setup(a => a.Get());
 
-            //assert
+            //Assert
             Assert.IsNotNull(result);
         }
 
@@ -206,7 +206,35 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //Assert
             Assert.IsNotNull(result);
+        }
 
+        [Test]
+        public void DeleteShouldCallDeleteInDalOnce()
+        {
+            //Arrange
+            var mockRepository = new Mock<IPersonRepository>();
+            var mockMapper = new Mock<IMapper>();
+            IPersonService service = new PersonService(mockRepository.Object, mockMapper.Object);
+            mockRepository.Setup(x => x.Delete(1)).Returns(It.IsAny<int>);
+
+            //Act
+            service.Delete(1);
+
+            //Assert
+            mockRepository.Verify(x => x.Delete(1), Times.Once);
+        }
+
+        [Test]
+        public void PersonService_DeletePerson_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<IPersonService>();
+
+            //Act
+            mock.Setup(a => a.Delete(1)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Delete(1), Throws.Exception);
         }
     }
 }

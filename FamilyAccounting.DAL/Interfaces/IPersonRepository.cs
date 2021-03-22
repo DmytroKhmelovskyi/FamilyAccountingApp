@@ -12,6 +12,6 @@ namespace FamilyAccounting.DAL.Interfaces
         IEnumerable<Person> Get();
         IEnumerable<Wallet> GetWallets(int id);
         public Person Get(int id);
-        public void Delete(int id);
+        public int Delete(int id);
     }
 }
