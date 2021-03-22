@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FamilyAccounting.Web.Models
 {
@@ -6,6 +7,7 @@ namespace FamilyAccounting.Web.Models
     {
         public int Id { get; set; }
         public PersonViewModel Person { get; set; }
+        [Required]
         public string Description { get; set; }
         public decimal Balance { get; set; }
         //public IEnumerable<Transaction> Transactions { get; set; }
