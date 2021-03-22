@@ -99,7 +99,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult DeletePerson(int? id)
         {
-            var result = personsService.Delete((int)id);
+            personsService.Delete((int)id);
             return RedirectToAction("Index");
         }
     }
