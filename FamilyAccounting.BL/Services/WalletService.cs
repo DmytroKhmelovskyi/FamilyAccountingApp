@@ -19,11 +19,11 @@ namespace FamilyAccounting.BL.Services
             this.walletsRepository = walletsRepository;
         }
 
-        public void Delete(int id)
+        public int Delete(int id)
         {
             try
             {
-                walletsRepository.Delete(id);
+               return walletsRepository.Delete(id);
             }
             catch (Exception ex)
             {

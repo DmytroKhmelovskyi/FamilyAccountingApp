@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace FamilyAccounting.DAL.Repositories
 {
-   public class WalletRepository : IWalletRepository
+    public class WalletRepository : IWalletRepository
     {
         private readonly string connectionString;
         public WalletRepository(DbConfig dbConfig)
@@ -91,18 +91,29 @@ namespace FamilyAccounting.DAL.Repositories
             sql.Close();
             return wallet;
         }
-        public void Delete(int id)
+        public int Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = $"EXEC PR_Wallets_Delete {id}";
+                cmd.CommandText = "PR_Wallets_Delete";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@_id", id);
+                SqlParameter output = new SqlParameter
+                {
+                    ParameterName = "@_status",
+                    SqlDbType = SqlDbType.Int
+                };
+                output.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(output);
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
                 cmd.ExecuteNonQuery();
+                int deleteStatus = (int)cmd.Parameters["@_status"].Value;
+                return deleteStatus;
             }
         }
     }
