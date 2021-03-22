@@ -14,11 +14,12 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Details_ViewResultNotNull()
         {
             //Arrange
-            var mock = new Mock<IWalletService>();
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
             int id = 1;
 
-            mock.Setup(a => a.Get(id));
-            WalletController controller = new WalletController(mock.Object);
+            mockWallet.Setup(a => a.Get(id));
+            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             //Act
             ViewResult result = controller.Details(id) as ViewResult;
@@ -31,31 +32,33 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Details_ThrowsException()
         {
             //Arrange
-            var mock = new Mock<IWalletService>();
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
             int id = 0;
-            mock.Setup(a => a.Get(id)).Throws(new Exception("Test Exception"));
-            WalletController controller = new WalletController(mock.Object);
+            mockWallet.Setup(a => a.Get(id)).Throws(new Exception("Test Exception"));
+            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             //Act
             ContentResult result = controller.Details(id) as ContentResult;
 
             //Assert
-            Assert.That(() => mock.Object.Get(id), Throws.Exception);
+            Assert.That(() => mockWallet.Object.Get(id), Throws.Exception);
         }
 
         [Test]
         public void Details_VerifyOnce()
         {
             // arrange
-            var mock = new Mock<IWalletService>();
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
             int id = 1;
-            WalletController controller = new WalletController(mock.Object);
+            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             // act
             RedirectToActionResult result = controller.Details(id) as RedirectToActionResult;
 
             // assert
-            mock.Verify(a => a.Get(id), Times.Once);
+            mockWallet.Verify(a => a.Get(id), Times.Once);
         }
 
         [Test]
@@ -63,10 +66,11 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             // arrange
             string expected = "WalletController";
-            var mock = new Mock<IWalletService>();
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
 
             // act
-            WalletController controller = new WalletController(mock.Object);
+            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             //assert
             Assert.IsNotNull(controller);
@@ -76,23 +80,27 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldCallDeleteWalletInBlOnce()
         {
             //Arrange
-            var mock = new Mock<IWalletService>();
-            var controller = new WalletController(mock.Object);
-            mock.Setup(x => x.Delete(1));
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
+
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+            mockWallet.Setup(x => x.Delete(1));
 
             //Act
             controller.DeleteWallet(1);
 
             //Assert
-            mock.Verify(x => x.Delete(1), Times.Once);
+            mockWallet.Verify(x => x.Delete(1), Times.Once);
         }
 
         [Test]
         public void DeleteShouldRedirectToActionDelete()
         {
             // Arrange
-            var mock = new Mock<IWalletService>();
-            var controller = new WalletController(mock.Object);
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
+
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             // Act
             var result = controller.RedirectToAction("Delete");
@@ -106,10 +114,12 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             // Arrange
             var walletId = 1;
-            var walletGuest = new WalletViewModel() { Id = walletId };
-            var walletRepo = new Mock<IWalletService>();
-            walletRepo.Setup(g => g.Delete(walletId));
-            var controller = new WalletController(walletRepo.Object);
+            var wallet = new WalletViewModel() { Id = walletId };
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
+
+            mockWallet.Setup(g => g.Delete(walletId));
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             // Act
             var result = controller.DeleteWallet(walletId);
@@ -123,9 +133,11 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             var wallet = new WalletViewModel();
-            var mock = new Mock<IWalletService>();
-            mock.Setup(g => g.Delete(wallet.Id));
-            var controller = new WalletController(mock.Object);
+            var mockWallet = new Mock<IWalletService>();
+            var mockPerson = new Mock<IPersonService>();
+            mockWallet.Setup(g => g.Delete(wallet.Id));
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
             //Act
             ViewResult result = controller.Delete(wallet.Id) as ViewResult;
 

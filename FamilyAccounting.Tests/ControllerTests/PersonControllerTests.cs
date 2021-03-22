@@ -172,7 +172,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(personsRepo.Object);
 
             // Act
-            var result = controller.Details(personId);
+            var result = controller.Details(personId, 1);
 
             // Assert
             var viewResult = result as ViewResult;
@@ -189,7 +189,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(personsRepo.Object);
 
             // Act
-            var result = controller.Details(12346743);
+            var result = controller.Details(12346743, 1);
 
             // Assert
             Assert.That(result, Is.TypeOf<BadRequestResult>());
