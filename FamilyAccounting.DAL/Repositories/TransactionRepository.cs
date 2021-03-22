@@ -27,6 +27,14 @@ namespace FamilyAccounting.DAL.Repositories
                 command.Parameters.AddWithValue("@_amount", transaction.Amount);
                 command.Parameters.AddWithValue("@_id_category", transaction.Category);
                 command.Parameters.AddWithValue("@_description", transaction.Description);
+                SqlParameter output = new SqlParameter
+                {
+                    ParameterName = "@_success",
+                    SqlDbType = SqlDbType.Int
+                };
+                output.Direction = ParameterDirection.Output;
+                command.Parameters.Add(output);
+                transaction.State = (bool)command.Parameters["@_success"].Value;
                 command.ExecuteNonQuery();
             }
             return transaction;
