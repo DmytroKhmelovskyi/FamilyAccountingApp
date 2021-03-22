@@ -1,0 +1,12 @@
+﻿@model FamilyAccounting.Web.Models.TransactionViewModel
+<div>
+    <form method="post" asp-controller="Transaction" asp-action="MakeExpense">
+        <input asp-for="Id" />
+        <input asp-for="SourceWallet" />
+        <input asp-for="Description" />
+        <input  asp-for="Amount"/>
+        <button type="submit" asp-controller="Transaction" asp-action="MakeExpense">
+            Make expense
+        </button>
+    </form>
+</div>
