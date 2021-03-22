@@ -9,5 +9,6 @@ namespace FamilyAccounting.DAL.Interfaces
         Wallet Get(int id);
         Wallet Update(int id, Wallet wallet);
         public int Delete(int id);
+        public Wallet Create(Wallet wallet);
     }
 }

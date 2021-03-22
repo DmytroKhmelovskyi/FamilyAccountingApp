@@ -116,5 +116,20 @@ namespace FamilyAccounting.DAL.Repositories
                 return deleteStatus;
             }
         }
+
+        public Wallet Create(Wallet wallet)
+        {
+            string sqlExpression = $"EXEC PR_Wallets_Create '{wallet.Person.Id}', '{wallet.Description}', '{wallet.Balance}'";
+
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.ExecuteNonQuery();
+
+            sql.Close();
+
+            return wallet;
+        }
     }
 }
