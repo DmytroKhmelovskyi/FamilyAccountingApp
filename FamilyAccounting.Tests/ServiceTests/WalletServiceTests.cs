@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FamilyAccounting.AutoMapper;
+using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Connection;
+using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Repositories;
 using FamilyAccounting.Web.Models;
@@ -17,16 +19,16 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void WalletService_CreateAnObject()
         {
-            // arrange
+            //Arrange
             DbConfig dbConfig = new DbConfig();
             IWalletRepository walletRepository = new WalletRepository(dbConfig);
             var mock = new Mock<IMapper>();
             string expected = "WalletService";
 
-            // act
+            //Act
             WalletService walletService = new WalletService(walletRepository, mock.Object);
 
-            //assert
+            //Assert
             Assert.IsNotNull(walletService);
             Assert.AreEqual(expected, walletService.GetType().Name);
         }
@@ -34,7 +36,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void WalletService_GetWallet_ShouldNotNull()
         {
-            //arrange
+            //Arrange
             var serviceMock = new Mock<IWalletService>();
             int id = 1;
 
@@ -48,14 +50,14 @@ namespace FamilyAccounting.Tests.ServiceTests
         [Test]
         public void WalletService_Verify_GetWalletCalledOnce()
         {
-            //arrange
+            //Arrange
             var serviceMock = new Mock<IWalletService>();
             int id = 1;
 
-            //act
+            //Act
             serviceMock.Object.Get(id);
 
-            //assert
+            //Assert
             serviceMock.Verify(m => m.Get(id), Times.Once);
         }
 
@@ -96,6 +98,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             walletRepoMock.Verify(r => r.Delete(It.Is<int>(id => id == walletViewModel.Id)), Times.Once);
         }
+
         [Test]
         public void DeleteGuest_IsNotNull()
         {
@@ -116,6 +119,52 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //Assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void CreateWalletShouldCallCreateInDalOnce()
+        {
+            //Arrange
+            WalletDTO walletDTO = new WalletDTO
+            {
+                Description = "Description",
+                Balance = 100
+            };
+            var mockMapper = new Mock<IMapper>();
+            var mockRepository = new Mock<IWalletRepository>();
+            IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
+            mockRepository.Setup(x => x.Create(It.IsAny<Wallet>())).Returns(It.IsAny<Wallet>());
+
+            //Act
+            service.Create(walletDTO);
+
+            //Assert
+            mockRepository.Verify(x => x.Create(It.IsAny<Wallet>()), Times.Once);
+        }
+
+        [Test]
+        public void CreateShouldReturnWalletDTO()
+        {
+            //Arrange
+            WalletDTO shouldBe = new WalletDTO
+            {
+                Description = "Description",
+                Balance = 100
+            };
+            WalletDTO walletDTO = new WalletDTO
+            {
+                Description = "Description",
+                Balance = 100
+            };
+            var mock = new Mock<IWalletService>();
+            mock.Setup(x => x.Create(walletDTO)).Returns(walletDTO);
+
+            //Act
+            var result = mock.Object.Create(walletDTO);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(shouldBe.GetType().Name, result.GetType().Name);
         }
     }
 }
