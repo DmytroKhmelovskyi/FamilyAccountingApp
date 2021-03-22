@@ -8,7 +8,7 @@ namespace FamilyAccounting.DAL.Interfaces
         IEnumerable<Wallet> Get();
         Wallet Get(int id);
         Wallet Update(int id, Wallet wallet);
-        public void Delete(int id);
+        public int Delete(int id);
         public Wallet Create(Wallet wallet);
     }
 }
