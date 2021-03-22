@@ -13,7 +13,7 @@ namespace FamilyAccounting.BL.Services
     {
         private readonly IMapper mapper;
         private IWalletRepository walletsRepository;
-        public WalletService(IMapper mapper, IWalletRepository walletsRepository)
+        public WalletService(IWalletRepository walletsRepository, IMapper mapper)
         {
             this.mapper = mapper;
             this.walletsRepository = walletsRepository;

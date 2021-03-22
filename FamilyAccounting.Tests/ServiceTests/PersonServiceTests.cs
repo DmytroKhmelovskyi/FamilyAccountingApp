@@ -23,13 +23,13 @@ namespace FamilyAccounting.Tests.ServiceTests
             IPersonRepository personRepository = new PersonRepository(dbConfig);
             var mock = new Mock<IMapper>();
             string expected = "PersonService";
-
+      
             //Act
-            PersonService libService = new PersonService(personRepository, mock.Object);
+            PersonService personService = new PersonService(personRepository, mock.Object);
 
             //Assert
-            Assert.IsNotNull(libService);
-            Assert.AreEqual(expected, libService.GetType().Name);
+            Assert.IsNotNull(personService);
+            Assert.AreEqual(expected, personService.GetType().Name);
         }
 
         [Test]
