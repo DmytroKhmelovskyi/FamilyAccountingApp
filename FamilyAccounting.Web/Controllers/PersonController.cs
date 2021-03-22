@@ -73,12 +73,15 @@ namespace FamilyAccounting.Web.Controllers
             }
             return RedirectToAction("Index");
         }
-        public IActionResult Details(int Id)
+        public IActionResult Details(int Id, int? page)
         {
             try
             {
+                var pageNumber = page ?? 1;
                 var person = personsService.Get(Id);
                 person.Wallets = personsService.GetWallets(Id);
+                var onePageOfWallets = person.Wallets.ToPagedList(pageNumber, 4);
+                ViewBag.OnePageOfWallets = onePageOfWallets;
                 return View(MapperService.PersonMap(person, person.Wallets));
             }
             catch (Exception)
