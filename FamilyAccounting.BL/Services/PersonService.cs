@@ -18,12 +18,12 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
         }
 
-        public PersonDTO Add(PersonDTO model)
+        public PersonDTO Add(PersonDTO person)
         {
             try
             {
-                Person person = personsRepository.Add(mapper.Map<Person>(model));
-                return mapper.Map<PersonDTO>(person);
+                Person _person = personsRepository.Add(mapper.Map<Person>(person));
+                return mapper.Map<PersonDTO>(_person);
             }
             catch (Exception ex)
             {

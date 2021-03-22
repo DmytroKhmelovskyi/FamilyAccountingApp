@@ -19,6 +19,19 @@ namespace FamilyAccounting.BL.Services
             this.walletsRepository = walletsRepository;
         }
 
+        public WalletDTO Create(WalletDTO wallet)
+        {
+            try
+            {
+                Wallet _wallet = walletsRepository.Create(mapper.Map<Wallet>(wallet));
+                return mapper.Map<WalletDTO>(_wallet);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public int Delete(int id)
         {
             try
