@@ -28,5 +28,19 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public TransactionDTO Update(int id, TransactionDTO transaction)
+        {
+            try
+            {
+                Transaction newTransaction = mapper.Map<Transaction>(transaction);
+                Transaction updatedTransaction = transactionRepository.Update(id, newTransaction);
+                return mapper.Map<TransactionDTO>(updatedTransaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
