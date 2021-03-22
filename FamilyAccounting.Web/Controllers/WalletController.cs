@@ -10,10 +10,12 @@ namespace FamilyAccounting.Web.Controllers
     public class WalletController : Controller
     {
         private readonly IWalletService walletService;
+        private readonly IPersonService personService;
 
-        public WalletController(IWalletService walletService)
+        public WalletController(IWalletService walletService, IPersonService personService)
         {
             this.walletService = walletService;
+            this.personService = personService;
         }
         public IActionResult Index()
         {
@@ -63,7 +65,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 walletService.Update(id, MapperService.WalletMap(wallet));
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
         [HttpGet]
         public ViewResult Delete(int? id)
@@ -80,21 +82,23 @@ namespace FamilyAccounting.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            return View();
+            PersonDTO person = personService.Get(id);
+            WalletViewModel walletVM = new WalletViewModel
+            {
+                Person = MapperService.PersonMap(person)
+            };
+            return View(walletVM);
         }
 
         [HttpPost]
         public IActionResult Create(WalletViewModel wallet)
         {
-            if (ModelState.IsValid)
-            {
-                walletService.Create(MapperService.WalletMap(wallet));
-                return RedirectToAction("Index");
-            }
-
-            return Content("Invalid inputs");
+            var _wallet = MapperService.WalletMap(wallet, wallet.Person);
+            
+            walletService.Create(_wallet);
+            return RedirectToAction("Details", "Person", new { id = _wallet.Person.Id});
         }
     }
 }

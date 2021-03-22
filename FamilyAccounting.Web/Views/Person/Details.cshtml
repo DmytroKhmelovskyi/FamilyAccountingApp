@@ -2,8 +2,11 @@
 
 @{
     ViewData["Title"] = "Details";
+    var pagedList = (IPagedList)ViewBag.OnePageOfWallets;
 }
-
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
 <h1>Details</h1>
 
 <div>
@@ -57,6 +60,7 @@
 </div>
 <div>
     <table style="text-align:center" class="table">
+        <a asp-controller="Wallet" asp-action="Create" asp-route-id="@Model.Id">Create new wallet</a>
         <thead>
             <tr>
                 <th>Wallet</th>
@@ -65,7 +69,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Wallets)
+            @foreach (var item in ViewBag.OnePageOfWallets)
             {
                 <tr>
                     <td>
@@ -89,6 +93,13 @@
         </tbody>
     </table>
 </div>
+
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfWallets, page => Url.Action("Details", new { page }), new PagedListRenderOptions
+{
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+})
+
 <div>
     <a asp-action="Update" asp-route-id="@Model.Id">Update</a> |
     <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
