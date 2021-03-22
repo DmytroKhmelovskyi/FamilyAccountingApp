@@ -10,6 +10,7 @@ namespace FamilyAccounting.BL.Services
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<IWalletService, WalletService>();
+            services.AddScoped<ITransactionService,TransactionService>();
             return services;
         }
     }
