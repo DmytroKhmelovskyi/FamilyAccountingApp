@@ -25,11 +25,11 @@ namespace FamilyAccounting.Tests.ServiceTests
             string expected = "PersonService";
 
             // act
-            PersonService libService = new PersonService(personRepository, mock.Object);
+            PersonService personService = new PersonService(personRepository, mock.Object);
 
             //assert
-            Assert.IsNotNull(libService);
-            Assert.AreEqual(expected, libService.GetType().Name);
+            Assert.IsNotNull(personService);
+            Assert.AreEqual(expected, personService.GetType().Name);
         }
 
         [Test]
@@ -89,7 +89,6 @@ namespace FamilyAccounting.Tests.ServiceTests
         public void PersonService_Verify_GetListOfPersonsCalledOnce()
         {
             //arrange
-
             var serviceMock = new Mock<IPersonService>();
 
             //act
@@ -176,7 +175,6 @@ namespace FamilyAccounting.Tests.ServiceTests
         public void PersonService_GetListOfPersons_ShouldNotNull()
         {
             //arrange
-
             var serviceMock = new Mock<IPersonService>();
 
             //act
