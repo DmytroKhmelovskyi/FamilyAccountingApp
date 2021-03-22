@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Connection;
 using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Repositories;
+using FamilyAccounting.Web.Models;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -68,6 +70,52 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //Assert
             Assert.That(() => mock.Object.Get(id), Throws.Exception);
+        }
+
+        [Test]
+        public void DeleteGuest_Success_CallsRepositoryWithCorrectParameters()
+        {
+            //Arrenge
+            int status = 1;
+            var walletViewModel = new WalletViewModel()
+            {
+                Id = 1
+            };
+            var walletRepoMock = new Mock<IWalletRepository>();
+            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            var walletService = new WalletService(walletRepoMock.Object, mapper);
+
+            //Act
+            var result = walletService.Delete(walletViewModel.Id);
+
+            //Assert
+            walletRepoMock.Verify(r => r.Delete(It.Is<int>(id => id == walletViewModel.Id)), Times.Once);
+        }
+        [Test]
+        public void DeleteGuest_IsNotNull()
+        {
+            //Arrenge
+            int status = 1;
+            var walletViewModel = new WalletViewModel();
+            var walletRepoMock = new Mock<IWalletRepository>();
+            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            var walletService = new WalletService(walletRepoMock.Object, mapper);
+
+            //Act
+            var result = walletService.Delete(walletViewModel.Id);
+
+            //Assert
+            Assert.IsNotNull(result);
         }
     }
 }
