@@ -39,5 +39,22 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transaction;
         }
+
+        public Transaction Update(int id, Transaction transaction)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string sqlExpression = $"EXEC PR_Actions_Update {id}, '{transaction.Category.Id}', '{transaction.Description}'";
+                SqlConnection sql = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                if (con.State != ConnectionState.Open)
+                {
+                    con.Open();
+                }
+                command.ExecuteNonQuery();
+            }
+            return transaction;
+        }
+
     }
 }
