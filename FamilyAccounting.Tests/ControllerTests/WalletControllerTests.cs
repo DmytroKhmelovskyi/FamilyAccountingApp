@@ -1,4 +1,5 @@
-﻿using FamilyAccounting.BL.Interfaces;
+﻿using FamilyAccounting.BL.DTO;
+using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -48,34 +49,35 @@ namespace FamilyAccounting.Tests.ControllerTests
         [Test]
         public void Details_VerifyOnce()
         {
-            // arrange
+            //Arrange
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
             int id = 1;
             WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
-            // act
+            //Act
             RedirectToActionResult result = controller.Details(id) as RedirectToActionResult;
 
-            // assert
+            //Assert
             mockWallet.Verify(a => a.Get(id), Times.Once);
         }
 
         [Test]
         public void WalletController_CreateAnObject()
         {
-            // arrange
+            //Arrange
             string expected = "WalletController";
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
 
-            // act
+            //Act
             WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
-            //assert
+            //Assert
             Assert.IsNotNull(controller);
             Assert.AreEqual(expected, controller.GetType().Name);
         }
+
         [Test]
         public void DeleteShouldCallDeleteWalletInBlOnce()
         {
@@ -96,23 +98,23 @@ namespace FamilyAccounting.Tests.ControllerTests
         [Test]
         public void DeleteShouldRedirectToActionDelete()
         {
-            // Arrange
+            //Arrange
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
 
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
-            // Act
+            //Act
             var result = controller.RedirectToAction("Delete");
 
-            // Assert
+            //Assert
             Assert.That(result.ActionName, Is.EqualTo("Delete"));
         }
 
         [Test]
         public void Delete_Success_ReturnsARedirectToActionResut()
         {
-            // Arrange
+            //Arrange
             var walletId = 1;
             var wallet = new WalletViewModel() { Id = walletId };
             var mockWallet = new Mock<IWalletService>();
@@ -121,13 +123,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockWallet.Setup(g => g.Delete(walletId));
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
-            // Act
+            //Act
             var result = controller.DeleteWallet(walletId);
 
-            // Assert
+            //Assert
             var redirectToActionResult = result as RedirectToActionResult;
             Assert.AreEqual("Index", redirectToActionResult.ActionName);
         }
+
         [Test]
         public void Delete_NotNull_ResultIsNotNull()
         {
@@ -143,6 +146,59 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void CreateShouldCallCreateWalletInBlOnce()
+        {
+            //Arrange
+            WalletViewModel walletVM = new WalletViewModel
+            {
+                Person = new PersonViewModel(),
+                Description = "Description",
+                Balance = 100
+            };
+            var mockPerson = new Mock<IPersonService>();
+            var mockWallet = new Mock<IWalletService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+            mockWallet.Setup(x => x.Create(It.IsAny<WalletDTO>())).Returns(It.IsAny<WalletDTO>());
+
+            //Act
+            controller.Create(walletVM);
+
+            //Assert
+            mockWallet.Verify(x => x.Create(It.IsAny<WalletDTO>()), Times.Once);
+        }
+
+        [Test]
+        public void AddShouldRedirectToPersonDetails()
+        {
+            // Arrange
+            var mockPerson = new Mock<IPersonService>();
+            var mockWallet = new Mock<IWalletService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
+            // Act
+            //var result = controller.Create(It.IsAny<WalletViewModel>());
+            var result = controller.RedirectToAction("Details");
+
+            // Assert
+            Assert.That(result.ActionName, Is.EqualTo("Details"));
+        }
+
+        [Test]
+        public void CreateShouldReturnViewResult()
+        {
+            // Arrange
+            var mockPerson = new Mock<IPersonService>();
+            var mockWallet = new Mock<IWalletService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
+            // Act
+            var result = controller.Create(1);
+
+            // Assert
+            Assert.That(result, Is.TypeOf<ViewResult>());
         }
     }
 }
