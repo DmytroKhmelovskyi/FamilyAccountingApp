@@ -109,17 +109,33 @@ namespace FamilyAccounting.DAL.Repositories
             return person;
         }
 
-        public void Delete(int id)
+        public int Delete(int id)
         {
-            string sqlExpression = $"EXEC PR_Persons_Delete {id}";
+            string sqlExpression = "PR_Persons_Delete";
 
             SqlConnection sql = new SqlConnection(connectionString);
             sql.Open();
 
             SqlCommand command = new SqlCommand(sqlExpression, sql);
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.AddWithValue("@_id", id);
+
+            SqlParameter output = new SqlParameter
+            {
+                ParameterName = "@_status",
+                SqlDbType = SqlDbType.Int
+            };
+            output.Direction = ParameterDirection.Output;
+            command.Parameters.Add(output);
+
             command.ExecuteNonQuery();
 
+            int deleteStatus = (int)command.Parameters["@_status"].Value;
+
             sql.Close();
+
+            return deleteStatus;
         }
 
         public IEnumerable<Wallet> GetWallets(int id)

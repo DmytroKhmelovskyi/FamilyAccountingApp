@@ -11,6 +11,6 @@ namespace FamilyAccounting.BL.Interfaces
         public PersonDTO Add(PersonDTO person);
         public PersonDTO Update(int id, PersonDTO person);
         public PersonDTO Get(int id);
-        public void Delete(int id);
+        public int Delete(int id);
     }
 }

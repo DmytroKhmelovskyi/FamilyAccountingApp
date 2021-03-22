@@ -63,11 +63,12 @@ namespace FamilyAccounting.BL.Services
             return mapper.Map<PersonDTO>(person);
         }
 
-        public void Delete(int id)
+        public int Delete(int id)
         {
             try
             {
-                personsRepository.Delete(id);
+                return personsRepository.Delete(id);
+                //return result;
             }
             catch (Exception ex)
             {

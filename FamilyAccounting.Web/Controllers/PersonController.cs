@@ -24,8 +24,8 @@ namespace FamilyAccounting.Web.Controllers
                 var IndexVM = MapperService.PersonMap(person);
                 var onePageOfPersons = IndexVM.Persons.ToPagedList(pageNumber, 8);
                 ViewBag.OnePageOfPersons = onePageOfPersons;
-                    //return View(IndexVM);
-                return View();
+                return View(IndexVM);
+                //return View();
             }
             catch (Exception)
             {
@@ -99,7 +99,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult DeletePerson(int? id)
         {
-            personsService.Delete((int)id);
+            var result = personsService.Delete((int)id);
             return RedirectToAction("Index");
         }
     }
