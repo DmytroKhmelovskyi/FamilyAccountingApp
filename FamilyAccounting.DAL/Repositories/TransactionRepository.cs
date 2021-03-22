@@ -44,7 +44,7 @@ namespace FamilyAccounting.DAL.Repositories
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string sqlExpression = $"EXEC PR_Actions_Update {id}, '{transaction.Category.Id}', '{transaction.Description}'";
+                string sqlExpression = $"EXEC PR_Actions_Update {id}, {transaction.Category.Id}, '{transaction.Description}'";
                 SqlConnection sql = new SqlConnection(connectionString);
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
                 if (con.State != ConnectionState.Open)
