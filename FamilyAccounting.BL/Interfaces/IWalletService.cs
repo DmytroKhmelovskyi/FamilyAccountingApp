@@ -9,5 +9,6 @@ namespace FamilyAccounting.BL.Interfaces
         WalletDTO Get(int id);
         WalletDTO Update(int id, WalletDTO wallet);
         public void Delete(int id);
+        public WalletDTO Create(WalletDTO wallet);
     }
 }
