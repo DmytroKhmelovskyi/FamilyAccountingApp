@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
+using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,18 @@ namespace FamilyAccounting.BL.Services
         {
             this.mapper = mapper;
             this.cardsRepository = cardsRepository;
+        }
+        public CardDTO Create(CardDTO card)
+        {
+            try
+            {
+                Card _card = cardsRepository.Create(mapper.Map<Card>(card));
+                return mapper.Map<CardDTO>(_card);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
