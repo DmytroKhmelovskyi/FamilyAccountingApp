@@ -5,10 +5,11 @@ namespace FamilyAccounting.BL.Interfaces
 {
     public interface IWalletService
     {
-        IEnumerable<WalletDTO> Get();
-        WalletDTO Get(int id);
-        WalletDTO Update(int id, WalletDTO wallet);
+        public IEnumerable<WalletDTO> Get();
+        public WalletDTO Get(int id);
+        public WalletDTO Update(int id, WalletDTO wallet);
         public WalletDTO Create(WalletDTO wallet);
         public int Delete(int id);
+        public IEnumerable<TransactionDTO> GetTransactions(int walletId);
     }
 }

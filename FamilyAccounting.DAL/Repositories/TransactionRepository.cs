@@ -23,9 +23,9 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                command.Parameters.AddWithValue("@_id_wallet", transaction.Id);
+                command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWallet.Id);
                 command.Parameters.AddWithValue("@_amount", transaction.Amount);
-                command.Parameters.AddWithValue("@_id_category", transaction.Category);
+                command.Parameters.AddWithValue("@_id_category", transaction.Category.Id);
                 command.Parameters.AddWithValue("@_description", transaction.Description);
                 SqlParameter output = new SqlParameter
                 {
@@ -35,6 +35,7 @@ namespace FamilyAccounting.DAL.Repositories
                 output.Direction = ParameterDirection.Output;
                 command.Parameters.Add(output);
                 command.ExecuteNonQuery();
+                int successStatus = (int)command.Parameters["@_success"].Value;
             }
             return transaction;
         }
@@ -55,5 +56,34 @@ namespace FamilyAccounting.DAL.Repositories
             return transaction;
         }
 
+        public Transaction Get(int id)
+        {
+            var transaction = new Transaction();
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = $"EXEC PR_Actions_Read {id}";
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        var t = new Transaction();
+                        t.Id = dr.GetInt32("id");
+                        t.Category.Id = dr.GetInt32("id_category");
+                        t.Description = dr.GetString("description");
+                        transaction = t;
+                    }
+                }
+            }
+            return transaction;
+        }
     }
 }

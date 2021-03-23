@@ -4,8 +4,6 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -32,6 +30,21 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
-
+        public int Delete(int id)
+        {
+            try
+            {
+                return cardsRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public CardDTO Get(int id)
+        {
+            Card card = cardsRepository.Get(id);
+            return mapper.Map<CardDTO>(card);
+        }
     }
 }

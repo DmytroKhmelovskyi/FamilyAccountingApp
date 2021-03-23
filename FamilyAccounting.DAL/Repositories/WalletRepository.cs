@@ -14,6 +14,7 @@ namespace FamilyAccounting.DAL.Repositories
         {
             connectionString = dbConfig.ConnectionString;
         }
+
         public IEnumerable<Wallet> Get()
         {
             string sqlProcedure = "PR_Wallets_Read";
@@ -47,6 +48,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return table;
         }
+
         public Wallet Get(int id)
         {
             Wallet wallet = new Wallet();
@@ -66,6 +68,10 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
+                        Person person = new Person
+                        {
+                            Id = dr.GetInt32("id_person")
+                        };
                         Wallet w = new Wallet
                         {
                             Id = dr.GetInt32("id"),
@@ -73,7 +79,8 @@ namespace FamilyAccounting.DAL.Repositories
                             Balance = dr.GetDecimal("balance"),
                             IsActive = dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
-                            Expense = dr.GetDecimal("total_expense")
+                            Expense = dr.GetDecimal("total_expense"),
+                            Person = person
                         };
                         wallet = w;
                     }
@@ -81,6 +88,7 @@ namespace FamilyAccounting.DAL.Repositories
                 return wallet;
             }
         }
+
         public Wallet Update(int id, Wallet wallet)
         {
             string sqlExpression = $"EXEC PR_Wallets_Update {id}, '{wallet.Description}'";
@@ -91,6 +99,7 @@ namespace FamilyAccounting.DAL.Repositories
             sql.Close();
             return wallet;
         }
+
         public int Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -130,6 +139,60 @@ namespace FamilyAccounting.DAL.Repositories
             sql.Close();
 
             return wallet;
+        }
+
+        public IEnumerable<Transaction> GetTransactions(int walletId)
+        {
+            string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}";
+
+            List<Transaction> transactions = new List<Transaction>();
+
+            SqlConnection sql = new SqlConnection(connectionString);
+            sql.Open();
+
+            SqlCommand command = new SqlCommand(sqlExpression, sql);
+            SqlDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Wallet sourceWallet = new Wallet
+                    {
+                        Id = reader.GetInt32("id_wallet_source"),
+                        //Description = reader.GetString("")
+                    };
+                    Wallet targetWallet = new Wallet
+                    {
+                        Id = reader.GetInt32("id_wallet_target"),
+                        //Description = reader.GetString("")
+                    };
+                    Category category = new Category
+                    {
+                        Id = reader.GetInt32("id_category"),
+                        //Description = reader.GetString("")
+                    };
+
+                    Transaction transaction = new Transaction
+                    {
+                        Id = reader.GetInt32("id"),
+                        SourceWallet = sourceWallet,
+                        TargetWallet = targetWallet,
+                        Category = category,
+                        Amount = reader.GetDecimal("amount"),
+                        TimeStamp = reader.GetDateTime("timestamp"),
+                        State = reader.GetBoolean("success"),
+                        Description = reader.GetString("description"),
+                        TransactionType = (TransactionType)reader.GetInt32("type")
+                    };
+
+                    transactions.Add(transaction);
+                }
+            }
+
+            sql.Close();
+
+            return transactions;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace FamilyAccounting.BL.DTO
 {
     public class WalletDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public PersonDTO Person { get; set; }
         public string Description { get; set; }
         public decimal Balance { get; set; }

@@ -9,8 +9,8 @@ namespace FamilyAccounting.DAL.Interfaces
     {
         public Person Add(Person person);
         public Person Update(int id, Person person);
-        IEnumerable<Person> Get();
-        IEnumerable<Wallet> GetWallets(int id);
+        public IEnumerable<Person> Get();
+        public IEnumerable<Wallet> GetWallets(int id);
         public Person Get(int id);
         public int Delete(int id);
     }

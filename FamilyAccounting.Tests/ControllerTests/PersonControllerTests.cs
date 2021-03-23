@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
@@ -8,11 +7,48 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
+    
     class PersonControllerTests
     {
+        [Test]
+        public void ModelValidation_ModelIsValid_ReturnFalse()
+        {
+            var personVM = new PersonViewModel()
+            {
+                Email = "a",
+
+            };
+            var context = new System.ComponentModel.DataAnnotations.ValidationContext(personVM);
+            var res = new List<ValidationResult>();
+            TypeDescriptor.AddProviderTransparent(new AssociatedMetadataTypeTypeDescriptionProvider(typeof(PersonViewModel), typeof(PersonViewModel)), typeof(PersonViewModel));
+
+            var isModelStateValid = Validator.TryValidateObject(personVM, context, res);
+            Assert.IsFalse(isModelStateValid);
+        }
+        [Test]
+        public void ModelValidation_ModelIsValid_ReturnTrue()
+        {
+            var personVM = new PersonViewModel()
+            {
+                FirstName = "Aytda",
+                LastName = "Sdfienr",
+                Email = "dhfet@ukr.net",
+                Phone = "0976543234",
+               
+            };
+            var context = new System.ComponentModel.DataAnnotations.ValidationContext(personVM);
+            var res = new List<ValidationResult>();
+            TypeDescriptor.AddProviderTransparent(new AssociatedMetadataTypeTypeDescriptionProvider(typeof(PersonViewModel), typeof(PersonViewModel)), typeof(PersonViewModel));
+
+            var isModelStateValid = Validator.TryValidateObject(personVM, context, res);
+            Assert.IsTrue(isModelStateValid);
+        }
         [Test]
         public void Index_ViewResultNotNull()
         {
