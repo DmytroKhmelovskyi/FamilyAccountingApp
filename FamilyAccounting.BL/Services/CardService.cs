@@ -41,10 +41,19 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
         public CardDTO Get(int id)
         {
             Card card = cardsRepository.Get(id);
             return mapper.Map<CardDTO>(card);
         }
+
+        public CardDTO Update(int id, CardDTO card)
+        {
+            Card newCard = mapper.Map<Card>(card);
+            Card updatedCard = cardsRepository.Update(id, newCard);
+            return mapper.Map<CardDTO>(updatedCard);
+        }
+
     }
 }
