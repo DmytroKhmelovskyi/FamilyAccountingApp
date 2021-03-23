@@ -7,12 +7,13 @@ namespace FamilyAccounting.Web.Models
     {
         public int Id { get; set; }
         public PersonViewModel Person { get; set; }
+
         [Required]
+        [StringLength(150, MinimumLength = 5)]
         public string Description { get; set; }
+        [Required]
         public decimal Balance { get; set; }
-        //public IEnumerable<Transaction> Transactions { get; set; }
         public bool IsCash { get; set; }
-        //public Card Card { get; set; }
         public IEnumerable<TransactionViewModel> Transactions { get; set; }
         public CardViewModel Card { get; set; }
         public decimal Income { get; set; }

@@ -6,8 +6,10 @@ namespace FamilyAccounting.Web.Models
     public class PersonViewModel
     {       
         public int Id { get; set; }
+        [StringLength(20, MinimumLength = 2)]
         [Required(ErrorMessage = "Please fill in this field")]
         public string FirstName { get; set; }
+        [StringLength(25, MinimumLength = 2)]
         [Required(ErrorMessage = "Please fill in this field")]
         public string LastName { get; set; }
         [RegularExpression(@"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$", ErrorMessage = "Invalid Phone Number")]
