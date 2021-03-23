@@ -37,7 +37,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 WalletDTO wallet = walletService.Get(Id);
                 wallet.Transactions = walletService.GetTransactions(Id);
-                var walletVM = MapperService.WalletMap(wallet);
+                var walletVM = MapperService.WalletMap(wallet, wallet.Person);
                 walletVM.Transactions = MapperService.TransactionMap(wallet.Transactions);
                 return View(walletVM);
             }
