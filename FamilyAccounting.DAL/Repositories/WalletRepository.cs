@@ -66,6 +66,10 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
+                        Person person = new Person
+                        {
+                            Id = dr.GetInt32("id_person")
+                        };
                         Wallet w = new Wallet
                         {
                             Id = dr.GetInt32("id"),
@@ -73,7 +77,8 @@ namespace FamilyAccounting.DAL.Repositories
                             Balance = dr.GetDecimal("balance"),
                             IsActive = dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
-                            Expense = dr.GetDecimal("total_expense")
+                            Expense = dr.GetDecimal("total_expense"),
+                            Person = person
                         };
                         wallet = w;
                     }

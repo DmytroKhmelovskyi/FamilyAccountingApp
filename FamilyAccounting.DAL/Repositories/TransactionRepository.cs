@@ -23,9 +23,9 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                command.Parameters.AddWithValue("@_id_wallet", transaction.Id);
+                command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWallet.Id);
                 command.Parameters.AddWithValue("@_amount", transaction.Amount);
-                command.Parameters.AddWithValue("@_id_category", transaction.Category);
+                command.Parameters.AddWithValue("@_id_category", transaction.Category.Id);
                 command.Parameters.AddWithValue("@_description", transaction.Description);
                 SqlParameter output = new SqlParameter
                 {
@@ -35,6 +35,7 @@ namespace FamilyAccounting.DAL.Repositories
                 output.Direction = ParameterDirection.Output;
                 command.Parameters.Add(output);
                 command.ExecuteNonQuery();
+                int successStatus = (int)command.Parameters["@_success"].Value;
             }
             return transaction;
         }
