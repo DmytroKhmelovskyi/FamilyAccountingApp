@@ -54,6 +54,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transaction;
         }
+
         public Transaction Get(int id)
         {
             var transaction = new Transaction();
@@ -83,6 +84,5 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transaction;
         }
-
     }
 }
