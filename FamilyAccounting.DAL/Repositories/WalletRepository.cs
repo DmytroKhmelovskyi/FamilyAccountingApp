@@ -87,11 +87,15 @@ namespace FamilyAccounting.DAL.Repositories
         public Wallet Update(int id, Wallet wallet)
         {
             string sqlExpression = $"EXEC PR_Wallets_Update {id}, '{wallet.Description}'";
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.ExecuteNonQuery();
-            sql.Close();
+
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                command.ExecuteNonQuery();
+                sql.Close();
+            }
+
             return wallet;
         }
 
@@ -125,13 +129,15 @@ namespace FamilyAccounting.DAL.Repositories
         {
             string sqlExpression = $"EXEC PR_Wallets_Create '{wallet.Person.Id}', '{wallet.Description}', '{wallet.Balance}'";
 
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
 
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.ExecuteNonQuery();
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                command.ExecuteNonQuery();
 
-            sql.Close();
+                sql.Close();
+            }
 
             return wallet;
         }
@@ -142,51 +148,59 @@ namespace FamilyAccounting.DAL.Repositories
 
             List<Transaction> transactions = new List<Transaction>();
 
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
-
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            SqlDataReader reader = command.ExecuteReader();
-
-            if (reader.HasRows)
+            using (SqlConnection sql = new SqlConnection(connectionString))
             {
-                while (reader.Read())
+                sql.Open();
+
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
                 {
-                    Wallet sourceWallet = new Wallet
+                    while (reader.Read())
                     {
-                        Id = reader.GetInt32("id_wallet_source"),
-                        //Description = reader.GetString("")
-                    };
-                    Wallet targetWallet = new Wallet
-                    {
-                        Id = reader.GetInt32("id_wallet_target"),
-                        //Description = reader.GetString("")
-                    };
-                    Category category = new Category
-                    {
-                        Id = reader.GetInt32("id_category"),
-                        //Description = reader.GetString("")
-                    };
+                        int sourceId = reader.IsDBNull("id_wallet_source") ? 0 : reader.GetInt32("id_wallet_source");
+                        string sourceDescription = reader.IsDBNull("wallet_src_desc") ? "" : reader.GetString("wallet_src_desc");
+                        int targetId = reader.IsDBNull("id_wallet_target") ? 0 : reader.GetInt32("id_wallet_target");
+                        string targetDescription = reader.IsDBNull("wallet_trg_desc") ? "" : reader.GetString("wallet_trg_desc");
+                        int categoryId = reader.IsDBNull("id_category") ? 0 : reader.GetInt32("id_category");
+                        string categoryDescription = reader.IsDBNull("category_desc") ? "" : reader.GetString("category_desc");
 
-                    Transaction transaction = new Transaction
-                    {
-                        Id = reader.GetInt32("id"),
-                        SourceWallet = sourceWallet,
-                        TargetWallet = targetWallet,
-                        Category = category,
-                        Amount = reader.GetDecimal("amount"),
-                        TimeStamp = reader.GetDateTime("timestamp"),
-                        State = reader.GetBoolean("success"),
-                        Description = reader.GetString("description"),
-                        TransactionType = (TransactionType)reader.GetInt32("type")
-                    };
+                        Wallet sourceWallet = new Wallet
+                        {
+                            Id = sourceId,
+                            Description = sourceDescription
+                        };
 
-                    transactions.Add(transaction);
+                        Wallet targetWallet = new Wallet
+                        {
+                            Id = targetId,
+                            Description = targetDescription
+                        };
+                        Category category = new Category
+                        {
+                            Id = categoryId,
+                            Description = categoryDescription
+                        };
+
+                        Transaction transaction = new Transaction
+                        {
+                            Id = reader.GetInt32("id"),
+                            SourceWallet = sourceWallet,
+                            TargetWallet = targetWallet,
+                            Category = category,
+                            Amount = reader.GetDecimal("amount"),
+                            TimeStamp = reader.GetDateTime("timestamp"),
+                            State = reader.GetBoolean("success"),
+                            Description = reader.GetString("description"),
+                            TransactionType = (TransactionType)reader.GetInt32("type")
+                        };
+
+                        transactions.Add(transaction);
+                    }
                 }
+                sql.Close();
             }
-
-            sql.Close();
-
             return transactions;
         }
     }

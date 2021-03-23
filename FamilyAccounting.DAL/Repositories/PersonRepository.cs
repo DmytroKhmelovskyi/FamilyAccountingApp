@@ -51,24 +51,30 @@ namespace FamilyAccounting.DAL.Repositories
         {
             string sqlExpression = $"EXEC PR_Persons_Create '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
 
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
 
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.ExecuteNonQuery();
+                SqlCommand command = new SqlCommand(sqlExpression, con);
+                command.ExecuteNonQuery();
 
-            sql.Close();
+                con.Close();
+            }
 
             return person;
         }
         public Person Update(int id, Person person)
         {
             string sqlExpression = $"EXEC PR_Persons_Update {id}, '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.ExecuteNonQuery();
-            sql.Close();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, con);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+            
             return person;
         }
 
@@ -113,29 +119,30 @@ namespace FamilyAccounting.DAL.Repositories
         {
             string sqlExpression = "PR_Persons_Delete";
 
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
-
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.CommandType = CommandType.StoredProcedure;
-
-            command.Parameters.AddWithValue("@_id", id);
-
-            SqlParameter output = new SqlParameter
+            using (var conn = new SqlConnection(connectionString))
             {
-                ParameterName = "@_status",
-                SqlDbType = SqlDbType.Int
-            };
-            output.Direction = ParameterDirection.Output;
-            command.Parameters.Add(output);
+                conn.Open();
 
-            command.ExecuteNonQuery();
+                SqlCommand command = new SqlCommand(sqlExpression, conn);
+                command.CommandType = CommandType.StoredProcedure;
 
-            int deleteStatus = (int)command.Parameters["@_status"].Value;
+                command.Parameters.AddWithValue("@_id", id);
 
-            sql.Close();
+                SqlParameter output = new SqlParameter
+                {
+                    ParameterName = "@_status",
+                    SqlDbType = SqlDbType.Int
+                };
+                output.Direction = ParameterDirection.Output;
+                command.Parameters.Add(output);
 
-            return deleteStatus;
+                command.ExecuteNonQuery();
+
+                int deleteStatus = (int)command.Parameters["@_status"].Value;
+
+                conn.Close();
+                return deleteStatus;
+            }
         }
 
         public IEnumerable<Wallet> GetWallets(int id)

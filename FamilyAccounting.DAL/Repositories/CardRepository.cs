@@ -20,11 +20,14 @@ namespace FamilyAccounting.DAL.Repositories
         {
             string sqlExpression = $"EXEC PR_Cards_Create {card.WalletId}, '{card.Number}', '{card.Description}'";
 
-            SqlConnection sql = new SqlConnection(connectionString);
-            sql.Open();
-            SqlCommand command = new SqlCommand(sqlExpression, sql);
-            command.ExecuteNonQuery();
-            sql.Close();
+            using (var sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                command.ExecuteNonQuery();
+                sql.Close();
+            }
+
             return card;
         }
     }
