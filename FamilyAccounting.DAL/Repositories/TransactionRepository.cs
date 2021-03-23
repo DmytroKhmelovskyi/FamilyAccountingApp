@@ -54,6 +54,5 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transaction;
         }
-
     }
 }

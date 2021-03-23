@@ -165,7 +165,6 @@ namespace FamilyAccounting.DAL.Repositories
                 reader.Close();
             }
             return table;
-
         }
     }
 }
