@@ -155,17 +155,17 @@ namespace FamilyAccounting.DAL.Repositories
                     Wallet sourceWallet = new Wallet
                     {
                         Id = reader.GetInt32("id_wallet_source"),
-                        Description = reader.GetString("")
+                        //Description = reader.GetString("")
                     };
                     Wallet targetWallet = new Wallet
                     {
                         Id = reader.GetInt32("id_wallet_target"),
-                        Description = reader.GetString("")
+                        //Description = reader.GetString("")
                     };
                     Category category = new Category
                     {
                         Id = reader.GetInt32("id_category"),
-                        Description = reader.GetString("")
+                        //Description = reader.GetString("")
                     };
 
                     Transaction transaction = new Transaction
