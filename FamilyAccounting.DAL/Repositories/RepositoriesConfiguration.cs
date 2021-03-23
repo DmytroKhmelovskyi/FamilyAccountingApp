@@ -15,6 +15,5 @@ namespace FamilyAccounting.DAL.Repositories
             services.AddTransient<ITransactionRepository,TransactionRepository>();
             return services;
         }
-
     }
 }

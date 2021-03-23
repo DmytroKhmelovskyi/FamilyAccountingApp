@@ -63,6 +63,19 @@ namespace FamilyAccounting.BL.Services
             return mapper.Map<WalletDTO>(wallet);
         }
 
+        public IEnumerable<TransactionDTO> GetTransactions(int walletId)
+        {
+            try
+            {
+                IEnumerable<Transaction> transactions = walletsRepository.GetTransactions(walletId);
+                return mapper.Map<IEnumerable<TransactionDTO>>(transactions);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public WalletDTO Update(int id, WalletDTO wallet)
         {
             try

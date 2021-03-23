@@ -56,5 +56,34 @@ namespace FamilyAccounting.DAL.Repositories
             return transaction;
         }
 
+        public Transaction Get(int id)
+        {
+            var transaction = new Transaction();
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = $"EXEC PR_Actions_Read {id}";
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        var t = new Transaction();
+                        t.Id = dr.GetInt32("id");
+                        t.Category.Id = dr.GetInt32("id_category");
+                        t.Description = dr.GetString("description");
+                        transaction = t;
+                    }
+                }
+            }
+            return transaction;
+        }
     }
 }

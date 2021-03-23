@@ -16,6 +16,15 @@ namespace FamilyAccounting.BL.Services
             this.transactionRepository = transactionRepository;
             this.mapper = mapper;
         }
+
+        public TransactionDTO Get(int id)
+        {
+
+            Transaction transaction = transactionRepository.Get(id);
+            return mapper.Map<TransactionDTO>(transaction);
+
+        }
+
         public TransactionDTO MakeExpense(TransactionDTO transaction)
         {
             try

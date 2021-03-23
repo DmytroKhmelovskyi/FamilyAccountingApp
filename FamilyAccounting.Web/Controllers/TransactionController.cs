@@ -44,5 +44,28 @@ namespace FamilyAccounting.Web.Controllers
             transactionService.MakeExpense(MapperService.TransactionMap(transaction, transaction.SourceWallet, transaction.Category));
             return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWallet.Id });         
         }
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            try
+            {
+                var updatedTransaction = transactionService.Get(id);
+                return View(MapperService.TransactionMap(updatedTransaction));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, TransactionViewModel transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                transactionService.Update(id, MapperService.TransactionMap(transaction));
+            }
+            return RedirectToAction("Details", "Wallet", new { id = transaction.Id });
+        }
     }
 }
