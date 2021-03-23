@@ -4,6 +4,7 @@
     {
         Income, 
         Transfer,
-        Expense
+        Expense,
+        Initial
     }
 }
