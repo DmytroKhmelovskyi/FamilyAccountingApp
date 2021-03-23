@@ -24,5 +24,20 @@ namespace FamilyAccounting.Web.Controllers
             cardService.Create(MapperService.CardMap(card));
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
+
+        [HttpGet]
+        public ViewResult Delete(int? id)
+        {
+            var card = cardService.Get((int)id);
+            return View(MapperService.CardMap(card));
+        }
+
+        [ActionName("Delete")]
+        [HttpPost]
+        public IActionResult DeleteWallet(int? id)
+        {
+            cardService.Delete((int)id);
+            return RedirectToAction("Index");
+        }
     }
 }
