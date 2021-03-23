@@ -61,7 +61,7 @@ namespace FamilyAccounting.DAL.Repositories
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = $"EXEC PR_Actions_Read {id}";
+                cmd.CommandText = $"EXEC PR_CardsWallets_Read {id}";
 
                 if (conn.State != ConnectionState.Open)
                 {
@@ -79,6 +79,18 @@ namespace FamilyAccounting.DAL.Repositories
                         card = c;
                     }
                 }
+            }
+            return card;
+        }
+        public Card Update(int id, Card card)
+        {
+            string sqlExpression = $"EXEC PR_Cards_Update {id}, '{card.Number}','{card.Description}'";
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                command.ExecuteNonQuery();
+                sql.Close();
             }
             return card;
         }
