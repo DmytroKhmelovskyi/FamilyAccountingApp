@@ -8,14 +8,26 @@ namespace FamilyAccounting.Web.Controllers
     public class CardController : Controller
     {
         private readonly ICardService cardService;
+        private readonly IWalletService walletService;
 
-        public CardController(ICardService cardService)
+
+        public CardController(ICardService cardService, IWalletService walletService)
         {
             this.cardService = cardService;
+            this.walletService = walletService;
+
         }
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            return View();
+            CardViewModel cardViewModel = new CardViewModel {
+                WalletId = id
+            };
+
+            WalletViewModel walletViewModel = new WalletViewModel
+            {
+                Card = cardViewModel
+            };
+            return View(cardViewModel);
         }
 
         [HttpPost]
