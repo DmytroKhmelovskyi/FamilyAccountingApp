@@ -6,5 +6,6 @@ namespace FamilyAccounting.BL.Interfaces
     {
         public TransactionDTO MakeExpense(TransactionDTO transaction);
         public TransactionDTO Update(int id, TransactionDTO transaction);
+        public TransactionDTO Get(int id);
     }
 }
