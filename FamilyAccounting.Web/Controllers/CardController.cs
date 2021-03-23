@@ -10,7 +10,6 @@ namespace FamilyAccounting.Web.Controllers
         private readonly ICardService cardService;
         private readonly IWalletService walletService;
 
-
         public CardController(ICardService cardService, IWalletService walletService)
         {
             this.cardService = cardService;
@@ -23,10 +22,6 @@ namespace FamilyAccounting.Web.Controllers
                 WalletId = id
             };
 
-            WalletViewModel walletViewModel = new WalletViewModel
-            {
-                Card = cardViewModel
-            };
             return View(cardViewModel);
         }
 
@@ -50,6 +45,23 @@ namespace FamilyAccounting.Web.Controllers
         {
             cardService.Delete((int)id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var updatedCard = cardService.Get(id);
+            return View(MapperService.CardMap(updatedCard));
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, CardViewModel card)
+        {
+            if (ModelState.IsValid)
+            {
+                cardService.Update(id, MapperService.CardMap(card));
+            }
+            return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
     }
 }
