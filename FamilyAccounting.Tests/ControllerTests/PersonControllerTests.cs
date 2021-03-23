@@ -54,7 +54,6 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             var mock = new Mock<IPersonService>();
-
             mock.Setup(a => a.Get());
             PersonController controller = new PersonController(mock.Object);
 
@@ -83,28 +82,28 @@ namespace FamilyAccounting.Tests.ControllerTests
         [Test]
         public void Index_VerifyOnce()
         {
-            // arrange
+            //Arrange
             var mock = new Mock<IPersonService>();
             PersonController controller = new PersonController(mock.Object);
 
-            // act
+            //Act
             RedirectToActionResult result = controller.Index(1) as RedirectToActionResult;
 
-            // assert
+            //Assert
             mock.Verify(a => a.Get(), Times.Once);
         }
 
         [Test]
         public void PersonController_CreateAnObject()
         {
-            // arrange
+            //Arrange
             string expected = "PersonController";
             var mock = new Mock<IPersonService>();
 
-            // act
+            //Act
             PersonController controller = new PersonController(mock.Object);
 
-            //assert
+            //Assert
             Assert.IsNotNull(controller);
             Assert.AreEqual(expected, controller.GetType().Name);
         }

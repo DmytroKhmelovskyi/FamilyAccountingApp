@@ -80,14 +80,7 @@ namespace FamilyAccounting.Web.Services
             return transactionVM;
         }
 
-        public static TransactionDTO TransactionMap(TransactionViewModel transactionVM)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionDTO, TransactionViewModel>());
-            var mapper = new Mapper(config);
-            var transactionVM = mapper.Map<IEnumerable<TransactionViewModel>>(transactionDTO);
-            return transactionVM;
-        }
-
+        
         public static TransactionDTO TransactionMap(TransactionViewModel transactionVM, WalletViewModel walletVM,CategoryViewModel categoryVM)
         {
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<TransactionViewModel, TransactionDTO>(); cfg.CreateMap<WalletViewModel, WalletDTO>(); cfg.CreateMap<CategoryViewModel, CategoryDTO>(); });
