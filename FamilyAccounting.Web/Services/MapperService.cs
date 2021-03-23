@@ -91,5 +91,14 @@ namespace FamilyAccounting.Web.Services
             var cardDTO = mapper.Map<CardDTO>(cardVM);
             return cardDTO;
         }
+
+        public static CardViewModel CardMap(CardDTO cardVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<CardDTO, CardViewModel>());
+            var mapper = new Mapper(config);
+            var cardDTO = mapper.Map<CardViewModel>(cardVM);
+            return cardDTO;
+        }
+       
     }
 }

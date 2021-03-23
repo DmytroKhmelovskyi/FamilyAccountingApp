@@ -21,13 +21,8 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Create(CardViewModel card)
         {
-            if (ModelState.IsValid)
-            {
-                cardService.Create(MapperService.CardMap(card));
-                return RedirectToAction("Index");
-            }
-
-            return Content("Invalid inputs");
+            cardService.Create(MapperService.CardMap(card));
+            return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
     }
 }
