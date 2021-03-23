@@ -84,5 +84,12 @@ namespace FamilyAccounting.Web.Services
             return walletDTO;
 
         }
+        public static CardDTO CardMap(CardViewModel cardVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<CardViewModel, CardDTO>());
+            var mapper = new Mapper(config);
+            var cardDTO = mapper.Map<CardDTO>(cardVM);
+            return cardDTO;
+        }
     }
 }
