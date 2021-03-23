@@ -1,35 +1,48 @@
 ﻿using FamilyAccounting.BL.Interfaces;
+using FamilyAccounting.BL.Services;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Controllers
 {
     public class TransactionController : Controller
     {
         private readonly ITransactionService transactionService;
+        private readonly IWalletService walletService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ITransactionService transactionService,IWalletService walletService)
         {
             this.transactionService = transactionService;
+            this.walletService = walletService;
+        }
+
+        [HttpGet]
+        public IActionResult MakeExpense(int id)
+        {
+            try
+            {
+                var wallet = walletService.Get(id);
+                var walletVM = MapperService.WalletMap(wallet);
+                var transaction = new TransactionViewModel
+                {
+                    SourceWallet = walletVM
+                };
+                return View(transaction);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
-            if (ModelState.IsValid)
-            {
-                transactionService.MakeExpense(MapperService.TransactionMap(transaction));
-                return RedirectToAction("Index", "Person");
-            }
-            else
-            {
-                return Content("Invalid inputs");
-            }          
+
+            transactionService.MakeExpense(MapperService.TransactionMap(transaction, transaction.SourceWallet, transaction.Category));
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWallet.Id });         
         }
         [HttpGet]
         public IActionResult Update(int id)
