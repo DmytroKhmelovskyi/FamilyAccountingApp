@@ -72,6 +72,15 @@ namespace FamilyAccounting.Web.Services
         }
 
         public static IEnumerable<TransactionViewModel> TransactionMap(IEnumerable<TransactionDTO> transactionDTO)
+
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionDTO, TransactionViewModel>());
+            var mapper = new Mapper(config);
+            var transactionVM = mapper.Map<IEnumerable<TransactionViewModel>>(transactionDTO);
+            return transactionVM;
+        }
+
+        public static TransactionDTO TransactionMap(TransactionViewModel transactionVM)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionDTO, TransactionViewModel>());
             var mapper = new Mapper(config);
@@ -96,6 +105,7 @@ namespace FamilyAccounting.Web.Services
             var transactionVM = mapper.Map<TransactionViewModel>(transactionDTO);
             return transactionVM;
         }
+
         public static TransactionDTO TransactionMap(TransactionViewModel transactionVM)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionViewModel, TransactionDTO>());
@@ -112,6 +122,7 @@ namespace FamilyAccounting.Web.Services
             walletDTO.Person = mapper.Map<PersonDTO>(personVM);
             return walletDTO;
         }
+
         public static WalletViewModel WalletMap(WalletDTO walletDTO, PersonDTO personDTO)
         {
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<WalletDTO, WalletViewModel>(); cfg.CreateMap<PersonDTO, PersonViewModel>(); });
@@ -136,6 +147,5 @@ namespace FamilyAccounting.Web.Services
             var cardDTO = mapper.Map<CardViewModel>(cardVM);
             return cardDTO;
         }
-
     }
 }
