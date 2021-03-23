@@ -25,7 +25,6 @@ namespace FamilyAccounting.Web.Controllers
                 var onePageOfPersons = IndexVM.Persons.ToPagedList(pageNumber, 8);
                 ViewBag.OnePageOfPersons = onePageOfPersons;
                 return View(IndexVM);
-                //return View();
             }
             catch (Exception)
             {

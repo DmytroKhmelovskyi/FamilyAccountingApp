@@ -36,7 +36,7 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 WalletDTO wallet = walletService.Get(Id);
-                return View(MapperService.WalletMap(wallet));
+                return View(MapperService.WalletMap(wallet, wallet.Person));
             }
             catch (Exception)
             {

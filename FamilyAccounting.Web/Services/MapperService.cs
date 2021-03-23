@@ -67,11 +67,13 @@ namespace FamilyAccounting.Web.Services
             return indexVM;
         }
 
-        public static TransactionDTO TransactionMap(TransactionViewModel transactionVM)
+        public static TransactionDTO TransactionMap(TransactionViewModel transactionVM, WalletViewModel walletVM,CategoryViewModel categoryVM)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionViewModel, TransactionDTO>());
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<TransactionViewModel, TransactionDTO>(); cfg.CreateMap<WalletViewModel, WalletDTO>(); cfg.CreateMap<CategoryViewModel, CategoryDTO>(); });
             var mapper = new Mapper(config);
             var transactionDTO = mapper.Map<TransactionDTO>(transactionVM);
+            transactionDTO.Category = mapper.Map<CategoryDTO>(categoryVM);
+            transactionDTO.SourceWallet = mapper.Map<WalletDTO>(walletVM);
             return transactionDTO;
         }
         public static TransactionViewModel TransactionMap(TransactionDTO transactionDTO)
@@ -84,12 +86,18 @@ namespace FamilyAccounting.Web.Services
         public static WalletDTO WalletMap(WalletViewModel walletVM, PersonViewModel personVM)
         {
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<WalletViewModel, WalletDTO>(); cfg.CreateMap<PersonViewModel, PersonDTO>(); });
-
             var mapper = new Mapper(config);
             var walletDTO = mapper.Map<WalletDTO>(walletVM);
             walletDTO.Person = mapper.Map<PersonDTO>(personVM);
             return walletDTO;
-
+        }
+        public static WalletViewModel WalletMap(WalletDTO walletDTO, PersonDTO personDTO)
+        {
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<WalletDTO, WalletViewModel>(); cfg.CreateMap<PersonDTO, PersonViewModel>(); });
+            var mapper = new Mapper(config);
+            var walletVM = mapper.Map<WalletViewModel>(walletDTO);
+            walletVM.Person = mapper.Map<PersonViewModel>(personDTO);
+            return walletVM;
         }
         public static CardDTO CardMap(CardViewModel cardVM)
         {
