@@ -46,7 +46,5 @@ namespace FamilyAccounting.BL.Services
             Card card = cardsRepository.Get(id);
             return mapper.Map<CardDTO>(card);
         }
-
-
     }
 }

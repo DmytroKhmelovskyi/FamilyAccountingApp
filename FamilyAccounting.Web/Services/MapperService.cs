@@ -136,5 +136,6 @@ namespace FamilyAccounting.Web.Services
             var cardDTO = mapper.Map<CardViewModel>(cardVM);
             return cardDTO;
         }
+
     }
 }
