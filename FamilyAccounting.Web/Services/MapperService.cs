@@ -96,6 +96,13 @@ namespace FamilyAccounting.Web.Services
             var transactionVM = mapper.Map<TransactionViewModel>(transactionDTO);
             return transactionVM;
         }
+        public static TransactionDTO TransactionMap(TransactionViewModel transactionVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<TransactionViewModel, TransactionDTO>());
+            var mapper = new Mapper(config);
+            var transactionDTO = mapper.Map<TransactionDTO>(transactionVM);
+            return transactionDTO;
+        }
 
         public static WalletDTO WalletMap(WalletViewModel walletVM, PersonViewModel personVM)
         {
