@@ -7,7 +7,7 @@ using System;
 
 namespace FamilyAccounting.BL.Services
 {
-    class TransactionService : ITransactionService
+    public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository transactionRepository;
         private readonly IMapper mapper;

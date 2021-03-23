@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace FamilyAccounting.DAL.Repositories
 {
-    class TransactionRepository : ITransactionRepository
+   public class TransactionRepository : ITransactionRepository
     {
         private readonly string connectionString;
         public TransactionRepository(DbConfig dbConfig)
