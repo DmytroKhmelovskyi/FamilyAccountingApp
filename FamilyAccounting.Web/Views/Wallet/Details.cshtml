@@ -35,12 +35,12 @@
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.Income)
                     </dd>
-                   <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.IsCash)
-                  </dt>
-                  <dd class="col-sm-10">
-                  @Html.DisplayFor(model => model.IsCash)
-                  </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.IsCash)
+                    </dt>
+                    <dd class="col-sm-10">
+                         @Html.DisplayFor(model => model.IsCash)
+                    </dd>
                 </dl>
             </div>
             <div>
@@ -49,10 +49,10 @@
                <a asp-controller="Wallet" asp-action="Delete" asp-route-id=@Model.Id>Delete</a> |
                @if (!Model.IsCash)
                {<a asp-controller="Card" asp-action="Create" asp-route-id=@Model.Id>Add card</a>}
-                else
-                { <a asp-controller="Card" asp-action="Details" asp-route-id=@Model.Id>See card</a>
-                 }
-              | <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.PersonId>Back to List</a>
+               else
+               { <a asp-controller="Card" asp-action="Details" asp-route-id=@Model.Id>See card</a>
+               }
+               | <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.PersonId>Back to List</a>
             </div>
         </div>
         <div class="col-sm">
@@ -107,7 +107,7 @@
                                 @item.TransactionType
                             </td>
                             <td>
-                                <a asp-action="Details" asp-route-id=@item.Id class="btn btn-outline-dark">&#128065</a>
+                                <a asp-controller="Transaction" asp-action="Details" asp-route-id=@item.Id class="btn btn-outline-dark">&#128065</a>
                             </td>
                         </tr>
                     }

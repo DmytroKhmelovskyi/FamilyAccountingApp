@@ -8,45 +8,50 @@
 @using X.PagedList;
 @using X.PagedList.Mvc.Core.Common;
 
+<div class="d-flex justify-content-center">
+    <div style="width:60%">
+        <h1 style="float:left;">@ViewData["Title"]</h1>
+        <table style="float: right;">
+            <tbody>
+                <tr>
+                    <td>
+                        <a asp-controller="Person" asp-action="Add"
+                           class="btn btn-outline-info">
+                            <i class="glyphicon glyphicon-chevron-left"></i>
+                            Add new family member
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="text-align:center" class="table">
+            <thead>
+                <tr>
+                    <th style="text-align:left">Person Name</th>
+                    <th style="text-align:right; width:35%">Quantity of wallets</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.OnePageOfPersons)
+                {
+                    <tr>
+                        <td style="text-align:left">
+                            <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
+                        </td>
+                        <td style="text-align:right; width:35%">
+                            @item.WalletsCount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<h1 style="float:left;">@ViewData["Title"]</h1>
-<table style="float: right;">
-    <tbody>
-        <tr>
-            <td style="padding-right: 200px;">
-                <a asp-controller="Person" asp-action="Add"
-                   class="btn btn-outline-dark">
-                    <i class="glyphicon glyphicon-chevron-left"></i>
-                    Add new family member
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<table style="text-align:center" class="table">
-    <thead>
-        <tr>
-            <th>Person Name</th>
-            <th>Quantity of wallets</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.OnePageOfPersons)
+        @Html.PagedListPager((IPagedList)ViewBag.OnePageOfPersons, page => Url.Action("Index", new { page }), new PagedListRenderOptions
         {
-            <tr>
-                <td>
-                    <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
-                </td>
-                <td>
-                    @item.WalletsCount
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+        })
 
-@Html.PagedListPager((IPagedList)ViewBag.OnePageOfPersons, page => Url.Action("Index", new { page }), new PagedListRenderOptions
-{
-    LiElementClasses = new string[] { "page-item" },
-    PageClasses = new string[] { "page-link" }
-})
+    </div>
+</div>
+
