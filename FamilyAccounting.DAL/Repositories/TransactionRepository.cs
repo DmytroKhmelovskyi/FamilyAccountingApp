@@ -23,9 +23,9 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWallet.Id);
+                command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWalletId);
                 command.Parameters.AddWithValue("@_amount", transaction.Amount);
-                command.Parameters.AddWithValue("@_id_category", transaction.Category.Id);
+                //command.Parameters.AddWithValue("@_id_category", transaction.Category.Id);
                 command.Parameters.AddWithValue("@_description", transaction.Description);
                 SqlParameter output = new SqlParameter
                 {
@@ -44,7 +44,8 @@ namespace FamilyAccounting.DAL.Repositories
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string sqlExpression = $"EXEC PR_Actions_Update {id}, '{transaction.Category.Id}', '{transaction.Description}'";
+                //string sqlExpression = $"EXEC PR_Actions_Update {id}, '{transaction.Category.Id}', '{transaction.Description}'";
+                string sqlExpression = $"EXEC";
                 SqlConnection sql = new SqlConnection(connectionString);
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
                 if (con.State != ConnectionState.Open)
@@ -77,7 +78,7 @@ namespace FamilyAccounting.DAL.Repositories
                     {
                         var t = new Transaction();
                         t.Id = dr.GetInt32("id");
-                        t.Category.Id = dr.GetInt32("id_category");
+                        //t.Category.Id = dr.GetInt32("id_category");
                         t.Description = dr.GetString("description");
                         transaction = t;
                     }

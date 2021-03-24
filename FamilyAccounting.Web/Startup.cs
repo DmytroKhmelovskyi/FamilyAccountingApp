@@ -25,6 +25,7 @@ namespace FamilyAccounting.Web
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddRepositories(connectionString);
             services.AddServices();
+            services.AddViewModelMapping();
             services.AddMapping();
         }
 
