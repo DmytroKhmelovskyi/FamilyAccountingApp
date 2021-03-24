@@ -62,7 +62,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 cardService.Update(id, MapperService.CardMap(card));
             }
-            return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
+            return RedirectToAction("Details", "Card", new { id = card.WalletId });
         }
         public IActionResult Details(int Id)
         {
