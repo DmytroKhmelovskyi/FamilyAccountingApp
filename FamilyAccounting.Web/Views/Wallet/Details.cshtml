@@ -63,47 +63,56 @@
                 PageClasses = new string[] { "page-link" }
             })*@
     </div>
-        <div>
+        <div style="margin-top: 50px">
+            <h3>List of transactions</h3>
             <table style="text-align:center" class="table">
                 <thead>
                     <tr>
                         <th>From</th>
-                        <th>To</th>
+                        <th style="background-color:ghostwhite">To</th>
                         <th>Amount</th>
-                        <th>Category</th>
+                        <th style="background-color:ghostwhite">Before</th>
+                        <th>After</th>
+                        <th style="background-color:ghostwhite">Category</th>
                         <th>Date</th>
-                        <th>Description</th>
+                        <th style="background-color:ghostwhite">Description</th>
                         <th>Success</th>
-                        <th>Type</th>
-                        <th></th>
+                        <th style="background-color:ghostwhite">Type</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Transactions)
                     {
                         <tr>
-                            <td>
+                            <td style="text-align:left">
                                 @item.SourceWallet
                             </td>
-                            <td>
+                            <td style="text-align:left; background-color:ghostwhite">
                                 @item.TargetWallet
                             </td>
-                            <td>
+                            <td style="text-align:right">
                                 @item.Amount
                             </td>
-                            <td>
+                            <td style="text-align:right; background-color:ghostwhite">
+                                @item.BalanceBefore
+                            </td>
+                            <td style="text-align:right">
+                                @item.BalanceAfter
+                            </td>
+                            <td style="text-align:left; background-color:ghostwhite">
                                 @item.Category
                             </td>
                             <td>
                                 @item.TimeStamp
                             </td>
-                            <td>
+                            <td style="text-align:left; background-color:ghostwhite">
                                 @item.Description
                             </td>
-                            <td>
+                            <td >
                                 @item.State
                             </td>
-                            <td>
+                            <td style="background-color:ghostwhite">
                                 @item.TransactionType
                             </td>
                             <td>

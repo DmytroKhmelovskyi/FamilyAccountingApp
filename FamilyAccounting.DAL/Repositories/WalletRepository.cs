@@ -181,7 +181,9 @@ namespace FamilyAccounting.DAL.Repositories
                             TimeStamp = reader.GetDateTime("timestamp"),
                             State = reader.GetBoolean("success"),
                             Description = reader.GetString("description"),
-                            TransactionType = (TransactionType)reader.GetInt32("type")
+                            TransactionType = (TransactionType)reader.GetInt32("type"),
+                            BalanceBefore = reader.GetDecimal("balance_prev"),
+                            BalanceAfter = reader.GetDecimal("balance")
                         };
 
                         transactions.Add(transaction);
