@@ -1,4 +1,5 @@
-﻿using FamilyAccounting.BL.Interfaces;
+﻿using FamilyAccounting.BL.DTO;
+using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,11 @@ namespace FamilyAccounting.Web.Controllers
                 cardService.Update(id, MapperService.CardMap(card));
             }
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
+        }
+        public IActionResult Details(int Id)
+        {
+            CardDTO card = cardService.Get(Id);
+            return View(MapperService.CardMap(card));
         }
     }
 }
