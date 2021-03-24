@@ -2,127 +2,135 @@
 
 @{
     ViewData["Title"] = "Details";
+    var pagedList = (IPagedList)ViewBag.OnePageOfTransactions;
 }
-
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
 <h1>Details</h1>
 
 <div class="container">
     <div class="row">
-            <div>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Description)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Description)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Balance)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Balance)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Expense)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Expense)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Income)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Income)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.IsCash)
-                    </dt>
-                    <dd class="col-sm-10">
-                         @Html.DisplayFor(model => model.IsCash)
-                    </dd>
-                </dl>
-            </div>
-            <div>
-               <a asp-controller="Transaction" asp-action="MakeExpense" asp-route-id="@Model.Id">Make expense</a> |
-               <a asp-controller="Wallet" asp-action="Update" asp-route-id=@Model.Id>Update</a> |
-               <a asp-controller="Wallet" asp-action="Delete" asp-route-id=@Model.Id>Delete</a> |
-               @if (!Model.IsCash)
-               {<a asp-controller="Card" asp-action="Create" asp-route-id=@Model.Id>Add card</a>}
-               else
-               { <a asp-controller="Card" asp-action="Details" asp-route-id=@Model.Id>See card</a>
-               }
-               | <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.PersonId>Back to List</a>
-            </div>
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Balance)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Balance)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Expense)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Expense)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Income)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Income)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IsCash)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IsCash)
+                </dd>
+            </dl>
         </div>
-        <div class="col-sm">
-            
-            @*@Html.PagedListPager((IPagedList)ViewBag.OnePageOfWallets, page => Url.Action("Details", new { page }), new PagedListRenderOptions
+        <div>
+            <a asp-controller="Transaction" asp-action="MakeExpense" asp-route-id="@Model.Id">Make expense</a> |
+            <a asp-controller="Wallet" asp-action="Update" asp-route-id=@Model.Id>Update</a> |
+            <a asp-controller="Wallet" asp-action="Delete" asp-route-id=@Model.Id>Delete</a> |
+            @if (!Model.IsCash)
+            {<a asp-controller="Card" asp-action="Create" asp-route-id=@Model.Id>Add card</a>}
+            else
+            { <a asp-controller="Card" asp-action="Details" asp-route-id=@Model.Id>See card</a>
+            }
+            | <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.PersonId>Back to List</a>
+        </div>
+    </div>
+    <div class="col-sm">
+
+        @*@Html.PagedListPager((IPagedList)ViewBag.OnePageOfWallets, page => Url.Action("Details", new { page }), new PagedListRenderOptions
             {
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" }
             })*@
     </div>
-        <div style="margin-top: 50px">
-            <h3>List of transactions</h3>
-            <table style="text-align:center" class="table">
-                <thead>
+    <div style="margin-top: 50px">
+        <h3>List of transactions</h3>
+        <table style="text-align:center" class="table">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th style="background-color:ghostwhite">To</th>
+                    <th>Amount</th>
+                    <th style="background-color:ghostwhite">Before</th>
+                    <th>After</th>
+                    <th style="background-color:ghostwhite">Category</th>
+                    <th>Date</th>
+                    <th style="background-color:ghostwhite">Description</th>
+                    <th>Success</th>
+                    <th style="background-color:ghostwhite">Type</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.OnePageOfTransactions)
+                {
                     <tr>
-                        <th>From</th>
-                        <th style="background-color:ghostwhite">To</th>
-                        <th>Amount</th>
-                        <th style="background-color:ghostwhite">Before</th>
-                        <th>After</th>
-                        <th style="background-color:ghostwhite">Category</th>
-                        <th>Date</th>
-                        <th style="background-color:ghostwhite">Description</th>
-                        <th>Success</th>
-                        <th style="background-color:ghostwhite">Type</th>
-                        <th>Details</th>
+                        <td style="text-align:left">
+                            @item.SourceWallet
+                        </td>
+                        <td style="text-align:left; background-color:ghostwhite">
+                            @item.TargetWallet
+                        </td>
+                        <td style="text-align:right">
+                            @item.Amount
+                        </td>
+                        <td style="text-align:right; background-color:ghostwhite">
+                            @item.BalanceBefore
+                        </td>
+                        <td style="text-align:right">
+                            @item.BalanceAfter
+                        </td>
+                        <td style="text-align:left; background-color:ghostwhite">
+                            @item.Category
+                        </td>
+                        <td>
+                            @item.TimeStamp
+                        </td>
+                        <td style="text-align:left; background-color:ghostwhite">
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.State
+                        </td>
+                        <td style="background-color:ghostwhite">
+                            @item.TransactionType
+                        </td>
+                        <td>
+                            <a asp-controller="Transaction" asp-action="Details" asp-route-id=@item.Id class="btn btn-outline-dark">&#128065</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Transactions)
-                    {
-                        <tr>
-                            <td style="text-align:left">
-                                @item.SourceWallet
-                            </td>
-                            <td style="text-align:left; background-color:ghostwhite">
-                                @item.TargetWallet
-                            </td>
-                            <td style="text-align:right">
-                                @item.Amount
-                            </td>
-                            <td style="text-align:right; background-color:ghostwhite">
-                                @item.BalanceBefore
-                            </td>
-                            <td style="text-align:right">
-                                @item.BalanceAfter
-                            </td>
-                            <td style="text-align:left; background-color:ghostwhite">
-                                @item.Category
-                            </td>
-                            <td>
-                                @item.TimeStamp
-                            </td>
-                            <td style="text-align:left; background-color:ghostwhite">
-                                @item.Description
-                            </td>
-                            <td >
-                                @item.State
-                            </td>
-                            <td style="background-color:ghostwhite">
-                                @item.TransactionType
-                            </td>
-                            <td>
-                                <a asp-controller="Transaction" asp-action="Details" asp-route-id=@item.Id class="btn btn-outline-dark">&#128065</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+                @Html.PagedListPager((IPagedList)ViewBag.OnePageOfTransactions, page => Url.Action("Details", new { page }), new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
