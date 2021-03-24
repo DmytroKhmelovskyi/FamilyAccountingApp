@@ -36,7 +36,7 @@ namespace FamilyAccounting.DAL.Repositories
                 cmd.Connection = conn;
                 cmd.CommandText = "PR_Cards_Delete";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@_id", id);
+                cmd.Parameters.AddWithValue("@_id_wallet", id);
                 SqlParameter output = new SqlParameter
                 {
                     ParameterName = "@_status",

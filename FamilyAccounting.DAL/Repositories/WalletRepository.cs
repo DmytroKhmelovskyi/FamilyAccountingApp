@@ -80,7 +80,8 @@ namespace FamilyAccounting.DAL.Repositories
                             IsActive = dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
                             Expense = dr.GetDecimal("total_expense"),
-                            PersonId = dr.GetInt32("id_person")
+                            PersonId = dr.GetInt32("id_person"),
+                            IsCash = dr.GetBoolean("is_cash"),
                         };
                         wallet = w;
                     }
