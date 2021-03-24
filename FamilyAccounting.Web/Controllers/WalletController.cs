@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using X.PagedList;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -36,11 +37,14 @@ namespace FamilyAccounting.Web.Controllers
             }
         }
 
-        public IActionResult Details(int Id)
+        public IActionResult Details(int Id, int? page)
         {
-                WalletDTO wallet = walletService.Get(Id);
-                wallet.Transactions = walletService.GetTransactions(Id);
-                return View(WalletMapper.WalletMap(wallet, wallet.Transactions));
+            var pageNumber = page ?? 1;
+            WalletDTO wallet = walletService.Get(Id);
+            wallet.Transactions = walletService.GetTransactions(Id);
+            var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
+            ViewBag.OnePageOfTransactions = onePageOfTransactions;
+            return View(WalletMapper.WalletMap(wallet, wallet.Transactions));
         }
 
         [HttpGet]
