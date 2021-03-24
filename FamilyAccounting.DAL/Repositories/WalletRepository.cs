@@ -68,10 +68,10 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
-                        Person person = new Person
-                        {
-                            Id = dr.GetInt32("id_person")
-                        };
+                        //Person person = new Person
+                        //{
+                        //    Id = dr.GetInt32("id_person")
+                        //};
                         Wallet w = new Wallet
                         {
                             Id = dr.GetInt32("id"),
@@ -80,7 +80,7 @@ namespace FamilyAccounting.DAL.Repositories
                             IsActive = dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
                             Expense = dr.GetDecimal("total_expense"),
-                            Person = person
+                            PersonId = dr.GetInt32("id_person")
                         };
                         wallet = w;
                     }
@@ -132,7 +132,7 @@ namespace FamilyAccounting.DAL.Repositories
 
         public Wallet Create(Wallet wallet)
         {
-            string sqlExpression = $"EXEC PR_Wallets_Create '{wallet.Person.Id}', '{wallet.Description}', '{wallet.Balance}'";
+            string sqlExpression = $"EXEC PR_Wallets_Create '{wallet.PersonId}', '{wallet.Description}', '{wallet.Balance}'";
 
             using (SqlConnection sql = new SqlConnection(connectionString))
             {
@@ -182,23 +182,21 @@ namespace FamilyAccounting.DAL.Repositories
                             Id = targetId,
                             Description = targetDescription
                         };
-                        Category category = new Category
-                        {
-                            Id = categoryId,
-                            Description = categoryDescription
-                        };
 
                         Transaction transaction = new Transaction
                         {
                             Id = reader.GetInt32("id"),
-                            SourceWallet = sourceWallet,
-                            TargetWallet = targetWallet,
-                            Category = category,
+                            SourceWallet = sourceDescription,
+                            SourceWalletId = sourceId,
+                            TargetWallet = targetDescription,
+                            TargetWalletId = targetId,
+                            Category = categoryDescription,
+                            CategoryId = categoryId,
                             Amount = reader.GetDecimal("amount"),
                             TimeStamp = reader.GetDateTime("timestamp"),
                             State = reader.GetBoolean("success"),
                             Description = reader.GetString("description"),
-                            TransactionType = (TransactionType)reader.GetInt32("type")
+                            TransactionType = reader.GetInt32("type")
                         };
 
                         transactions.Add(transaction);

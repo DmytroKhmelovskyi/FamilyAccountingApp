@@ -7,7 +7,7 @@
 <h1>Make expense</h1>
 
 <div>
-    <form method="post" asp-controller="Transaction" asp-action="MakeExpense">
+    @*<form method="post" asp-controller="Transaction" asp-action="MakeExpense">
         <input placeholder="Enter id of a source wallet" style="display:none" asp-for="SourceWallet.Id" />
         <input placeholder="Describe the expense" asp-for="Description" />
         <input placeholder="Enter amount" asp-for="Amount" />
@@ -16,5 +16,5 @@
             Make expense
         </button>
         <button asp-controller="Wallet" asp-action="Details" asp-route-id="@Model.SourceWallet.Id">Back to wallet</button>
-    </form>
+    </form>*@
 </div>

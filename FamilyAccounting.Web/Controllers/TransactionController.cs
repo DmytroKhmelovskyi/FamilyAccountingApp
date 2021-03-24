@@ -27,7 +27,7 @@ namespace FamilyAccounting.Web.Controllers
                 var walletVM = MapperService.WalletMap(wallet);
                 var transaction = new TransactionViewModel
                 {
-                    SourceWallet = walletVM
+                    //SourceWallet = walletVM
                 };
                 return View(transaction);
             }
@@ -41,8 +41,8 @@ namespace FamilyAccounting.Web.Controllers
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
 
-            transactionService.MakeExpense(MapperService.TransactionMap(transaction, transaction.SourceWallet, transaction.Category));
-            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWallet.Id });         
+            //transactionService.MakeExpense(MapperService.TransactionMap(transaction, transaction.SourceWallet, transaction.Category));
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });         
         }
         [HttpGet]
         public IActionResult Update(int id)
