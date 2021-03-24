@@ -29,7 +29,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Create(CardViewModel card)
         {
-            cardService.Create(MapperService.CardMap(card));
+            cardService.Create(CardMapper.CardMap(card));
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
 
@@ -37,7 +37,7 @@ namespace FamilyAccounting.Web.Controllers
         public ViewResult Delete(int? id)
         {
             var card = cardService.Get((int)id);
-            return View(MapperService.CardMap(card));
+            return View(CardMapper.CardMap(card));
         }
 
         [ActionName("Delete")]
@@ -52,7 +52,7 @@ namespace FamilyAccounting.Web.Controllers
         public IActionResult Update(int id)
         {
             var updatedCard = cardService.Get(id);
-            return View(MapperService.CardMap(updatedCard));
+            return View(CardMapper.CardMap(updatedCard));
         }
 
         [HttpPost]
@@ -60,14 +60,14 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                cardService.Update(id, MapperService.CardMap(card));
+                cardService.Update(id, CardMapper.CardMap(card));
             }
             return RedirectToAction("Details", "Card", new { id = card.WalletId });
         }
         public IActionResult Details(int Id)
         {
             CardDTO card = cardService.Get(Id);
-            return View(MapperService.CardMap(card));
+            return View(CardMapper.CardMap(card));
         }
     }
 }

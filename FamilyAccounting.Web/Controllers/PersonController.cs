@@ -21,7 +21,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 var pageNumber = page ?? 1;
                 var person = personsService.Get();
-                var IndexVM = MapperService.PersonMap(person);
+                var IndexVM = PersonMapper.PersonMap(person);
                 var onePageOfPersons = IndexVM.Persons.ToPagedList(pageNumber, 8);
                 ViewBag.OnePageOfPersons = onePageOfPersons;
                 return View(IndexVM);
@@ -42,7 +42,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Add(MapperService.PersonMap(person));
+                personsService.Add(PersonMapper.PersonMap(person));
                 return RedirectToAction("Index");
             }
 
@@ -55,7 +55,7 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var updatedPerson = personsService.Get(id);
-                return View(MapperService.PersonMap(updatedPerson));
+                return View(PersonMapper.PersonMap(updatedPerson));
             }
             catch (Exception)
             {
@@ -68,7 +68,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Update(id, MapperService.PersonMap(person));
+                personsService.Update(id, PersonMapper.PersonMap(person));
             }
             return RedirectToAction("Index");
         }
@@ -81,7 +81,7 @@ namespace FamilyAccounting.Web.Controllers
                 person.Wallets = personsService.GetWallets(Id);
                 var onePageOfWallets = person.Wallets.ToPagedList(pageNumber, 4);
                 ViewBag.OnePageOfWallets = onePageOfWallets;
-                return View(MapperService.PersonMap(person, person.Wallets));
+                return View(PersonMapper.PersonMap(person, person.Wallets));
             }
             catch (Exception)
             {
@@ -94,7 +94,7 @@ namespace FamilyAccounting.Web.Controllers
         public ViewResult Delete(int? id)
         {
             var person = personsService.Get((int)id);
-            return View(MapperService.PersonMap(person));
+            return View(PersonMapper.PersonMap(person));
         }
 
         [ActionName("Delete")]

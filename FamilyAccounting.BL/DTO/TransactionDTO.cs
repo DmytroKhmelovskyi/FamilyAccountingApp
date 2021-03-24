@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FamilyAccounting.DAL.Entities;
+using System;
 
 namespace FamilyAccounting.BL.DTO
 {
@@ -15,8 +16,8 @@ namespace FamilyAccounting.BL.DTO
         public int CategoryId { get; set; }
         public string Category { get; set; }
         public bool State { get; set; }
-        //public TransactionTypeDTO TransactionType { get; set; }
-        public int TransactionType { get; set; }
+        public TransactionTypeDTO TransactionType { get; set; }
+        //public int TransactionType { get; set; }
         public decimal BalanceBefore { get; set; }
         public decimal BalanceAfter { get; set; }
     }
