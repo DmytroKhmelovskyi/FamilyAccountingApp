@@ -27,7 +27,7 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletService.Get();
-                var IndexVM = MapperService.WalletMap(wallet);
+                var IndexVM = WalletMapper.WalletMap(wallet);
                 return View(IndexVM);
             }
             catch (Exception)
@@ -40,7 +40,7 @@ namespace FamilyAccounting.Web.Controllers
         {
                 WalletDTO wallet = walletService.Get(Id);
                 wallet.Transactions = walletService.GetTransactions(Id);
-                return View(MapperService.WalletMap(wallet, wallet.Transactions));
+                return View(WalletMapper.WalletMap(wallet, wallet.Transactions));
         }
 
         [HttpGet]
@@ -49,7 +49,7 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var updatedWallet = walletService.Get(id);
-                return View(MapperService.WalletMap(updatedWallet));
+                return View(WalletMapper.WalletMap(updatedWallet));
             }
             catch (Exception)
             {
@@ -62,7 +62,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                walletService.Update(id, MapperService.WalletMap(wallet));
+                walletService.Update(id, WalletMapper.WalletMap(wallet));
             }
             return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
@@ -70,7 +70,7 @@ namespace FamilyAccounting.Web.Controllers
         public ViewResult Delete(int? id)
         {
             var wallet = walletService.Get((int)id);
-            return View(MapperService.WalletMap(wallet));
+            return View(WalletMapper.WalletMap(wallet));
         }
 
         [ActionName("Delete")]
@@ -86,7 +86,7 @@ namespace FamilyAccounting.Web.Controllers
             PersonDTO person = personService.Get(id);
             WalletViewModel walletVM = new WalletViewModel
             {
-                //Person = MapperService.PersonMap(person)
+                PersonId = person.Id
             };
             return View(walletVM);
         }
@@ -94,10 +94,10 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Create(WalletViewModel wallet)
         {
-            //var _wallet = MapperService.WalletMap(wallet, wallet.Person);
+            var _wallet = WalletMapper.WalletMap(wallet);
             
-            //walletService.Create(_wallet);
-            return RedirectToAction("Details", "Person", new { id = 1/*_wallet.Person.Id*/});
+            walletService.Create(_wallet);
+            return RedirectToAction("Details", "Person", new { id = wallet.PersonId});
         }
     }
 }

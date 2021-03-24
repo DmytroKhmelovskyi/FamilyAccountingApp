@@ -24,10 +24,10 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletService.Get(id);
-                var walletVM = MapperService.WalletMap(wallet);
                 var transaction = new TransactionViewModel
                 {
-                    //SourceWallet = walletVM
+                    SourceWalletId = (int)wallet.Id,
+                    SourceWallet = wallet.Description
                 };
                 return View(transaction);
             }
@@ -40,9 +40,8 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
-
-            //transactionService.MakeExpense(MapperService.TransactionMap(transaction, transaction.SourceWallet, transaction.Category));
-            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });         
+            transactionService.MakeExpense(TransactionMapper.TransactionMap(transaction));
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
         }
         [HttpGet]
         public IActionResult Update(int id)
@@ -50,7 +49,7 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var updatedTransaction = transactionService.Get(id);
-                return View(MapperService.TransactionMap(updatedTransaction));
+                return View(TransactionMapper.TransactionMap(updatedTransaction));
             }
             catch (Exception)
             {
@@ -63,7 +62,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                transactionService.Update(id, MapperService.TransactionMap(transaction));
+                transactionService.Update(id, TransactionMapper.TransactionMap(transaction));
             }
             return RedirectToAction("Details", "Wallet", new { id = transaction.Id });
         }

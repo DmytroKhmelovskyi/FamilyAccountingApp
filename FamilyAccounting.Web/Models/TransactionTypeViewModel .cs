@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Models
 {
-    public class TransactionTypeViewModel
+    public enum TransactionTypeViewModel
     {
+            Income,
+            Transfer,
+            Expense,
+            Initial
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FamilyAccounting.DAL.Entities;
+using System;
 
 namespace FamilyAccounting.Web.Models
 {
@@ -15,7 +16,7 @@ namespace FamilyAccounting.Web.Models
         public int CategoryId { get; set; }
         public string Category { get; set; }
         public bool State { get; set; }
-        public int TransactionType { get; set; }
+        public TransactionTypeViewModel TransactionType { get; set; }
         public decimal BalanceBefore { get; set; }
         public decimal BalanceAfter { get; set; }
     }

@@ -68,10 +68,6 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
-                        //Person person = new Person
-                        //{
-                        //    Id = dr.GetInt32("id_person")
-                        //};
                         Wallet w = new Wallet
                         {
                             Id = dr.GetInt32("id"),
@@ -172,18 +168,6 @@ namespace FamilyAccounting.DAL.Repositories
                         int categoryId = reader.IsDBNull("id_category") ? 0 : reader.GetInt32("id_category");
                         string categoryDescription = reader.IsDBNull("category_desc") ? "" : reader.GetString("category_desc");
 
-                        Wallet sourceWallet = new Wallet
-                        {
-                            Id = sourceId,
-                            Description = sourceDescription
-                        };
-
-                        Wallet targetWallet = new Wallet
-                        {
-                            Id = targetId,
-                            Description = targetDescription
-                        };
-
                         Transaction transaction = new Transaction
                         {
                             Id = reader.GetInt32("id"),
@@ -197,7 +181,7 @@ namespace FamilyAccounting.DAL.Repositories
                             TimeStamp = reader.GetDateTime("timestamp"),
                             State = reader.GetBoolean("success"),
                             Description = reader.GetString("description"),
-                            TransactionType = reader.GetInt32("type")
+                            TransactionType = (TransactionType)reader.GetInt32("type")
                         };
 
                         transactions.Add(transaction);
