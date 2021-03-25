@@ -32,11 +32,13 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetExpenseCategories();
                 var transaction = new TransactionViewModel
                 {
                     SourceWalletId = (int)wallet.Id,
                     SourceWallet = wallet.Description
                 };
+                ViewBag.Categories = categories;
                 return View(transaction);
             }
             catch (Exception)
@@ -58,11 +60,13 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetIncomeCategories();
                 var transaction = new TransactionViewModel
                 {
                     TargetWalletId = (int)wallet.Id,
                     TargetWallet = wallet.Description
                 };
+                ViewBag.Categories = categories;
                 return View(transaction);
             }
             catch (Exception)

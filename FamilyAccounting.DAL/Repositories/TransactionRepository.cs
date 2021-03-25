@@ -171,7 +171,7 @@ namespace FamilyAccounting.DAL.Repositories
 
         public IEnumerable<Category> GetExpenseCategories()
         {
-            string sqlProcedure = "EXEC PR_Categories_Read_Expenses";
+            string sqlProcedure = "PR_Categories_Read_Expenses";
             List<Category> table = new List<Category>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -189,7 +189,8 @@ namespace FamilyAccounting.DAL.Repositories
                         {
                             Id = reader.GetInt32("id"),
                             Description = reader.GetString("description"),
-                            Amount = reader.GetDecimal("total")
+                            Amount = 0,
+                            Type = true
                         };
                         table.Add(category);
                     }
@@ -201,7 +202,7 @@ namespace FamilyAccounting.DAL.Repositories
 
         public IEnumerable<Category> GetIncomeCategories()
         {
-            string sqlProcedure = "EXEC PR_Categories_Read_Incomes";
+            string sqlProcedure = "PR_Categories_Read_Incomes";
             List<Category> table = new List<Category>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
