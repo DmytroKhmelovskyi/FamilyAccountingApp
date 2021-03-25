@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.BL.DTO;
+using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Interfaces
 {
@@ -10,5 +11,7 @@ namespace FamilyAccounting.BL.Interfaces
         public TransactionDTO Update(int id, TransactionDTO transaction);
         public TransactionDTO Get(int walletId, int transactionId);
         public TransactionDTO SetInitialBalance(TransactionDTO transaction);
+        public IEnumerable<CategoryDTO> GetExpenseCategories();
+        public IEnumerable<CategoryDTO> GetIncomeCategories();
     }
 }
