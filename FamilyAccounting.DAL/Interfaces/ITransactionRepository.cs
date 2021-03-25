@@ -8,5 +8,6 @@ namespace FamilyAccounting.DAL.Interfaces
         public Transaction MakeTransfer(Transaction transaction);
         public Transaction Update(int id, Transaction transaction);
         public Transaction Get(int id);
+        public Transaction SetInitialBalance(Transaction transaction);
     }
 }

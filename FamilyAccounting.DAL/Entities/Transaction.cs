@@ -16,7 +16,6 @@ namespace FamilyAccounting.DAL.Entities
         public DateTime TimeStamp { get; set; }
         public bool State { get; set; }
         public TransactionType TransactionType { get; set; }
-        //public int TransactionType { get; set; }
         public decimal BalanceBefore { get; set; }
         public decimal BalanceAfter { get; set; }
     }

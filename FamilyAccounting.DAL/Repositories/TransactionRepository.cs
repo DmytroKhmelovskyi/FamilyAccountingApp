@@ -112,5 +112,22 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transaction;
         }
+
+        public Transaction SetInitialBalance(Transaction transaction)
+        {
+            string sqlExpression = "PR_Wallets_Update_SetInitialBalance";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWalletId);
+                command.Parameters.AddWithValue("@_initial_balance", transaction.Amount);
+                command.ExecuteNonQuery();
+            }
+            return transaction;
+        }
     }
 }
