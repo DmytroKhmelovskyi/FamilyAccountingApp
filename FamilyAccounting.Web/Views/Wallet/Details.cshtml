@@ -74,44 +74,50 @@
                     <th style="background-color:ghostwhite">Category</th>
                     <th>Date</th>
                     <th style="background-color:ghostwhite">Description</th>
-                    <th>Success</th>
-                    <th style="background-color:ghostwhite">Type</th>
+                    <th>Type</th>
                     <th>Details</th>
                 </tr>
             </thead>
             <tbody>
+                @{ var rowColor = "white"; }
                 @foreach (var item in ViewBag.OnePageOfTransactions)
                 {
-                    <tr>
-                        <td style="text-align:right">
-                            @item.Amount
-                        </td>
-                        <td style="text-align:right; background-color:ghostwhite">
-                            @item.BalanceBefore
-                        </td>
-                        <td style="text-align:right">
-                            @item.BalanceAfter
-                        </td>
-                        <td style="text-align:left; background-color:ghostwhite">
-                            @item.Category
-                        </td>
-                        <td>
-                            @item.TimeStamp
-                        </td>
-                        <td style="text-align:left; background-color:ghostwhite">
-                            @item.Description
-                        </td>
-                        <td>
-                            @item.State
-                        </td>
-                        <td style="background-color:ghostwhite">
-                            @item.TransactionType
-                        </td>
-                        <td>
-                            <a asp-controller="Transaction" asp-action="Details" asp-route-walletId=@Model.Id  asp-route-transactionId=@item.Id class="btn btn-outline-dark">&#128065</a>
-                        </td>
-                    </tr>
+                    if (@item.State)
+                    {
+                        rowColor = "#6a9510";
+                    }
+                    else
+                    {
+                        rowColor = "#d45057";
+                    }
+                <tr style="color:@rowColor;">
+                    <td style="text-align:right">
+                        @item.Amount
+                    </td>
+                    <td style="text-align:right;background-color:ghostwhite">
+                        @item.BalanceBefore
+                    </td>
+                    <td style="text-align:right; color:@(item.BalanceAfter < item.BalanceBefore ? "#801e28" : @rowColor)">
+                        @item.BalanceAfter
+                    </td>
+                    <td style="text-align:left;background-color:ghostwhite">
+                        @item.Category
+                    </td>
+                    <td>
+                        @item.TimeStamp
+                    </td>
+                    <td style="text-align:left;background-color:ghostwhite">
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.TransactionType
+                    </td>
+                    <td>
+                        <a asp-controller="Transaction" asp-action="Details" asp-route-walletId=@Model.Id asp-route-transactionId=@item.Id class="btn btn-outline-dark">&#128065</a>
+                    </td>
+                </tr>
                 }
+
                 @Html.PagedListPager((IPagedList)ViewBag.OnePageOfTransactions, page => Url.Action("Details", new { page }), new PagedListRenderOptions
                 {
                     LiElementClasses = new string[] { "page-item" },
