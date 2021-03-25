@@ -1,0 +1,21 @@
+﻿@model FamilyAccounting.Web.Models.TransactionViewModel
+
+@{
+    ViewData["Title"] = "Make transfer";
+}
+
+<h1>Make transfer</h1>
+
+<div>
+    <form method="post" asp-controller="Transaction" asp-action="MakeTransfer">
+        <input placeholder="Enter id of a source wallet" style="display:none" asp-for="SourceWalletId" />
+        <p>Target wallet</p>
+        <input placeholder="Enter id of a target wallet" style="display:normal" asp-for="TargetWalletId" />
+        <input placeholder="Describe the transfer" asp-for="Description" />
+        <input placeholder="Enter amount" asp-for="Amount" />
+        <button type="submit" asp-controller="Transaction" asp-action="MakeTransfer">
+            Make transfer
+        </button>
+        <button asp-controller="Wallet" asp-action="Details" asp-route-id="@Model.SourceWalletId">Back to wallet</button>
+    </form>
+</div>
