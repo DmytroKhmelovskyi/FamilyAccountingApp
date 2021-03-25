@@ -62,12 +62,6 @@ namespace FamilyAccounting.Web.Services
             try
             {
                 TransactionDTO _transaction = transactionService.MakeTransfer(mapper.Map<TransactionDTO>(transaction));
-
-            public TransactionViewModel MakeTransfer(TransactionViewModel transaction)
-            {
-            try
-            {
-                TransactionDTO _transaction = transactionService.MakeTransfer(mapper.Map<TransactionDTO>(transaction));
                 return mapper.Map<TransactionViewModel>(_transaction);
             }
             catch (Exception ex)
