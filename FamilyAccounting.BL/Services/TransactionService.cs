@@ -19,10 +19,15 @@ namespace FamilyAccounting.BL.Services
 
         public TransactionDTO Get(int id)
         {
-
-            Transaction transaction = transactionRepository.Get(id);
-            return mapper.Map<TransactionDTO>(transaction);
-
+            try
+            {
+                Transaction transaction = transactionRepository.Get(id);
+                return mapper.Map<TransactionDTO>(transaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public TransactionDTO MakeExpense(TransactionDTO transaction)
@@ -58,6 +63,19 @@ namespace FamilyAccounting.BL.Services
                 Transaction newTransaction = mapper.Map<Transaction>(transaction);
                 Transaction updatedTransaction = transactionRepository.Update(id, newTransaction);
                 return mapper.Map<TransactionDTO>(updatedTransaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public TransactionDTO SetInitialBalance(TransactionDTO transaction)
+        {
+            try
+            {
+                Transaction _transaction = transactionRepository.SetInitialBalance(mapper.Map<Transaction>(transaction));
+                return mapper.Map<TransactionDTO>(_transaction);
             }
             catch (Exception ex)
             {
