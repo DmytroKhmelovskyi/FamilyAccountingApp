@@ -8,5 +8,6 @@ namespace FamilyAccounting.BL.Interfaces
         public TransactionDTO MakeTransfer(TransactionDTO transaction);
         public TransactionDTO Update(int id, TransactionDTO transaction);
         public TransactionDTO Get(int id);
+        public TransactionDTO SetInitialBalance(TransactionDTO transaction);
     }
 }
