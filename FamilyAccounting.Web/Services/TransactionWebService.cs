@@ -19,10 +19,15 @@ namespace FamilyAccounting.Web.Services
 
         public TransactionViewModel Get(int id)
         {
-
-            TransactionDTO transaction = transactionService.Get(id);
-            return mapper.Map<TransactionViewModel>(transaction);
-
+            try
+            {
+                TransactionDTO transaction = transactionService.Get(id);
+                return mapper.Map<TransactionViewModel>(transaction);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public TransactionViewModel MakeExpense(TransactionViewModel transaction)
