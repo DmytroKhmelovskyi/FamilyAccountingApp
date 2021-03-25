@@ -68,7 +68,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 personsWebService.Update(id, person);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Person", new {id});
         }
         public IActionResult Details(int Id, int? page)
         {
@@ -100,7 +100,7 @@ namespace FamilyAccounting.Web.Controllers
         public IActionResult DeletePerson(int? id)
         {
             personsWebService.Delete((int)id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Person", new { id });
         }
     }
 }
