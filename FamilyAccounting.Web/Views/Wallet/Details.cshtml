@@ -47,6 +47,7 @@
             </dl>
         </div>
         <div>
+            <a asp-controller="Transaction" asp-action="MakeIncome" asp-route-id="@Model.Id">Make income</a> |
             <a asp-controller="Transaction" asp-action="MakeExpense" asp-route-id="@Model.Id">Make expense</a> |
             <a asp-controller="Transaction" asp-action="SetInitialBalance" asp-route-id="@Model.Id">Set initial balance</a> |
             <a asp-controller="Wallet" asp-action="Update" asp-route-id=@Model.Id>Update</a> |

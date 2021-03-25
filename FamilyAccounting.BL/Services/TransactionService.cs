@@ -82,5 +82,19 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public TransactionDTO MakeIncome(TransactionDTO transaction)
+        {
+            try
+            {
+                Transaction _transaction = transactionRepository.MakeIncome(mapper.Map<Transaction>(transaction));
+                return mapper.Map<TransactionDTO>(_transaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

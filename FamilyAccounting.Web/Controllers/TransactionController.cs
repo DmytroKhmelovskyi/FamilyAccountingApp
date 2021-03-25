@@ -44,6 +44,33 @@ namespace FamilyAccounting.Web.Controllers
             transactionWebService.MakeExpense(transaction);
             return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
         }
+
+        [HttpGet]
+        public IActionResult MakeIncome(int id)
+        {
+            try
+            {
+                var wallet = walletWebService.Get(id);
+                var transaction = new TransactionViewModel
+                {
+                    TargetWalletId = (int)wallet.Id,
+                    TargetWallet = wallet.Description
+                };
+                return View(transaction);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult MakeIncome(TransactionViewModel transaction)
+        {
+            transactionWebService.MakeIncome(transaction);
+            return RedirectToAction("Details", "Wallet", new { id = transaction.TargetWalletId });
+        }
+
         [HttpGet]
         public IActionResult Update(int id)
         {
