@@ -1,4 +1,5 @@
-﻿using FamilyAccounting.BL.DTO;
+﻿using AutoMapper;
+using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
 using FamilyAccounting.Web.Interfaces;
@@ -199,6 +200,47 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
+        }
+
+
+        [Test]
+        public void Update_ReturnsRedirect_ToActionResut()
+        {
+            // Arrange
+            var walletId = 1;
+            var wallet = new WalletViewModel() { Id = walletId };
+            var mockPerson = new Mock<IPersonWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
+            mockWallet.Setup(p => p.Update(walletId, It.IsAny<WalletViewModel>()));
+
+            // Act
+            var result = controller.Update(walletId, wallet);
+
+            // Assert
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Details", redirectToActionResult.ActionName);
+        }
+
+        [Test]
+        public void Update_NotNull_ViewResultIsNotNull()
+        {
+            //Arrange
+            var wallet = new WalletViewModel()
+            {
+                Id = 1,
+                Description = "for shopping",
+            };
+            var mockPerson = new Mock<IPersonWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
+            //Act
+            var result = controller.Update(wallet.Id, wallet);
+
+            //Assert
+            Assert.IsNotNull(result);
         }
     }
 }
