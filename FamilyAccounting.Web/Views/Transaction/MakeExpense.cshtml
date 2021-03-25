@@ -9,12 +9,19 @@
 <div>
     <form method="post" asp-controller="Transaction" asp-action="MakeExpense">
         <input placeholder="Enter id of a source wallet" style="display:none" asp-for="SourceWalletId" />
-        <input placeholder="Describe the expense" asp-for="Description" />
-        <input placeholder="Enter amount" asp-for="Amount" />
-        <input placeholder="Enter the id of category" asp-for="CategoryId" />
-        <button type="submit" asp-controller="Transaction" asp-action="MakeExpense">
+        <div class="d-flex justify-content-between" style="margin-bottom:20px">
+            <input style="margin-right:20px" class="form-control" placeholder="Describe the expense" asp-for="Description" />
+            <input style="margin-right:20px" class="form-control" placeholder="Enter amount" asp-for="Amount" />
+            <select asp-for="CategoryId" class="form-control">
+                @foreach (var s in ViewBag.Categories)
+                {
+                    <option value="@s.Id">@s.Description</option>
+                }
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit" asp-controller="Transaction" asp-action="MakeExpense">
             Make expense
         </button>
-        <button asp-controller="Wallet" asp-action="Details" asp-route-id="@Model.SourceWalletId">Back to wallet</button>
+        <button class="btn btn-info" asp-controller="Wallet" asp-action="Details" asp-route-id="@Model.SourceWalletId">Back to wallet</button>
     </form>
 </div>
