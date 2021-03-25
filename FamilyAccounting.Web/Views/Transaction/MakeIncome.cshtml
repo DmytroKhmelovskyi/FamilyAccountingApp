@@ -4,12 +4,12 @@
     ViewData["Title"] = "Make icome";
 }
 
-<h1>Make expense</h1>
+<h1>Make income</h1>
 
 <div>
     <form method="post" asp-controller="Transaction" asp-action="MakeIncome">
         <input placeholder="Enter id of a target wallet" style="display:none" asp-for="TargetWalletId" />
-        <input placeholder="Describe the expense" asp-for="Description" />
+        <input placeholder="Describe the income" asp-for="Description" />
         <input placeholder="Enter amount" asp-for="Amount" />
         <input placeholder="Enter the id of category" asp-for="CategoryId" />
         <button type="submit" asp-controller="Transaction" asp-action="MakeIncome">
