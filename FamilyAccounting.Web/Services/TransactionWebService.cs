@@ -38,6 +38,11 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
+        public TransactionViewModel SetInitialBalance(TransactionViewModel transaction)
+        {
+            throw new NotImplementedException();
+        }
+
         public TransactionViewModel Update(int id, TransactionViewModel transaction)
         {
             try

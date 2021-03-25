@@ -2,6 +2,7 @@
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Controllers;
+using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -53,7 +54,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Index_ViewResultNotNull()
         {
             //Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             mock.Setup(a => a.Get());
             PersonController controller = new PersonController(mock.Object);
 
@@ -68,7 +69,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Index_ThrowsException()
         {
             //Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             mock.Setup(a => a.Get()).Throws(new Exception("Test Exception"));
             PersonController controller = new PersonController(mock.Object);
 
@@ -83,7 +84,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Index_VerifyOnce()
         {
             //Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             PersonController controller = new PersonController(mock.Object);
 
             //Act
@@ -98,7 +99,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             string expected = "PersonController";
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
 
             //Act
             PersonController controller = new PersonController(mock.Object);
@@ -109,7 +110,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldCallAddPersonInBlOnce()
+        public void AddShouldCallAddPersonOnce()
         {
             //Arrange
             PersonViewModel pvm = new PersonViewModel
@@ -119,22 +120,22 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Phone = "0636363636",
                 Email = "email.email.com"
             };
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
-            mock.Setup(x => x.Add(It.IsAny<PersonDTO>())).Returns(It.IsAny<PersonDTO>());
+            mock.Setup(x => x.Add(It.IsAny<PersonViewModel>())).Returns(It.IsAny<PersonViewModel>());
 
             //Act
             controller.Add(pvm);
 
             //Assert
-            mock.Verify(x => x.Add(It.IsAny<PersonDTO>()), Times.Once);
+            mock.Verify(x => x.Add(It.IsAny<PersonViewModel>()), Times.Once);
         }
 
         [Test]
         public void AddShouldRedirectToActionAdd()
         {
             // Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
@@ -148,7 +149,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void AddShouldReturnViewResult()
         {
             // Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
@@ -164,8 +165,8 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Arrange
             var personId = 1;
             var person = new PersonViewModel() { Id = personId };
-            var mock = new Mock<IPersonService>();
-            mock.Setup(p => p.Update(personId, It.IsAny<PersonDTO>()));
+            var mock = new Mock<IPersonWebService>();
+            mock.Setup(p => p.Update(personId, It.IsAny<PersonViewModel>()));
             var controller = new PersonController(mock.Object);
 
             // Act
@@ -186,7 +187,7 @@ namespace FamilyAccounting.Tests.ControllerTests
                 FirstName = "Person",
                 LastName = "New"
             };
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             //Act
@@ -201,9 +202,9 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             var personId = 1;
-            var testPerson = new PersonDTO() { Id = personId };
-            var personsRepo = new Mock<IPersonService>();
-            personsRepo.Setup(g => g.Get(personId)).Returns(testPerson);         
+            var testPerson = new PersonViewModel () { Id = personId };
+            var personsRepo = new Mock<IPersonWebService>();
+            personsRepo.Setup(g => g.Get(personId)).Returns(testPerson);
             var controller = new PersonController(personsRepo.Object);
 
             // Act
@@ -219,7 +220,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Details_PersonDoesNotExist_ReturnsNotFoundResults()
         {
             // Arrange
-            var personsRepo = new Mock<IPersonService>();
+            var personsRepo = new Mock<IPersonWebService>();
             personsRepo.Setup(g => g.Get(It.IsAny<int>())).Throws(It.IsAny<Exception>());
             var controller = new PersonController(personsRepo.Object);
 
@@ -234,7 +235,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldCallDeletePersonInBlOnce()
         {
             //Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
             mock.Setup(x => x.Delete(1));
 
@@ -249,7 +250,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldRedirectToActionDelete()
         {
             // Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
@@ -263,7 +264,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldReturnViewResult()
         {
             // Arrange
-            var mock = new Mock<IPersonService>();
+            var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
