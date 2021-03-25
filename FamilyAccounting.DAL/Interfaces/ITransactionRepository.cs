@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.DAL.Entities;
+using System.Collections.Generic;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
@@ -10,5 +11,7 @@ namespace FamilyAccounting.DAL.Interfaces
         public Transaction Update(int id, Transaction transaction);
         public Transaction Get(int walletId, int transactionId);
         public Transaction SetInitialBalance(Transaction transaction);
+        public IEnumerable<Category> GetExpenseCategories();
+        public IEnumerable<Category> GetIncomeCategories();
     }
 }

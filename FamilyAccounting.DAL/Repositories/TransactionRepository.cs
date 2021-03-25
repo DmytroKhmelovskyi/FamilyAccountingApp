@@ -1,6 +1,7 @@
 ﻿using FamilyAccounting.DAL.Connection;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -166,6 +167,66 @@ namespace FamilyAccounting.DAL.Repositories
                 command.ExecuteNonQuery();
             }
             return transaction;
+        }
+
+        public IEnumerable<Category> GetExpenseCategories()
+        {
+            string sqlProcedure = "EXEC PR_Categories_Read_Expenses";
+            List<Category> table = new List<Category>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Category category = new Category
+                        {
+                            Id = reader.GetInt32("id"),
+                            Description = reader.GetString("description"),
+                            Amount = reader.GetDecimal("total")
+                        };
+                        table.Add(category);
+                    }
+                }
+                reader.Close();
+            }
+            return table;
+        }
+
+        public IEnumerable<Category> GetIncomeCategories()
+        {
+            string sqlProcedure = "EXEC PR_Categories_Read_Incomes";
+            List<Category> table = new List<Category>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Category category = new Category
+                        {
+                            Id = reader.GetInt32("id"),
+                            Description = reader.GetString("description"),
+                            Amount = reader.GetDecimal("total")
+                        };
+                        table.Add(category);
+                    }
+                }
+                reader.Close();
+            }
+            return table;
         }
     }
 }
