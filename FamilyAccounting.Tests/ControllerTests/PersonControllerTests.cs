@@ -181,7 +181,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Update_NotNull_ViewResultIsNotNull()
         {
             //Arrange
-            var guest = new PersonViewModel()
+            var person = new PersonViewModel()
             {
                 Id = 1,
                 FirstName = "Person",
@@ -191,7 +191,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(mock.Object);
 
             //Act
-            var result = controller.Update(guest.Id, guest);
+            var result = controller.Update(person.Id, person);
 
             //Assert
             Assert.IsNotNull(result);

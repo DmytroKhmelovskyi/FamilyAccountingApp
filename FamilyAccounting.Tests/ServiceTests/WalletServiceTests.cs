@@ -159,7 +159,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             };
             var mock = new Mock<IWalletService>();
             mock.Setup(x => x.Create(walletDTO)).Returns(walletDTO);
-
+           
             //Act
             var result = mock.Object.Create(walletDTO);
 
@@ -169,7 +169,27 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void GetTransactionsShouldNotBeNull()
+        public void WalletService_UpdatingWallet_ShouldNotNull()
+        {
+            //Arrange
+            WalletDTO wallet = new WalletDTO()
+            {
+                Id = 1,
+                Description = "for shopping",
+            };
+            
+            var walletId = wallet.Id;
+            var mock = new Mock<IWalletService>();
+
+            //Act
+           var result = mock.Setup(a => a.Update(walletId.Value, wallet));
+
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+      
+       public void GetTransactionsShouldNotBeNull()
         {
             //Arrange
             List<TransactionDTO> test = new List<TransactionDTO>();
@@ -182,6 +202,28 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.IsNotNull(result);
         }
+
+        [Test]
+        public void WalletService_Verify_UpdateWalletCalledOnce()
+        {
+            //Arrange
+            WalletDTO wallet = new WalletDTO()
+            {
+                Id = 1,
+                Description = "for shopping",
+            };
+
+            var walletId = wallet.Id;
+            var mock = new Mock<IWalletService>();
+
+            //Act
+            mock.Object.Update(walletId.Value, wallet);
+
+            //Assert
+            mock.Verify(m => m.Update(walletId.Value, wallet), Times.Once);
+        }
+
+
 
         [Test]
         public void GetTransactionsShouldCallGetTransactionsInDALOnce()
