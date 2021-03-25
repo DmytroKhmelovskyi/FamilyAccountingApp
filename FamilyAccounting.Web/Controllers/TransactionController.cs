@@ -20,6 +20,13 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult Details(int walletId, int transactionId)
+        {
+            var transaction = transactionWebService.Get(walletId, transactionId);
+            return View(transaction);
+        }
+
+        [HttpGet]
         public IActionResult MakeExpense(int id)
         {
             try
@@ -98,11 +105,11 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public IActionResult Update(int id, int transactionId)
         {
             try
             {
-                var updatedTransaction = transactionWebService.Get(id);
+                var updatedTransaction = transactionWebService.Get(id, transactionId);
                 return View(updatedTransaction);
             }
             catch (Exception)

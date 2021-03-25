@@ -102,7 +102,7 @@ namespace FamilyAccounting.DAL.Repositories
             return transaction;
         }
 
-        public Transaction Get(int id)
+        public Transaction Get(int walletId, int transactionId)
         {
             var transaction = new Transaction();
             using (var conn = new SqlConnection(connectionString))
@@ -110,7 +110,7 @@ namespace FamilyAccounting.DAL.Repositories
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = $"EXEC PR_Actions_Read {id}";
+                cmd.CommandText = $"EXEC PR_ActionsWallets_Read {walletId}, {transactionId}";
 
                 if (conn.State != ConnectionState.Open)
                 {
@@ -121,11 +121,30 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     while (dr.Read())
                     {
-                        var t = new Transaction();
-                        t.Id = dr.GetInt32("id");
-                        t.CategoryId = dr.GetInt32("id_category");
-                        t.Description = dr.GetString("description");
-                        transaction = t;
+                        int sourceId = dr.IsDBNull("id_wallet_source") ? 0 : dr.GetInt32("id_wallet_source");
+                        string sourceDescription = dr.IsDBNull("wallet_src_desc") ? "" : dr.GetString("wallet_src_desc");
+                        int targetId = dr.IsDBNull("id_wallet_target") ? 0 : dr.GetInt32("id_wallet_target");
+                        string targetDescription = dr.IsDBNull("wallet_trg_desc") ? "" : dr.GetString("wallet_trg_desc");
+                        int categoryId = dr.IsDBNull("id_category") ? 0 : dr.GetInt32("id_category");
+                        string categoryDescription = dr.IsDBNull("category_desc") ? "" : dr.GetString("category_desc");
+
+                        transaction = new Transaction
+                        {
+                            Id = dr.GetInt32("id"),
+                            SourceWallet = sourceDescription,
+                            SourceWalletId = sourceId,
+                            TargetWallet = targetDescription,
+                            TargetWalletId = targetId,
+                            Category = categoryDescription,
+                            CategoryId = categoryId,
+                            Amount = dr.GetDecimal("amount"),
+                            TimeStamp = dr.GetDateTime("timestamp"),
+                            State = dr.GetBoolean("success"),
+                            Description = dr.GetString("description"),
+                            TransactionType = (TransactionType)dr.GetInt32("type"),
+                            BalanceBefore = dr.GetDecimal("balance_prev"),
+                            BalanceAfter = dr.GetDecimal("balance")
+                        };
                     }
                 }
             }

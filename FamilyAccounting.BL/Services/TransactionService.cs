@@ -17,11 +17,11 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
         }
 
-        public TransactionDTO Get(int id)
+        public TransactionDTO Get(int walletId, int transactionId)
         {
             try
             {
-                Transaction transaction = transactionRepository.Get(id);
+                Transaction transaction = transactionRepository.Get(walletId, transactionId);
                 return mapper.Map<TransactionDTO>(transaction);
             }
             catch (Exception ex)
