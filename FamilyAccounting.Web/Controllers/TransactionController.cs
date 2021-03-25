@@ -67,5 +67,31 @@ namespace FamilyAccounting.Web.Controllers
             }
             return RedirectToAction("Details", "Wallet", new { id = transaction.Id });
         }
+
+        [HttpGet]
+        public IActionResult SetInitialBalance(int id)
+        {
+            try
+            {
+                var wallet = walletWebService.Get(id);
+                var transaction = new TransactionViewModel
+                {
+                    SourceWalletId = (int)wallet.Id,
+                    SourceWallet = wallet.Description
+                };
+                return View(transaction);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SetInitialBalance(TransactionViewModel transaction)
+        {
+            transactionWebService.SetInitialBalance(transaction);
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
+        }
     }
 }
