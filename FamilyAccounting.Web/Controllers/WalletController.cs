@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
+using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +14,20 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class WalletController : Controller
     {
-        private readonly IWalletService walletService;
-        private readonly IPersonService personService;
-        private readonly IMapper mapper;
+        private readonly IWalletWebService walletWebService;
+        private readonly IPersonWebService personWebService;
 
-        public WalletController(IWalletService walletService, IPersonService personService, IMapper mapper)
+        public WalletController(IWalletWebService walletWebService, IPersonWebService personWebService)
         {
-            this.walletService = walletService;
-            this.personService = personService;
-            this.mapper = mapper;
+            this.walletWebService = walletWebService;
+            this.personWebService = personWebService;
         }
         public IActionResult Index()
         {
             try
             {
-                var wallet = walletService.Get();
-                var IndexVM = WalletMapper.WalletMap(wallet);
-                return View(IndexVM);
+                var wallet = walletWebService.Get();
+                return View(wallet);
             }
             catch (Exception)
             {
@@ -40,11 +38,11 @@ namespace FamilyAccounting.Web.Controllers
         public IActionResult Details(int Id, int? page)
         {
             var pageNumber = page ?? 1;
-            WalletDTO wallet = walletService.Get(Id);
-            wallet.Transactions = walletService.GetTransactions(Id);
+            var wallet = walletWebService.Get(Id);
+            wallet.Transactions = walletWebService.GetTransactions(Id);
             var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
             ViewBag.OnePageOfTransactions = onePageOfTransactions;
-            return View(WalletMapper.WalletMap(wallet, wallet.Transactions));
+            return View(wallet);
         }
 
         [HttpGet]
@@ -52,8 +50,8 @@ namespace FamilyAccounting.Web.Controllers
         {
             try
             {
-                var updatedWallet = walletService.Get(id);
-                return View(WalletMapper.WalletMap(updatedWallet));
+                var updatedWallet = walletWebService.Get(id);
+                return View(updatedWallet);
             }
             catch (Exception)
             {
@@ -66,28 +64,28 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                walletService.Update(id, WalletMapper.WalletMap(wallet));
+                walletWebService.Update(id, wallet);
             }
             return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var wallet = walletService.Get((int)id);
-            return View(WalletMapper.WalletMap(wallet));
+            var wallet = walletWebService.Get((int)id);
+            return View(wallet);
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeleteWallet(int? id)
         {
-            walletService.Delete((int)id);
+            walletWebService.Delete((int)id);
             return RedirectToAction("Index");
         }
 
         public IActionResult Create(int id)
         {
-            PersonDTO person = personService.Get(id);
+            var person = personWebService.Get(id);
             WalletViewModel walletVM = new WalletViewModel
             {
                 PersonId = person.Id
@@ -97,10 +95,8 @@ namespace FamilyAccounting.Web.Controllers
 
         [HttpPost]
         public IActionResult Create(WalletViewModel wallet)
-        {
-            var _wallet = WalletMapper.WalletMap(wallet);
-            
-            walletService.Create(_wallet);
+        {  
+            walletWebService.Create(wallet);
             return RedirectToAction("Details", "Person", new { id = wallet.PersonId});
         }
     }

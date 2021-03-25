@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FamilyAccounting.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace FamilyAccounting.Web.Services
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MapProfile());
+                mc.AddProfile(new MappingProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

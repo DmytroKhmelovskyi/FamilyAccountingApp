@@ -1,5 +1,6 @@
 ﻿using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
+using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +9,13 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class CardController : Controller
     {
-        private readonly ICardService cardService;
-        private readonly IWalletService walletService;
+        private readonly ICardWebService cardWebService;
+        private readonly IWalletWebService walletWebService;
 
-        public CardController(ICardService cardService, IWalletService walletService)
+        public CardController(ICardWebService cardWebService, IWalletWebService walletWebService)
         {
-            this.cardService = cardService;
-            this.walletService = walletService;
+            this.cardWebService = cardWebService;
+            this.walletWebService = walletWebService;
 
         }
         public IActionResult Create(int id)
@@ -29,30 +30,30 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Create(CardViewModel card)
         {
-            cardService.Create(CardMapper.CardMap(card));
+            cardWebService.Create(card);
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
 
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var card = cardService.Get((int)id);
-            return View(CardMapper.CardMap(card));
+            var card = cardWebService.Get((int)id);
+            return View(card);
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeleteWallet(int? id)
         {
-            cardService.Delete((int)id);
+            cardWebService.Delete((int)id);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var updatedCard = cardService.Get(id);
-            return View(CardMapper.CardMap(updatedCard));
+            var updatedCard = cardWebService.Get(id);
+            return View(updatedCard);
         }
 
         [HttpPost]
@@ -60,14 +61,14 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                cardService.Update(id, CardMapper.CardMap(card));
+                cardWebService.Update(id,card);
             }
             return RedirectToAction("Details", "Card", new { id = card.WalletId });
         }
         public IActionResult Details(int Id)
         {
-            CardDTO card = cardService.Get(Id);
-            return View(CardMapper.CardMap(card));
+            var card = cardWebService.Get(Id);
+            return View(card);
         }
     }
 }
