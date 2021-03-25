@@ -17,7 +17,6 @@ namespace FamilyAccounting.BL.DTO
         public string Category { get; set; }
         public bool State { get; set; }
         public TransactionTypeDTO TransactionType { get; set; }
-        //public int TransactionType { get; set; }
         public decimal BalanceBefore { get; set; }
         public decimal BalanceAfter { get; set; }
     }
