@@ -4,7 +4,9 @@ using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Linq;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -54,7 +56,7 @@ namespace FamilyAccounting.Web.Controllers
 
         [HttpGet]
         public IActionResult MakeIncome(int id)
-            {
+        {
             try
             {
                 var wallet = walletWebService.Get(id);
@@ -82,6 +84,9 @@ namespace FamilyAccounting.Web.Controllers
                     SourceWalletId = (int)wallet.Id,
                     SourceWallet = wallet.Description,
                 };
+                var wallets = walletWebService.Get();
+               // var walletItems = wallets.Select(w => new SelectListItem { Value = $"{w.Id}", Text = $"{w.Description}" });
+                ViewBag.Wallets = wallets;
                 return View(transaction);
             }
             catch (Exception)
@@ -96,10 +101,11 @@ namespace FamilyAccounting.Web.Controllers
             transactionWebService.MakeIncome(transaction);
             return RedirectToAction("Details", "Wallet", new { id = transaction.TargetWalletId });
         }
-        
+
         [HttpPost]
         public IActionResult MakeTransfer(TransactionViewModel transaction)
         {
+
             transactionWebService.MakeTransfer(transaction);
             return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
         }

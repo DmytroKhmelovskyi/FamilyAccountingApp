@@ -35,11 +35,14 @@ namespace FamilyAccounting.DAL.Repositories
                         {
                             Id = reader.GetInt32("id"),
                             Description = reader.GetString("description"),
-                            IsActive = reader.GetBoolean("inactive"),
-                            IsCash = reader.GetBoolean("is_cash"),
-                            Balance = reader.GetDecimal("positive_bal"),
-                            Income = reader.GetDecimal("total_income"),
-                            Expense = reader.GetDecimal("total_expence")
+                            IsActive = true,
+                            IsCash =true,
+                            Balance = 0,
+                            Income = 0,
+                            Expense = 0,
+                            PersonId = 0,
+                            Transactions = null
+
                         };
                         table.Add(wallet);
                     }
