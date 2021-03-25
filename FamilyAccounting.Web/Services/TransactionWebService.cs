@@ -38,6 +38,19 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
+        public TransactionViewModel SetInitialBalance(TransactionViewModel transaction)
+        {
+            try
+            {
+                TransactionDTO _transaction = transactionService.SetInitialBalance(mapper.Map<TransactionDTO>(transaction));
+                return mapper.Map<TransactionViewModel>(_transaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public TransactionViewModel Update(int id, TransactionViewModel transaction)
         {
             try
