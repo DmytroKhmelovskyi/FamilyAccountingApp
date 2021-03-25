@@ -6,6 +6,7 @@ namespace FamilyAccounting.Web.Interfaces
     {
         public TransactionViewModel MakeExpense(TransactionViewModel transaction);
         public TransactionViewModel MakeIncome(TransactionViewModel transaction);
+        public TransactionViewModel MakeTransfer(TransactionViewModel transaction);
         public TransactionViewModel Update(int id, TransactionViewModel transaction);
         public TransactionViewModel Get(int id);
         public TransactionViewModel SetInitialBalance(TransactionViewModel transaction);

@@ -47,7 +47,7 @@ namespace FamilyAccounting.Web.Controllers
 
         [HttpGet]
         public IActionResult MakeIncome(int id)
-        {
+            {
             try
             {
                 var wallet = walletWebService.Get(id);
@@ -64,11 +64,37 @@ namespace FamilyAccounting.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult MakeTransfer(int id)
+        {
+            try
+            {
+                var wallet = walletWebService.Get(id);
+                var transaction = new TransactionViewModel
+                {
+                    SourceWalletId = (int)wallet.Id,
+                    SourceWallet = wallet.Description,
+                };
+                return View(transaction);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public IActionResult MakeIncome(TransactionViewModel transaction)
         {
             transactionWebService.MakeIncome(transaction);
             return RedirectToAction("Details", "Wallet", new { id = transaction.TargetWalletId });
+        }
+        
+        [HttpPost]
+        public IActionResult MakeTransfer(TransactionViewModel transaction)
+        {
+            transactionWebService.MakeTransfer(transaction);
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
         }
 
         [HttpGet]
