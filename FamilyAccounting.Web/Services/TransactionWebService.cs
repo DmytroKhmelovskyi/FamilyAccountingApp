@@ -17,11 +17,11 @@ namespace FamilyAccounting.Web.Services
             this.mapper = mapper;
         }
 
-        public TransactionViewModel Get(int id)
+        public TransactionViewModel Get(int walletId, int transactionId)
         {
             try
             {
-                TransactionDTO transaction = transactionService.Get(id);
+                TransactionDTO transaction = transactionService.Get(walletId, transactionId);
                 return mapper.Map<TransactionViewModel>(transaction);
             }
             catch (Exception ex)

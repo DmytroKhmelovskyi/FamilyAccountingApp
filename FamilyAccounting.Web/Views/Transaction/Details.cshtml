@@ -1,0 +1,117 @@
+﻿@model FamilyAccounting.Web.Models.TransactionViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TransactionViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Transaction ID
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            Amount
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class="col-sm-2" style="display:none">
+            @Html.DisplayNameFor(model => model.SourceWalletId)
+        </dt>
+        <dd class="col-sm-10" style="display:none">
+            @Html.DisplayFor(model => model.SourceWalletId)
+        </dd>
+        <dt class="col-sm-2">
+            From wallet
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-action="Details" asp-controller="Wallet" asp-route-id=@Model.SourceWalletId>@Html.DisplayFor(model => model.SourceWallet)</a>
+        </dd>
+        <dt class="col-sm-2" style="display:none">
+            @Html.DisplayNameFor(model => model.TargetWalletId)
+        </dt>
+        <dd class="col-sm-10" style="display:none">
+            @Html.DisplayFor(model => model.TargetWalletId)
+        </dd>
+        <dt class="col-sm-2">
+            To wallet
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-action="Details" asp-controller="Wallet" asp-route-id=@Model.TargetWalletId>@Html.DisplayFor(model => model.TargetWallet)</a>
+        </dd>
+        <dt class="col-sm-2">
+            Balance Before
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BalanceBefore)
+        </dd>
+        <dt class="col-sm-2">
+            Balance After
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BalanceAfter)
+        </dd>
+        <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+        <dt class="col-sm-2" style="display:none">
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </dt>
+        <dd class="col-sm-10" style="display:none">
+            @Html.DisplayFor(model => model.CategoryId)
+        </dd>
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.State)
+        </dd>
+        <dt class="col-sm-2">
+            Transaction Type
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionType)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.TargetWalletId == 0 && Model.SourceWalletId != 0)
+    {
+        <a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.SourceWalletId">Back to Wallet</a>
+    }
+    else if (Model.SourceWalletId == 0 && Model.TargetWalletId != 0)
+    {
+        <a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.TargetWalletId">Back to Wallet</a>
+    }
+    else if (Model.SourceWalletId != 0 && Model.TargetWalletId != 0)
+    {
+        <a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.TargetWalletId">Back to Target Wallet</a> <span>|</span>
+        <a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.SourceWalletId">Back to Source Wallet</a>
+    }
+    else
+    {
+        @*<a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.TargetWalletId">Back to Wallet</a>*@
+    }
+</div>
