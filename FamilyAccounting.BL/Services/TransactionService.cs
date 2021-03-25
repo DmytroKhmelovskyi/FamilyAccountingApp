@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -96,5 +97,16 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
+        public IEnumerable<CategoryDTO> GetExpenseCategories()
+        {
+            IEnumerable<Category> categories = transactionRepository.GetExpenseCategories();
+            return mapper.Map<IEnumerable<CategoryDTO>>(categories);
+        }
+
+        public IEnumerable<CategoryDTO> GetIncomeCategories()
+        {
+            IEnumerable<Category> categories = transactionRepository.GetIncomeCategories();
+            return mapper.Map<IEnumerable<CategoryDTO>>(categories);
+        }
     }
 }
