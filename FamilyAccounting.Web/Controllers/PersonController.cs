@@ -1,6 +1,5 @@
-﻿using FamilyAccounting.BL.Interfaces;
+﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
-using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using X.PagedList;
@@ -9,10 +8,10 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class PersonController : Controller
     {
-        private readonly IPersonService personsService;
-        public PersonController(IPersonService personsService)
+        private readonly IPersonWebService personsWebService;
+        public PersonController(IPersonWebService personsWebService)
         {
-            this.personsService = personsService;
+            this.personsWebService = personsWebService;
         }
 
         public IActionResult Index(int? page)
@@ -20,11 +19,10 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var pageNumber = page ?? 1;
-                var person = personsService.Get();
-                var IndexVM = PersonMapper.PersonMap(person);
-                var onePageOfPersons = IndexVM.Persons.ToPagedList(pageNumber, 8);
+                var person = personsWebService.Get();
+                var onePageOfPersons = person.ToPagedList(pageNumber, 8);
                 ViewBag.OnePageOfPersons = onePageOfPersons;
-                return View(IndexVM);
+                return View(person);
             }
             catch (Exception)
             {
@@ -42,7 +40,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Add(PersonMapper.PersonMap(person));
+                personsWebService.Add(person);
                 return RedirectToAction("Index");
             }
 
@@ -54,8 +52,8 @@ namespace FamilyAccounting.Web.Controllers
         {
             try
             {
-                var updatedPerson = personsService.Get(id);
-                return View(PersonMapper.PersonMap(updatedPerson));
+                var updatedPerson = personsWebService.Get(id);
+                return View(updatedPerson);
             }
             catch (Exception)
             {
@@ -68,7 +66,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Update(id, PersonMapper.PersonMap(person));
+                personsWebService.Update(id, person);
             }
             return RedirectToAction("Index");
         }
@@ -77,11 +75,11 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var pageNumber = page ?? 1;
-                var person = personsService.Get(Id);
-                person.Wallets = personsService.GetWallets(Id);
+                var person = personsWebService.Get(Id);
+                person.Wallets = personsWebService.GetWallets(Id);
                 var onePageOfWallets = person.Wallets.ToPagedList(pageNumber, 4);
                 ViewBag.OnePageOfWallets = onePageOfWallets;
-                return View(PersonMapper.PersonMap(person, person.Wallets));
+                return View(person);
             }
             catch (Exception)
             {
@@ -93,15 +91,15 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var person = personsService.Get((int)id);
-            return View(PersonMapper.PersonMap(person));
+            var person = personsWebService.Get((int)id);
+            return View(person);
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeletePerson(int? id)
         {
-            personsService.Delete((int)id);
+            personsWebService.Delete((int)id);
             return RedirectToAction("Index");
         }
     }

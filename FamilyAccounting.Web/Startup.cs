@@ -26,7 +26,8 @@ namespace FamilyAccounting.Web
             services.AddRepositories(connectionString);
             services.AddServices();
             services.AddViewModelMapping();
-            services.AddMapping();
+            services.AddWebRepositories();
+           // services.AddMapping();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

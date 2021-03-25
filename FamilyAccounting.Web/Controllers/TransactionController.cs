@@ -1,5 +1,6 @@
 ﻿using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
+using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,13 @@ namespace FamilyAccounting.Web.Controllers
 {
     public class TransactionController : Controller
     {
-        private readonly ITransactionService transactionService;
-        private readonly IWalletService walletService;
+        private readonly ITransactionWebService transactionWebService;
+        private readonly IWalletWebService walletWebService;
 
-        public TransactionController(ITransactionService transactionService,IWalletService walletService)
+        public TransactionController(ITransactionWebService transactionWebService, IWalletWebService walletWebService)
         {
-            this.transactionService = transactionService;
-            this.walletService = walletService;
+            this.transactionWebService = transactionWebService;
+            this.walletWebService = walletWebService;
         }
 
         [HttpGet]
@@ -23,7 +24,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             try
             {
-                var wallet = walletService.Get(id);
+                var wallet = walletWebService.Get(id);
                 var transaction = new TransactionViewModel
                 {
                     SourceWalletId = (int)wallet.Id,
@@ -40,7 +41,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
-            transactionService.MakeExpense(TransactionMapper.TransactionMap(transaction));
+            transactionWebService.MakeExpense(transaction);
             return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
         }
         [HttpGet]
@@ -48,8 +49,8 @@ namespace FamilyAccounting.Web.Controllers
         {
             try
             {
-                var updatedTransaction = transactionService.Get(id);
-                return View(TransactionMapper.TransactionMap(updatedTransaction));
+                var updatedTransaction = transactionWebService.Get(id);
+                return View(updatedTransaction);
             }
             catch (Exception)
             {
@@ -62,7 +63,7 @@ namespace FamilyAccounting.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                transactionService.Update(id, TransactionMapper.TransactionMap(transaction));
+                transactionWebService.Update(id, transaction);
             }
             return RedirectToAction("Details", "Wallet", new { id = transaction.Id });
         }
