@@ -40,6 +40,33 @@ namespace FamilyAccounting.DAL.Repositories
             return transaction;
         }
 
+        public Transaction MakeTransfer(Transaction transaction)
+        {
+            string sqlExpression = "PR_Wallets_Update_MakeTransfer";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@_id_wallet_source", transaction.SourceWalletId);
+                command.Parameters.AddWithValue("@_id_wallet_target", transaction.TargetWalletId);
+                command.Parameters.AddWithValue("@_amount", transaction.Amount);
+                command.Parameters.AddWithValue("@_description", transaction.Description);
+                SqlParameter output = new SqlParameter
+                {
+                    ParameterName = "@_success",
+                    SqlDbType = SqlDbType.Int
+                };
+                output.Direction = ParameterDirection.Output;
+                command.Parameters.Add(output);
+                command.ExecuteNonQuery();
+                int successStatus = (int)command.Parameters["@_success"].Value;
+            }
+            return transaction;
+        }
+
         public Transaction Update(int id, Transaction transaction)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
