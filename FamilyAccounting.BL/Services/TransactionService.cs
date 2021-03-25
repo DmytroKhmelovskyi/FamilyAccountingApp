@@ -38,6 +38,19 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
+        public TransactionDTO MakeTransfer(TransactionDTO transaction)
+        {
+            try
+            {
+                Transaction _transaction = transactionRepository.MakeTransfer(mapper.Map<Transaction>(transaction));
+                return mapper.Map<TransactionDTO>(_transaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public TransactionDTO Update(int id, TransactionDTO transaction)
         {
             try
