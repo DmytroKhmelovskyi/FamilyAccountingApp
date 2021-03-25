@@ -43,8 +43,28 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
+
+        public TransactionViewModel MakeIncome(TransactionViewModel transaction)
+        {
+            try
+            {
+                TransactionDTO _transaction = transactionService.MakeIncome(mapper.Map<TransactionDTO>(transaction));
+                return mapper.Map<TransactionViewModel>(_transaction);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public TransactionViewModel MakeTransfer(TransactionViewModel transaction)
         {
+            try
+            {
+                TransactionDTO _transaction = transactionService.MakeTransfer(mapper.Map<TransactionDTO>(transaction));
+
+            public TransactionViewModel MakeTransfer(TransactionViewModel transaction)
+            {
             try
             {
                 TransactionDTO _transaction = transactionService.MakeTransfer(mapper.Map<TransactionDTO>(transaction));

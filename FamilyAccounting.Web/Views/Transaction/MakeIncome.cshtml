@@ -1,0 +1,20 @@
+﻿@model FamilyAccounting.Web.Models.TransactionViewModel
+
+@{
+    ViewData["Title"] = "Make icome";
+}
+
+<h1>Make expense</h1>
+
+<div>
+    <form method="post" asp-controller="Transaction" asp-action="MakeIncome">
+        <input placeholder="Enter id of a target wallet" style="display:none" asp-for="TargetWalletId" />
+        <input placeholder="Describe the expense" asp-for="Description" />
+        <input placeholder="Enter amount" asp-for="Amount" />
+        <input placeholder="Enter the id of category" asp-for="CategoryId" />
+        <button type="submit" asp-controller="Transaction" asp-action="MakeIncome">
+            Make income
+        </button>
+        <button asp-controller="Wallet" asp-action="Details" asp-route-id="@Model.TargetWalletId">Back to wallet</button>
+    </form>
+</div>

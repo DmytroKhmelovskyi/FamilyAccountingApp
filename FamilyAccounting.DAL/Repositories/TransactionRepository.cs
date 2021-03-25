@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace FamilyAccounting.DAL.Repositories
 {
-   public class TransactionRepository : ITransactionRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly string connectionString;
         public TransactionRepository(DbConfig dbConfig)
@@ -36,6 +36,25 @@ namespace FamilyAccounting.DAL.Repositories
                 command.Parameters.Add(output);
                 command.ExecuteNonQuery();
                 int successStatus = (int)command.Parameters["@_success"].Value;
+            }
+            return transaction;
+        }
+
+        public Transaction MakeIncome(Transaction transaction)
+        {
+            string sqlExpression = "PR_Wallets_Update_MakeIncome";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@_id_wallet", transaction.TargetWalletId);
+                command.Parameters.AddWithValue("@_amount", transaction.Amount);
+                command.Parameters.AddWithValue("@_id_category", transaction.CategoryId);
+                command.Parameters.AddWithValue("@_description", transaction.Description);
+                command.ExecuteNonQuery();
             }
             return transaction;
         }
