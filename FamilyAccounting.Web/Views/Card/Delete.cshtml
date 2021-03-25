@@ -33,6 +33,6 @@
     
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="Card" asp-action="Details" asp-route-id=@Model.WalletId>Back to Details</a>
     </form>
 </div>

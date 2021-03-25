@@ -77,10 +77,11 @@ namespace FamilyAccounting.Web.Controllers
 
         [ActionName("Delete")]
         [HttpPost]
-        public IActionResult DeleteWallet(int? id)
+        public IActionResult DeleteWallet(int? id )
         {
+            var wallet = walletWebService.Get((int)id);
             walletWebService.Delete((int)id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details","Person", new { id = wallet.PersonId  });
         }
 
         public IActionResult Create(int id)
