@@ -15,6 +15,7 @@ namespace FamilyAccounting.Web.Controllers
 
         public IActionResult Index(int? page)
         {
+
             var pageNumber = page ?? 1;
             var person = personsWebService.Get();
             var onePageOfPersons = person.ToPagedList(pageNumber, 8);
@@ -40,9 +41,10 @@ namespace FamilyAccounting.Web.Controllers
 
         [HttpGet]
         public IActionResult Update(int id)
-        {
-            var updatedPerson = personsWebService.Get(id);
+        {          
+var updatedPerson = personsWebService.Get(id);
             return View(updatedPerson);
+
         }
 
         [HttpPost]
@@ -52,7 +54,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 personsWebService.Update(id, person);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Person", new {id});
         }
         public IActionResult Details(int Id, int? page)
         {
@@ -67,16 +69,20 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var person = personsWebService.Get((int)id);
-            return View(person);
+
+                var person = personsWebService.Get((int)id);
+                return View(person);
+
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeletePerson(int? id)
         {
-            personsWebService.Delete((int)id);
-            return RedirectToAction("Index");
+
+                personsWebService.Delete((int)id);
+                return RedirectToAction("Index");
+
         }
     }
 }

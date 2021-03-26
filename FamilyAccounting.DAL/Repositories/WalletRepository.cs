@@ -1,6 +1,7 @@
 ﻿using FamilyAccounting.DAL.Connection;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -35,11 +36,14 @@ namespace FamilyAccounting.DAL.Repositories
                         {
                             Id = reader.GetInt32("id"),
                             Description = reader.GetString("description"),
-                            IsActive = reader.GetBoolean("inactive"),
-                            IsCash = reader.GetBoolean("is_cash"),
-                            Balance = reader.GetDecimal("positive_bal"),
-                            Income = reader.GetDecimal("total_income"),
-                            Expense = reader.GetDecimal("total_expence")
+                            IsActive = true,
+                            IsCash =true,
+                            Balance = 0,
+                            Income = 0,
+                            Expense = 0,
+                            PersonId = 0,
+                            Transactions = null
+
                         };
                         table.Add(wallet);
                     }
@@ -147,6 +151,56 @@ namespace FamilyAccounting.DAL.Repositories
         public IEnumerable<Transaction> GetTransactions(int walletId)
         {
             string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}";
+
+            List<Transaction> transactions = new List<Transaction>();
+
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
+
+                SqlCommand command = new SqlCommand(sqlExpression, sql);
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int sourceId = reader.IsDBNull("id_wallet_source") ? 0 : reader.GetInt32("id_wallet_source");
+                        string sourceDescription = reader.IsDBNull("wallet_src_desc") ? "" : reader.GetString("wallet_src_desc");
+                        int targetId = reader.IsDBNull("id_wallet_target") ? 0 : reader.GetInt32("id_wallet_target");
+                        string targetDescription = reader.IsDBNull("wallet_trg_desc") ? "" : reader.GetString("wallet_trg_desc");
+                        int categoryId = reader.IsDBNull("id_category") ? 0 : reader.GetInt32("id_category");
+                        string categoryDescription = reader.IsDBNull("category_desc") ? "" : reader.GetString("category_desc");
+
+                        Transaction transaction = new Transaction
+                        {
+                            Id = reader.GetInt32("id"),
+                            SourceWallet = sourceDescription,
+                            SourceWalletId = sourceId,
+                            TargetWallet = targetDescription,
+                            TargetWalletId = targetId,
+                            Category = categoryDescription,
+                            CategoryId = categoryId,
+                            Amount = reader.GetDecimal("amount"),
+                            TimeStamp = reader.GetDateTime("timestamp"),
+                            State = reader.GetBoolean("success"),
+                            Description = reader.GetString("description"),
+                            TransactionType = (TransactionType)reader.GetInt32("type"),
+                            BalanceBefore = reader.GetDecimal("balance_prev"),
+                            BalanceAfter = reader.GetDecimal("balance")
+                        };
+
+                        transactions.Add(transaction);
+                    }
+                }
+                sql.Close();
+            }
+            return transactions;
+        }
+
+        public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to)
+        {
+            string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}, NULL, {from}, {to}";
 
             List<Transaction> transactions = new List<Transaction>();
 

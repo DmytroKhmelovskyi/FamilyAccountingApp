@@ -1,6 +1,9 @@
 ﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Linq;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -18,42 +21,51 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public IActionResult Details(int walletId, int transactionId)
         {
-            var transaction = transactionWebService.Get(walletId, transactionId);
-            return View(transaction);
+
+                var transaction = transactionWebService.Get(walletId, transactionId);
+                return View(transaction);
+
         }
 
         [HttpGet]
         public IActionResult MakeExpense(int id)
         {
-            var wallet = walletWebService.Get(id);
-            var transaction = new TransactionViewModel
-            {
-                SourceWalletId = (int)wallet.Id,
-                SourceWallet = wallet.Description
-            };
-            return View(transaction);
+                var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetExpenseCategories();
+                var transaction = new TransactionViewModel
+                {
+                    SourceWalletId = (int)wallet.Id,
+                    SourceWallet = wallet.Description
+                };
+                ViewBag.Categories = categories;
+                return View(transaction);
+
         }
 
         [HttpPost]
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
+
             transactionWebService.MakeExpense(transaction);
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.SourceWalletId
             });
+
         }
 
         [HttpGet]
         public IActionResult MakeIncome(int id)
         {
-            var wallet = walletWebService.Get(id);
-            var transaction = new TransactionViewModel
-            {
-                TargetWalletId = (int)wallet.Id,
-                TargetWallet = wallet.Description
-            };
-            return View(transaction);
+                var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetIncomeCategories();
+                var transaction = new TransactionViewModel
+                {
+                    TargetWalletId = (int)wallet.Id,
+                    TargetWallet = wallet.Description
+                };
+                ViewBag.Categories = categories;
+                return View(transaction);
         }
 
         [HttpGet]
@@ -77,11 +89,13 @@ namespace FamilyAccounting.Web.Controllers
                 id = transaction.TargetWalletId
             });
         }
-        
+
         [HttpPost]
         public IActionResult MakeTransfer(TransactionViewModel transaction)
         {
+
             transactionWebService.MakeTransfer(transaction);
+
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.SourceWalletId
@@ -111,6 +125,7 @@ namespace FamilyAccounting.Web.Controllers
             var wallet = walletWebService.Get(id);
             var transaction = new TransactionViewModel
             {
+
                 SourceWalletId = (int)wallet.Id,
                 SourceWallet = wallet.Description
             };
@@ -125,6 +140,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 id = transaction.SourceWalletId
             });
+
         }
     }
 }

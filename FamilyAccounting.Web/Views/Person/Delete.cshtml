@@ -38,6 +38,6 @@
     
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.Id>Back to Details</a>
     </form>
 </div>

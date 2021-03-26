@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.Web.Models;
+using System.Collections.Generic;
 
 namespace FamilyAccounting.Web.Interfaces
 {
@@ -10,5 +11,7 @@ namespace FamilyAccounting.Web.Interfaces
         public TransactionViewModel Update(int id, TransactionViewModel transaction);
         public TransactionViewModel Get(int walletId, int transactionId);
         public TransactionViewModel SetInitialBalance(TransactionViewModel transaction);
+        public IEnumerable<CategoryViewModel> GetExpenseCategories();
+        public IEnumerable<CategoryViewModel> GetIncomeCategories();
     }
 }
