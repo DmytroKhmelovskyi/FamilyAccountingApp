@@ -6,10 +6,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
@@ -64,7 +60,7 @@ namespace FamilyAccounting.Web.Services
             {
                 result = JsonSerializer.Serialize(new { message = ex?.Message });
             }
-            }           
+            return response.WriteAsync(result);
         }
     }
 

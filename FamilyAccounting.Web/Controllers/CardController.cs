@@ -28,37 +28,31 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public IActionResult Create(CardViewModel card)
         {
-                cardWebService.Create(card);
-                return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
+            cardWebService.Create(card);
+            return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
         }
 
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-
-                var card = cardWebService.Get((int)id);
-                return View(card);
-
+            var card = cardWebService.Get((int)id);
+            return View(card);
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeleteCard(int? id)
         {
-
-             var card = cardWebService.Get((int)id);
+            var card = cardWebService.Get((int)id);
             cardWebService.Delete((int)id);
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
-
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-
-                var updatedCard = cardWebService.Get(id);
-                return View(updatedCard);
-
+            var updatedCard = cardWebService.Get(id);
+            return View(updatedCard);
         }
 
         [HttpPost]
@@ -72,10 +66,8 @@ namespace FamilyAccounting.Web.Controllers
         }
         public IActionResult Details(int Id)
         {
-
-                var card = cardWebService.Get(Id);
-                return View(card);
-
+            var card = cardWebService.Get(Id);
+            return View(card);
         }
     }
 }
