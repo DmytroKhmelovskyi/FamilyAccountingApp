@@ -26,7 +26,7 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
@@ -57,7 +57,7 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
@@ -83,7 +83,7 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
 
         }
@@ -91,16 +91,30 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var person = personsWebService.Get((int)id);
-            return View(person);
+            try
+            {
+                var person = personsWebService.Get((int)id);
+                return View(person);
+            }
+            catch(Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeletePerson(int? id)
         {
-            personsWebService.Delete((int)id);
-            return RedirectToAction("Index");
+            try
+            {
+                personsWebService.Delete((int)id);
+                return RedirectToAction("Index");
+            }
+            catch(Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
     }
 }

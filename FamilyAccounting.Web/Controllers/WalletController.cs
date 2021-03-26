@@ -1,13 +1,7 @@
-﻿using AutoMapper;
-using FamilyAccounting.BL.DTO;
-using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.Web.Interfaces;
+﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
-using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using X.PagedList;
 
 namespace FamilyAccounting.Web.Controllers
@@ -31,18 +25,25 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
         public IActionResult Details(int Id, int? page)
-        {
-            var pageNumber = page ?? 1;
-            var wallet = walletWebService.Get(Id);
-            wallet.Transactions = walletWebService.GetTransactions(Id);
-            var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
-            ViewBag.OnePageOfTransactions = onePageOfTransactions;
-            return View(wallet);
+        {           
+            try
+            {
+                var pageNumber = page ?? 1;
+                var wallet = walletWebService.Get(Id);
+                wallet.Transactions = walletWebService.GetTransactions(Id);
+                var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
+                ViewBag.OnePageOfTransactions = onePageOfTransactions;
+                return View(wallet);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         [HttpGet]
@@ -55,49 +56,81 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
         [HttpPost]
         public IActionResult Update(int id, WalletViewModel wallet)
         {
-            if (ModelState.IsValid)
-            {
-                walletWebService.Update(id, wallet);
-            }
-            return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
+                if (ModelState.IsValid)
+                {
+                    walletWebService.Update(id, wallet);
+                }
+                return RedirectToAction("Details", "Wallet", new { id = wallet.Id });        
         }
+
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            var wallet = walletWebService.Get((int)id);
-            return View(wallet);
+            try
+            {
+                var wallet = walletWebService.Get((int)id);
+                return View(wallet);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeleteWallet(int? id)
         {
-            walletWebService.Delete((int)id);
-            return RedirectToAction("Index");
+            try
+            {
+                walletWebService.Delete((int)id);
+                return RedirectToAction("Index");
+            }
+            catch(Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         public IActionResult Create(int id)
         {
-            var person = personWebService.Get(id);
-            WalletViewModel walletVM = new WalletViewModel
+            try
             {
-                PersonId = person.Id
-            };
-            return View(walletVM);
+                var person = personWebService.Get(id);
+                WalletViewModel walletVM = new WalletViewModel
+                {
+                    PersonId = person.Id
+                };
+                return View(walletVM);
+            }
+            catch(Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         [HttpPost]
         public IActionResult Create(WalletViewModel wallet)
-        {  
-            walletWebService.Create(wallet);
-            return RedirectToAction("Details", "Person", new { id = wallet.PersonId});
+        {
+            try
+            {
+                walletWebService.Create(wallet);
+                return RedirectToAction("Details", "Person", new
+                {
+                    id = wallet.PersonId
+                });
+            }
+            catch (Exception) 
+            { 
+                throw new Exception("Exception"); 
+            }
         }
     }
 }

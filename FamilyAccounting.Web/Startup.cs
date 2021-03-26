@@ -1,4 +1,3 @@
-using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Repositories;
 using FamilyAccounting.Web.Services;
@@ -27,7 +26,6 @@ namespace FamilyAccounting.Web
             services.AddServices();
             services.AddViewModelMapping();
             services.AddWebRepositories();
-           // services.AddMapping();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,14 +34,10 @@ namespace FamilyAccounting.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            app.UseGlobalExceptionMiddleware();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

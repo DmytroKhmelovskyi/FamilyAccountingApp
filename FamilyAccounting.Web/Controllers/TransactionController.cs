@@ -1,8 +1,5 @@
-﻿using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.BL.Services;
-using FamilyAccounting.Web.Interfaces;
+﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
-using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -22,8 +19,15 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public IActionResult Details(int walletId, int transactionId)
         {
-            var transaction = transactionWebService.Get(walletId, transactionId);
-            return View(transaction);
+            try
+            {
+                var transaction = transactionWebService.Get(walletId, transactionId);
+                return View(transaction);
+            }
+            catch(Exception)
+            {
+                throw new Exception("Exception");
+            }
         }
 
         [HttpGet]
@@ -41,20 +45,30 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
         [HttpPost]
         public IActionResult MakeExpense(TransactionViewModel transaction)
         {
-            transactionWebService.MakeExpense(transaction);
-            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
+            try
+            {
+                transactionWebService.MakeExpense(transaction);
+                return RedirectToAction("Details", "Wallet", new
+                {
+                    id = transaction.SourceWalletId
+                });
+            }
+            catch (Exception) 
+            {
+                throw new Exception("Exception"); 
+            }
         }
 
         [HttpGet]
         public IActionResult MakeIncome(int id)
-            {
+        {
             try
             {
                 var wallet = walletWebService.Get(id);
@@ -67,7 +81,7 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
@@ -86,22 +100,42 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
         [HttpPost]
         public IActionResult MakeIncome(TransactionViewModel transaction)
         {
-            transactionWebService.MakeIncome(transaction);
-            return RedirectToAction("Details", "Wallet", new { id = transaction.TargetWalletId });
+            try
+            {
+                transactionWebService.MakeIncome(transaction);
+                return RedirectToAction("Details", "Wallet", new
+                {
+                    id = transaction.TargetWalletId
+                });
+            }
+            catch (Exception) 
+            { 
+                throw new Exception("Exception"); 
+            }
         }
         
         [HttpPost]
         public IActionResult MakeTransfer(TransactionViewModel transaction)
         {
-            transactionWebService.MakeTransfer(transaction);
-            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
+            try
+            {
+                transactionWebService.MakeTransfer(transaction);
+                return RedirectToAction("Details", "Wallet", new
+                {
+                    id = transaction.SourceWalletId
+                });
+            }
+            catch (Exception) 
+            { 
+                throw new Exception("Exception"); 
+            }
         }
 
         [HttpGet]
@@ -114,7 +148,7 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
@@ -143,15 +177,25 @@ namespace FamilyAccounting.Web.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                throw new Exception("Exception");
             }
         }
 
         [HttpPost]
         public IActionResult SetInitialBalance(TransactionViewModel transaction)
         {
-            transactionWebService.SetInitialBalance(transaction);
-            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
+            try
+            {
+                transactionWebService.SetInitialBalance(transaction);
+                return RedirectToAction("Details", "Wallet", new
+                {
+                    id = transaction.SourceWalletId
+                });
+            }
+            catch (Exception) 
+            { 
+                throw new Exception("Exception"); 
+            }
         }
     }
 }
