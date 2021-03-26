@@ -18,77 +18,47 @@ namespace FamilyAccounting.Web.Controllers
         }
         public IActionResult Create(int id)
         {
-            try
+            CardViewModel cardViewModel = new CardViewModel
             {
-                CardViewModel cardViewModel = new CardViewModel
-                {
-                    WalletId = id
-                };
-
-                return View(cardViewModel);
-            }            
-            catch(Exception)
-            {
-                throw new Exception("Exception");
-            }
+                WalletId = id
+            };
+            return View(cardViewModel);
         }
 
         [HttpPost]
         public IActionResult Create(CardViewModel card)
         {
-            try
-            {
                 cardWebService.Create(card);
                 return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
-            }
-            catch(Exception)
-            {
-                throw new Exception("Exception");
-            }
         }
 
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-            try
-            {
+
                 var card = cardWebService.Get((int)id);
                 return View(card);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Exception");
-            }
+
         }
 
         [ActionName("Delete")]
         [HttpPost]
         public IActionResult DeleteCard(int? id)
         {
-            try
-            {
+
              var card = cardWebService.Get((int)id);
             cardWebService.Delete((int)id);
             return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
-            }
-            catch (Exception)
-            {
-                throw new Exception("Exception");
-            }
+
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            try
-            {
+
                 var updatedCard = cardWebService.Get(id);
                 return View(updatedCard);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Exception");
-            }
+
         }
 
         [HttpPost]
@@ -102,15 +72,10 @@ namespace FamilyAccounting.Web.Controllers
         }
         public IActionResult Details(int Id)
         {
-            try
-            {
+
                 var card = cardWebService.Get(Id);
                 return View(card);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Exception");
-            }
+
         }
     }
 }
