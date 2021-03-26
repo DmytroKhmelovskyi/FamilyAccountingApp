@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.Web.Models;
+using System;
 using System.Collections.Generic;
 
 namespace FamilyAccounting.Web.Interfaces
@@ -11,5 +12,6 @@ namespace FamilyAccounting.Web.Interfaces
         public WalletViewModel Create(WalletViewModel wallet);
         public int Delete(int id);
         public IEnumerable<TransactionViewModel> GetTransactions(int walletId);
+        public IEnumerable<TransactionViewModel> GetTransactions(int walletId, DateTime from, DateTime to);
     }
 }

@@ -20,5 +20,7 @@ namespace FamilyAccounting.Web.Models
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
         public bool IsActive { get; set; }
+        public DataType From { get; set; }
+        public DataType To { get; set; }
     }
 }
