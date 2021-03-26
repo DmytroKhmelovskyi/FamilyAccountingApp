@@ -19,18 +19,18 @@ namespace FamilyAccounting.Web.Controllers
         }
         public IActionResult Index()
         {
-                var wallet = walletWebService.Get();
-                return View(wallet);
+            var wallet = walletWebService.Get();
+            return View(wallet);
         }
 
         public IActionResult Details(int Id, int? page)
-        {           
-                var pageNumber = page ?? 1;
-                var wallet = walletWebService.Get(Id);
-                wallet.Transactions = walletWebService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
-                var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
-                ViewBag.OnePageOfTransactions = onePageOfTransactions;
-                return View(wallet);
+        {
+            var pageNumber = page ?? 1;
+            var wallet = walletWebService.Get(Id);
+            wallet.Transactions = walletWebService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
+            var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
+            ViewBag.OnePageOfTransactions = onePageOfTransactions;
+            return View(wallet);
         }
 
         [HttpGet]
@@ -47,33 +47,33 @@ namespace FamilyAccounting.Web.Controllers
             {
                 walletWebService.Update(id, wallet);
             }
-            return RedirectToAction("Details", "Wallet", new { id = wallet.Id });        
+            return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
 
         [HttpGet]
         public ViewResult Delete(int? id)
         {
-                var wallet = walletWebService.Get((int)id);
-                return View(wallet);
+            var wallet = walletWebService.Get((int)id);
+            return View(wallet);
         }
 
         [ActionName("Delete")]
         [HttpPost]
-        public IActionResult DeleteWallet(int? id )
+        public IActionResult DeleteWallet(int? id)
         {
-             var wallet = walletWebService.Get((int)id);
+            var wallet = walletWebService.Get((int)id);
             walletWebService.Delete((int)id);
-            return RedirectToAction("Details","Person", new { id = wallet.PersonId  });
+            return RedirectToAction("Details", "Person", new { id = wallet.PersonId });
         }
 
         public IActionResult Create(int id)
         {
-                var person = personWebService.Get(id);
-                WalletViewModel walletVM = new WalletViewModel
-                {
-                    PersonId = person.Id
-                };
-                return View(walletVM);
+            var person = personWebService.Get(id);
+            WalletViewModel walletVM = new WalletViewModel
+            {
+                PersonId = person.Id
+            };
+            return View(walletVM);
         }
 
         [HttpPost]
