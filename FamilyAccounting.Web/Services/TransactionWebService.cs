@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using System;
+using System.Collections.Generic;
 
 namespace FamilyAccounting.Web.Services
 {
@@ -28,6 +29,18 @@ namespace FamilyAccounting.Web.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public IEnumerable<CategoryViewModel> GetExpenseCategories()
+        {
+            IEnumerable<CategoryDTO> categories = transactionService.GetExpenseCategories();
+            return mapper.Map<IEnumerable<CategoryViewModel>>(categories);
+        }
+
+        public IEnumerable<CategoryViewModel> GetIncomeCategories()
+        {
+            IEnumerable<CategoryDTO> categories = transactionService.GetIncomeCategories();
+            return mapper.Map<IEnumerable<CategoryViewModel>>(categories);
         }
 
         public TransactionViewModel MakeExpense(TransactionViewModel transaction)

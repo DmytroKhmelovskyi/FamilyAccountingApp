@@ -1,7 +1,9 @@
 ﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Linq;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -36,11 +38,13 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetExpenseCategories();
                 var transaction = new TransactionViewModel
                 {
                     SourceWalletId = (int)wallet.Id,
                     SourceWallet = wallet.Description
                 };
+                ViewBag.Categories = categories;
                 return View(transaction);
             }
             catch (Exception)
@@ -72,11 +76,13 @@ namespace FamilyAccounting.Web.Controllers
             try
             {
                 var wallet = walletWebService.Get(id);
+                var categories = transactionWebService.GetIncomeCategories();
                 var transaction = new TransactionViewModel
                 {
                     TargetWalletId = (int)wallet.Id,
                     TargetWallet = wallet.Description
                 };
+                ViewBag.Categories = categories;
                 return View(transaction);
             }
             catch (Exception)
@@ -96,6 +102,9 @@ namespace FamilyAccounting.Web.Controllers
                     SourceWalletId = (int)wallet.Id,
                     SourceWallet = wallet.Description,
                 };
+                var wallets = walletWebService.Get();
+               // var walletItems = wallets.Select(w => new SelectListItem { Value = $"{w.Id}", Text = $"{w.Description}" });
+                ViewBag.Wallets = wallets;
                 return View(transaction);
             }
             catch (Exception)
@@ -120,17 +129,14 @@ namespace FamilyAccounting.Web.Controllers
                 throw new Exception("Exception"); 
             }
         }
-        
+
         [HttpPost]
         public IActionResult MakeTransfer(TransactionViewModel transaction)
         {
             try
             {
-                transactionWebService.MakeTransfer(transaction);
-                return RedirectToAction("Details", "Wallet", new
-                {
-                    id = transaction.SourceWalletId
-                });
+            transactionWebService.MakeTransfer(transaction);
+            return RedirectToAction("Details", "Wallet", new { id = transaction.SourceWalletId });
             }
             catch (Exception) 
             { 

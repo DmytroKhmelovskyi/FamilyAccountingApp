@@ -7,6 +7,7 @@ namespace FamilyAccounting.Web.Models
     {
         public int Id { get; set; }
         public int PersonId { get; set; }
+        public string PersonName { get; set; }
 
         [Required]
         [StringLength(150, MinimumLength = 5)]

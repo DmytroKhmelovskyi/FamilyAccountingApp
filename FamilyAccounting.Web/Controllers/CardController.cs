@@ -63,12 +63,13 @@ namespace FamilyAccounting.Web.Controllers
 
         [ActionName("Delete")]
         [HttpPost]
-        public IActionResult DeleteWallet(int? id)
+        public IActionResult DeleteCard(int? id)
         {
             try
             {
-                cardWebService.Delete((int)id);
-                return RedirectToAction("Index");
+             var card = cardWebService.Get((int)id);
+            cardWebService.Delete((int)id);
+            return RedirectToAction("Details", "Wallet", new { id = card.WalletId });
             }
             catch (Exception)
             {
