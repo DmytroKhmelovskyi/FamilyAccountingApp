@@ -47,6 +47,17 @@ namespace FamilyAccounting.Web.Controllers
             }
         }
 
+        public IActionResult Detail(int Id, int? page, DateTime from, DateTime to)
+        {
+            var pageNumber = page ?? 1;
+            var wallet = walletWebService.Get(Id);
+            wallet.Transactions = walletWebService.GetTransactions(Id, from, to).OrderByDescending(x => x.TimeStamp);
+            var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
+            ViewBag.OnePageOfTransactions = onePageOfTransactions;
+            return View(wallet);
+        }
+
+
         [HttpGet]
         public IActionResult Update(int id)
         {

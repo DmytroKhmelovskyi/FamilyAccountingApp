@@ -70,9 +70,10 @@
                 <input type="date" id="from" name="from" class="form-control" style="margin-right:20px; width:300px;" />
                 <input type="date" id="to" name="to" class="form-control" style="margin-right:20px; width:300px;" />
                 <input style="display:none" type="number" id="id" name="id" class="form-control" value="@Model.Id" />
-                <input type=submit value="Apply filter" class="btn btn-success" style="margin-right:20px;"/>
+                <input type=submit value="Apply filter" class="btn btn-success" style="margin-right:20px;" />
             </div>
         </form>
+
         <table style="text-align:center" class="table">
             <thead>
                 <tr>
@@ -128,10 +129,10 @@
             </tbody>
         </table>
         @Html.PagedListPager((IPagedList)ViewBag.OnePageOfTransactions, page => Url.Action("Details", new { page }), new PagedListRenderOptions
-            {
-                LiElementClasses = new string[] { "page-item" },
-                PageClasses = new string[] { "page-link" }
-            })
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
     </div>
 </div>
 

@@ -75,6 +75,12 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
+        public IEnumerable<TransactionViewModel> GetTransactions(int walletId, DateTime from, DateTime to)
+        {
+            IEnumerable<TransactionDTO> transactions = walletService.GetTransactions(walletId, from, to);
+            return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
+        }
+
         public WalletViewModel Update(int id, WalletViewModel wallet)
         {
             try

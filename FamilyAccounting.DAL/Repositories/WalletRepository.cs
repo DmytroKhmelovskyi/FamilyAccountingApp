@@ -200,7 +200,10 @@ namespace FamilyAccounting.DAL.Repositories
 
         public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to)
         {
-            string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}, NULL, {from}, {to}";
+            //DateTime fromDate = DateTime.Parse(from);
+            //DateTime toDate = DateTime.Parse(to);
+            //string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}, NULL, '{fromDate}', '{toDate}'";
+            string sqlExpression = $"PR_ActionsWallets_Read";
 
             List<Transaction> transactions = new List<Transaction>();
 
@@ -209,6 +212,25 @@ namespace FamilyAccounting.DAL.Repositories
                 sql.Open();
 
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlParameter id = new SqlParameter
+                {
+                    ParameterName = "@_id_wallet",
+                    Value = walletId
+                };
+                command.Parameters.Add(id);
+                SqlParameter fromDateParam = new SqlParameter
+                {
+                    ParameterName = "@_time_from",
+                    Value = from
+                };
+                command.Parameters.Add(fromDateParam);
+                SqlParameter toDateParam = new SqlParameter
+                {
+                    ParameterName = "@_time_to",
+                    Value = to
+                };
+                command.Parameters.Add(toDateParam);
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows)
