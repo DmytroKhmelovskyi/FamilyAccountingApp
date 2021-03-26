@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.BL.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Interfaces
@@ -11,5 +12,6 @@ namespace FamilyAccounting.BL.Interfaces
         public WalletDTO Create(WalletDTO wallet);
         public int Delete(int id);
         public IEnumerable<TransactionDTO> GetTransactions(int walletId);
+        public IEnumerable<TransactionDTO> GetTransactions(int walletId, DateTime from, DateTime to);
     }
 }
