@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FamilyAccounting.Web.Exceptions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
@@ -10,10 +14,12 @@ namespace FamilyAccounting.Web.Services
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IWebHostEnvironment env;
 
-        public GlobalExceptionMiddleware(RequestDelegate next)
+        public GlobalExceptionMiddleware(RequestDelegate next, IWebHostEnvironment env)
         {
             _next = next;
+            this.env = env;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -24,19 +30,37 @@ namespace FamilyAccounting.Web.Services
             }
             catch(Exception ex)
             {
-                await HandleError(httpContext, ex);
+                await HandleError(httpContext, ex, env);
             }           
         }
 
-        private Task HandleError(HttpContext httpContext, Exception ex)
+        private Task HandleError(HttpContext httpContext, Exception ex, IWebHostEnvironment env)
         {
-            httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return httpContext.Response.WriteAsync(new GlobalErrorDetails()
+            var response = httpContext.Response;
+            response.ContentType = "application/json";
+            string result = "";
+
+            switch (ex)
             {
-                StatusCode = httpContext.Response.StatusCode,
-                Message = "Something went wrong.Internal server error."
-            }.ToString());
+                case BadRequestException e:
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+                case NotFoundException e:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                default:
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
+            if (env.IsDevelopment())
+            {
+                result = JsonSerializer.Serialize(new { message = ex?.Message + " STACK TRACE " + ex?.StackTrace });
+            }
+            else
+            {
+                result = JsonSerializer.Serialize(new { message = ex?.Message });
+            }
+            return response.WriteAsync(result);
         }
     }
 
