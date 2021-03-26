@@ -76,6 +76,12 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
+        public IEnumerable<TransactionDTO> GetTransactions(int walletId, DateTime from, DateTime to)
+        {
+            IEnumerable<Transaction> transactions = walletsRepository.GetTransactions(walletId, from, to);
+            return mapper.Map<IEnumerable<TransactionDTO>>(transactions);
+        }
+
         public WalletDTO Update(int id, WalletDTO wallet)
         {
             try
