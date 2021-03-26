@@ -1,9 +1,6 @@
 ﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Linq;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -72,6 +69,8 @@ namespace FamilyAccounting.Web.Controllers
                 SourceWalletId = (int)wallet.Id,
                 SourceWallet = wallet.Description,
             };
+            var wallets = walletWebService.Get();
+            ViewBag.Wallets = wallets;
             return View(transaction);
         }
 
