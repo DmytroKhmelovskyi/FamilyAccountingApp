@@ -35,7 +35,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 var pageNumber = page ?? 1;
                 var wallet = walletWebService.Get(Id);
-                wallet.Transactions = walletWebService.GetTransactions(Id);
+                wallet.Transactions = walletWebService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
                 var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
                 ViewBag.OnePageOfTransactions = onePageOfTransactions;
                 return View(wallet);
