@@ -1,4 +1,5 @@
 ﻿using FamilyAccounting.DAL.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace FamilyAccounting.DAL.Interfaces
@@ -11,5 +12,6 @@ namespace FamilyAccounting.DAL.Interfaces
         public int Delete(int id);
         public Wallet Create(Wallet wallet);
         public IEnumerable<Transaction> GetTransactions(int walletId);
+        public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to);
     }
 }
