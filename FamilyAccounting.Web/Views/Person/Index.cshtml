@@ -32,9 +32,18 @@
                 </tr>
             </thead>
             <tbody>
+                @{ var rowColor = "white"; }
                 @foreach (var item in ViewBag.OnePageOfPersons)
                 {
-                    <tr>
+                    if (@item.IsActive)
+                    {
+                        rowColor = "#white";
+                    }
+                    else
+                    {
+                        rowColor = "#ffbfaf";
+                    }
+                    <tr style="background-color:@rowColor">
                         <td style="text-align:left">
                             <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
                         </td>
@@ -45,7 +54,6 @@
                 }
             </tbody>
         </table>
-
         @Html.PagedListPager((IPagedList)ViewBag.OnePageOfPersons, page => Url.Action("Index", new { page }), new PagedListRenderOptions
         {
             LiElementClasses = new string[] { "page-item" },
