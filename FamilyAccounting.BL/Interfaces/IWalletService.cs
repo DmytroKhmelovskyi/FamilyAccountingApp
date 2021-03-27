@@ -13,5 +13,6 @@ namespace FamilyAccounting.BL.Interfaces
         public int Delete(int id);
         public IEnumerable<TransactionDTO> GetTransactions(int walletId);
         public IEnumerable<TransactionDTO> GetTransactions(int walletId, DateTime from, DateTime to);
+        public WalletDTO MakeActive(int id);
     }
 }
