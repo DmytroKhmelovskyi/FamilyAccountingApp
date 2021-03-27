@@ -274,7 +274,7 @@ namespace FamilyAccounting.DAL.Repositories
             Wallet wallet = new Wallet();
             using (var con = new SqlConnection(connectionString))
             {
-                string sqlProcedure = " PR_Wallets_Update_Activate";
+                string sqlProcedure = "PR_Wallets_Update_Activate";
                 con.Open();
                 SqlCommand cmd = new SqlCommand(sqlProcedure, con);
                 cmd.CommandType = CommandType.StoredProcedure;

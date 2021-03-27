@@ -26,7 +26,7 @@ namespace FamilyAccounting.Web.Controllers
         public IActionResult MakeActive(int Id)
         {
             var wallet = walletWebService.MakeActive(Id);
-            return View(wallet);
+            return RedirectToAction("Details", "Wallet", new { id = Id });
         }
         public IActionResult Details(int Id, int? page)
         {
