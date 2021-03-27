@@ -37,6 +37,7 @@ namespace FamilyAccounting.DAL.Repositories
                             Id = reader.GetInt32("id"),
                             FirstName = reader.GetString("name"),
                             LastName = reader.GetString("surname"),
+                            IsActive = !reader.GetBoolean("inactive"),
                             WalletsCount = reader.GetInt32("active_wallets")
                         };
                         table.Add(person);
@@ -104,7 +105,7 @@ namespace FamilyAccounting.DAL.Repositories
                         p.Email = dr.GetString("email");
                         p.Phone = dr.GetString("phone");
                         p.WalletsCount = dr.GetInt32("active_wallets");
-                        p.IsActive = dr.GetBoolean("inactive");
+                        p.IsActive = !dr.GetBoolean("inactive");
                         p.Balance = dr.GetDecimal("active_balance");
                         p.TotalIncome = dr.GetDecimal("total_income");
                         p.TotalExpense = dr.GetDecimal("total_expense");
