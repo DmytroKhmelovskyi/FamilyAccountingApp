@@ -21,7 +21,8 @@ namespace FamilyAccounting.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("AzureConnection");
             services.AddRepositories(connectionString);
             services.AddServices();
             services.AddViewModelMapping();
