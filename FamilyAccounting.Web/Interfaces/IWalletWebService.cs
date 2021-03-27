@@ -13,5 +13,6 @@ namespace FamilyAccounting.Web.Interfaces
         public int Delete(int id);
         public IEnumerable<TransactionViewModel> GetTransactions(int walletId);
         public IEnumerable<TransactionViewModel> GetTransactions(int walletId, DateTime from, DateTime to);
+        public WalletViewModel MakeActive(int id);
     }
 }
