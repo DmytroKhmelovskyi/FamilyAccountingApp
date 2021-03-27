@@ -83,7 +83,7 @@ namespace FamilyAccounting.Web.Services
 
         public WalletViewModel MakeActive(int id)
         {
-            WalletDTO _wallet = walletService.MakeActive(mapper.Map<WalletDTO>(id));
+            WalletDTO _wallet = walletService.MakeActive(id);
             return mapper.Map<WalletViewModel>(_wallet);
         }
 
