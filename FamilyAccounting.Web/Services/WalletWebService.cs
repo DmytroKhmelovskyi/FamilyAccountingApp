@@ -81,6 +81,12 @@ namespace FamilyAccounting.Web.Services
             return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
         }
 
+        public WalletViewModel MakeActive(int id)
+        {
+            WalletDTO _wallet = walletService.MakeActive(mapper.Map<WalletDTO>(id));
+            return mapper.Map<WalletViewModel>(_wallet);
+        }
+
         public WalletViewModel Update(int id, WalletViewModel wallet)
         {
             try

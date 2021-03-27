@@ -77,7 +77,7 @@ namespace FamilyAccounting.DAL.Repositories
                             Id = dr.GetInt32("id"),
                             Description = dr.GetString("description"),
                             Balance = dr.GetDecimal("balance"),
-                            IsActive = dr.GetBoolean("inactive"),
+                            IsActive = !dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
                             Expense = dr.GetDecimal("total_expense"),
                             PersonId = dr.GetInt32("id_person"),
@@ -268,6 +268,25 @@ namespace FamilyAccounting.DAL.Repositories
                 sql.Close();
             }
             return transactions;
+        }
+        public Wallet MakeActive(int id)
+        {
+            Wallet wallet = new Wallet();
+            using (var con = new SqlConnection(connectionString))
+            {
+                string sqlProcedure = " PR_Wallets_Update_Activate";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter idParam = new SqlParameter
+                {
+                    ParameterName = "_id",
+                    Value = id
+                };
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+                return wallet;
+            }
         }
     }
 }
