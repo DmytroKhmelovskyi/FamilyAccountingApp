@@ -13,5 +13,6 @@ namespace FamilyAccounting.DAL.Interfaces
         public Wallet Create(Wallet wallet);
         public IEnumerable<Transaction> GetTransactions(int walletId);
         public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to);
+        public Wallet MakeActive(int id);
     }
 }

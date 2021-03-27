@@ -269,5 +269,24 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transactions;
         }
+        public Wallet MakeActive(int id)
+        {
+            Wallet wallet = new Wallet();
+            using (var con = new SqlConnection(connectionString))
+            {
+                string sqlProcedure = " PR_Wallets_Update_Activate";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sqlProcedure, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter idParam = new SqlParameter
+                {
+                    ParameterName = "_id",
+                    Value = id
+                };
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+                return wallet;
+            }
+        }
     }
 }
