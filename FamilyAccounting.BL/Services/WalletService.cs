@@ -82,6 +82,12 @@ namespace FamilyAccounting.BL.Services
             return mapper.Map<IEnumerable<TransactionDTO>>(transactions);
         }
 
+        public WalletDTO MakeActive(int id)
+        {
+            Wallet wallet = walletsRepository.MakeActive(id);
+            return mapper.Map<WalletDTO>(wallet);
+        }
+
         public WalletDTO Update(int id, WalletDTO wallet)
         {
             try
