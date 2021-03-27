@@ -1,5 +1,6 @@
 ﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -22,11 +23,13 @@ namespace FamilyAccounting.Web.Controllers
             return View(person);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Add(PersonViewModel person)
         {

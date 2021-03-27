@@ -11,6 +11,8 @@
 <div class="d-flex justify-content-center">
     <div style="width:60%">
         <h1 style="float:left;">@ViewData["Title"]</h1>
+        @if(User.IsInRole("admin"))
+        {
         <table style="float: right;">
             <tbody>
                 <tr>
@@ -24,6 +26,9 @@
                 </tr>
             </tbody>
         </table>
+        }
+
+
         <table style="text-align:center" class="table">
             <thead>
                 <tr>
@@ -34,14 +39,14 @@
             <tbody>
                 @foreach (var item in ViewBag.OnePageOfPersons)
                 {
-                    <tr>
-                        <td style="text-align:left">
-                            <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
-                        </td>
-                        <td style="text-align:right; width:35%">
-                            @item.WalletsCount
-                        </td>
-                    </tr>
+                <tr>
+                    <td style="text-align:left">
+                        <a asp-controller="Person" asp-action="Details" asp-route-id="@item.Id"> @item.FirstName  @item.LastName </a>
+                    </td>
+                    <td style="text-align:right; width:35%">
+                        @item.WalletsCount
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

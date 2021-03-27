@@ -11,6 +11,7 @@ namespace FamilyAccounting.Web.Services
             services.AddTransient<ICardWebService, CardWebService>();
             services.AddTransient<IWalletWebService, WalletWebService>();
             services.AddTransient<ITransactionWebService, TransactionWebService>();
+            services.AddTransient<ILoginWebService, LoginWebService>();
             return services;
         }
 

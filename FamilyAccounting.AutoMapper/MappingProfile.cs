@@ -21,6 +21,10 @@ namespace FamilyAccounting.AutoMapper
             CreateMap<TransactionDTO, Transaction>();
             CreateMap<Wallet, WalletDTO>();
             CreateMap<WalletDTO, Wallet>();
+            CreateMap<RoleDTO, Role>();
+            CreateMap<Role, RoleDTO>();
+            CreateMap<UserDTO, User>();
+            CreateMap<User, UserDTO>();
         }
     }
 }
