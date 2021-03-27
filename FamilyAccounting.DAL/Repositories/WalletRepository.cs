@@ -77,7 +77,7 @@ namespace FamilyAccounting.DAL.Repositories
                             Id = dr.GetInt32("id"),
                             Description = dr.GetString("description"),
                             Balance = dr.GetDecimal("balance"),
-                            IsActive = dr.GetBoolean("inactive"),
+                            IsActive = !dr.GetBoolean("inactive"),
                             Income = dr.GetDecimal("total_income"),
                             Expense = dr.GetDecimal("total_expense"),
                             PersonId = dr.GetInt32("id_person"),
