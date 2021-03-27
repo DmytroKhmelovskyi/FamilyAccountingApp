@@ -78,9 +78,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{ var rowColor = "white"; }
                         @foreach (var item in ViewBag.OnePageOfWallets)
                         {
-                            <tr>
+                            if (!@item.IsActive)
+                            {
+                                rowColor = "#white";
+                            }
+                            else
+                            {
+                                rowColor = "#ffbfaf";
+                            }
+                            <tr style="background-color:@rowColor">
                                 <td style="text-align:left">
                                     <a asp-controller="Wallet" asp-action="Details" asp-route-id="@item.Id"> @item.Description </a>
                                 </td>
