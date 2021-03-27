@@ -23,6 +23,11 @@ namespace FamilyAccounting.Web.Controllers
             return View(wallet);
         }
 
+        public IActionResult MakeActive(int Id)
+        {
+            var wallet = walletWebService.MakeActive(Id);
+            return View(wallet);
+        }
         public IActionResult Details(int Id, int? page)
         {
             var pageNumber = page ?? 1;
