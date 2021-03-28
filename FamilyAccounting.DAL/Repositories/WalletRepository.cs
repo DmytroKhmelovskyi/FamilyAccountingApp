@@ -36,8 +36,9 @@ namespace FamilyAccounting.DAL.Repositories
                         {
                             Id = reader.GetInt32("id"),
                             Description = reader.GetString("description"),
+                            PersonName = reader.GetString("fullname"),
                             IsActive = true,
-                            IsCash =true,
+                            IsCash = true,
                             Balance = 0,
                             Income = 0,
                             Expense = 0,
