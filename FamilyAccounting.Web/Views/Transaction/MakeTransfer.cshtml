@@ -13,7 +13,7 @@
             <select style="margin-right:20px" asp-for="TargetWalletId" class="form-control">
                 @foreach (var s in ViewBag.Wallets)
                 {
-                    <option value="@s.Id">@s.Description</option>
+                    <option value="@s.Id">@s.PersonName : @s.Description</option>
                 }
             </select>
             <input style="margin-right:20px" class="form-control" placeholder="Describe the transfer" asp-for="Description" />

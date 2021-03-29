@@ -68,6 +68,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 SourceWalletId = (int)wallet.Id,
                 SourceWallet = wallet.Description,
+                 
             };
             var wallets = walletWebService.Get();
             ViewBag.Wallets = wallets;
