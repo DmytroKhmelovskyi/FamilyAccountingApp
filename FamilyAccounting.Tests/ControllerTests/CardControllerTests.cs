@@ -76,6 +76,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Assert
             Assert.That(result.ActionName, Is.EqualTo("Details"));
         }
+
         [Test]
         public void UpdateСard_ReturnsRedirect_ToActionResut()
         {

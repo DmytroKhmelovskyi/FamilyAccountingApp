@@ -79,7 +79,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void CardService_UpdateWallet_ShouldNotBeNull()
+        public void CardService_UpdateCard_ShouldNotBeNull()
         {
             //Arrange
             CardDTO card = new CardDTO()
@@ -136,6 +136,5 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.That(() => mock.Object.Update(cardId, card), Throws.Exception);
         }
-
     }
 }
