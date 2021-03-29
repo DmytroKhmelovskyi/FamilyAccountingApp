@@ -242,6 +242,38 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Assert
             Assert.IsNotNull(result);
         }
+
+        [Test]
+        public void MakeActiveShouldRedirectToWalletDetails()
+        {
+            // Arrange
+            var mockPerson = new Mock<IPersonWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+
+            // Act
+            var result = controller.RedirectToAction("Details");
+
+            // Assert
+            Assert.That(result.ActionName, Is.EqualTo("Details"));
+        }
+
+        [Test]
+        public void MakeActiveVerifyOnce()
+        {
+            //Arrange
+            int id = 1;
+            var mockPerson = new Mock<IPersonWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
+            mockWallet.Setup(x => x.MakeActive(id));
+
+            //Act
+            controller.MakeActive(id);
+
+            //Assert
+            mockWallet.Verify(x => x.MakeActive(id), Times.Once);
+        }
     }
 }
 

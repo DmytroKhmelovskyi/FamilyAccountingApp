@@ -258,5 +258,32 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.AreEqual("FamilyAccounting.BL.DTO.TransactionDTO[]", "" + result.GetType() + "") ;
         }
+
+        [Test]
+        public void WalletService_Verify_MakeActive()
+        {
+            //Arrange
+            var serviceMock = new Mock<IWalletService>();
+            int id = 1;
+
+            //Act
+            serviceMock.Object.MakeActive(id);
+
+            //Assert
+            serviceMock.Verify(m => m.MakeActive(id), Times.Once);
+        }
+
+        [Test]
+        public void WalletService_MakeActive_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<IWalletService>();
+            int id = 0;
+            //Act
+            mock.Setup(a => a.MakeActive(id)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.MakeActive(id), Throws.Exception);
+        }
     }
 }
