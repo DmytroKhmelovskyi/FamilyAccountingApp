@@ -103,7 +103,7 @@
             </thead>
             <tbody>
                 @{ var rowColor = "white"; }
-                @foreach (var item in ViewBag.OnePageOfTransactions)
+                @foreach (var item in Model.Transactions)
                 {
                     if (@item.State)
                     {
@@ -142,11 +142,6 @@
                 }
             </tbody>
         </table>
-        @Html.PagedListPager((IPagedList)ViewBag.OnePageOfTransactions, page => Url.Action("Details", new { page }), new PagedListRenderOptions
-            {
-                LiElementClasses = new string[] { "page-item" },
-                PageClasses = new string[] { "page-link" }
-            })
     </div>
 </div>
 
