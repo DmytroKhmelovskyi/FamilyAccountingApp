@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using FamilyAccounting.BL.DTO;
-using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.Web.Controllers;
+﻿using FamilyAccounting.Web.Controllers;
 using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
-    
+
     class PersonControllerTests
     {
         [Test]
@@ -63,21 +60,6 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.IsNotNull(result);
-        }
-
-        [Test]
-        public void Index_ThrowsException()
-        {
-            //Arrange
-            var mock = new Mock<IPersonWebService>();
-            mock.Setup(a => a.Get()).Throws(new Exception("Test Exception"));
-            PersonController controller = new PersonController(mock.Object);
-
-            //Act
-            ContentResult result = controller.Index(1) as ContentResult;
-
-            //Assert
-            Assert.That(() => mock.Object.Get(), Throws.Exception);
         }
 
         [Test]
@@ -174,7 +156,7 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
-            Assert.AreEqual("Index", redirectToActionResult.ActionName);
+            Assert.AreEqual("Details", redirectToActionResult.ActionName);
         }
 
         [Test]
@@ -214,21 +196,6 @@ namespace FamilyAccounting.Tests.ControllerTests
             var viewResult = result as ViewResult;
             var model = viewResult.ViewData.Model as PersonViewModel;
             Assert.AreEqual(personId, model.Id);
-        }
-
-        [Test]
-        public void Details_PersonDoesNotExist_ReturnsNotFoundResults()
-        {
-            // Arrange
-            var personsRepo = new Mock<IPersonWebService>();
-            personsRepo.Setup(g => g.Get(It.IsAny<int>())).Throws(It.IsAny<Exception>());
-            var controller = new PersonController(personsRepo.Object);
-
-            // Act
-            var result = controller.Details(12346743, 1);
-
-            // Assert
-            Assert.That(result, Is.TypeOf<BadRequestResult>());
         }
 
         [Test]
