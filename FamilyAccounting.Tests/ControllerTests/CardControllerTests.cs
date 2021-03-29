@@ -76,5 +76,44 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Assert
             Assert.That(result.ActionName, Is.EqualTo("Details"));
         }
+        [Test]
+        public void UpdateСard_ReturnsRedirect_ToActionResut()
+        {
+            // Arrange
+            var walletId = 1;
+            var card = new CardViewModel() { WalletId = walletId };
+            var mockWallet = new Mock<IWalletWebService>();
+            var mockСard = new Mock<ICardWebService>();
+            var controller = new CardController(mockСard.Object, mockWallet.Object);
+            mockСard.Setup(p => p.Update(walletId, It.IsAny<CardViewModel>()));
+
+            // Act
+            var result = controller.Update(walletId, card);
+
+            // Assert
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Details", redirectToActionResult.ActionName);
+        }
+
+        [Test]
+        public void UpdateCard_NotNull_ViewResultIsNotNull()
+        {
+            //Arrange
+            var card = new CardViewModel()
+            {
+                WalletId = 1,
+                Description = "for shopping",
+            };
+            var mockWallet = new Mock<IWalletWebService>();
+            var mockСard = new Mock<ICardWebService>();
+
+            var controller = new CardController(mockСard.Object, mockWallet.Object);
+
+            //Act
+            var result = controller.Update(card.WalletId, card);
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
     }
 }

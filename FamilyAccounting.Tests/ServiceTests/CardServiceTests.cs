@@ -77,5 +77,65 @@ namespace FamilyAccounting.Tests.ServiceTests
             Assert.IsNotNull(result);
             Assert.AreEqual(shouldBe.GetType().Name, result.GetType().Name);
         }
+
+        [Test]
+        public void CardService_UpdateWallet_ShouldNotBeNull()
+        {
+            //Arrange
+            CardDTO card = new CardDTO()
+            {
+                WalletId = 1,
+                Description = "for shopping",
+            };
+
+            var cardId = card.WalletId;
+            var mock = new Mock<ICardService>();
+
+            //Act
+            var result = mock.Setup(a => a.Update(cardId, card));
+
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void CardService_Verify_UpdateCardCalledOnce()
+        {
+            //Arrange
+            CardDTO card = new CardDTO()
+            {
+                WalletId = 1,
+                Description = "for shopping",
+            };
+
+            var cardId = card.WalletId;
+            var mock = new Mock<ICardService>();
+
+            //Act
+            mock.Object.Update(cardId, card);
+
+            //Assert
+            mock.Verify(m => m.Update(cardId, card), Times.Once);
+        }
+
+        [Test]
+        public void CardService_UpdateCard_ThrowsException()
+        {
+            //Arrange
+            CardDTO card = new CardDTO()
+            {
+                WalletId = 1,
+                Description = "for shopping",
+            };
+            var cardId = card.WalletId;
+            var mock = new Mock<ICardService>();
+
+            //Act
+            mock.Setup(a => a.Update(cardId, card)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Update(cardId, card), Throws.Exception);
+        }
+
     }
 }
