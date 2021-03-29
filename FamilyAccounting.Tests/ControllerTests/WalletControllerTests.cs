@@ -1,13 +1,9 @@
-﻿using AutoMapper;
-using FamilyAccounting.BL.DTO;
-using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.Web.Controllers;
+﻿using FamilyAccounting.Web.Controllers;
 using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using System;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -29,23 +25,6 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.IsNotNull(result);
-        }
-
-        [Test]
-        public void Details_ThrowsException()
-        {
-            //Arrange
-            var mockWallet = new Mock<IWalletWebService>();
-            var mockPerson = new Mock<IPersonWebService>();
-            int id = 0;
-            mockWallet.Setup(a => a.Get(id)).Throws(new Exception("Test Exception"));
-            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
-
-            //Act
-            ContentResult result = controller.Details(id, 1) as ContentResult;
-
-            //Assert
-            Assert.That(() => mockWallet.Object.Get(id), Throws.Exception);
         }
 
         [Test]
