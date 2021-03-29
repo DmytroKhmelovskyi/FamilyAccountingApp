@@ -15,10 +15,7 @@
                 <dl class="row">
                     <div class="col-sm-3">
                         <dt style="margin-bottom:8px;">
-                            @Html.DisplayNameFor(model => model.FirstName)
-                        </dt>
-                        <dt style="margin-bottom:9px;">
-                            @Html.DisplayNameFor(model => model.LastName)
+                            Name
                         </dt>
                         <dt style="margin-bottom:7px;">
                             @Html.DisplayNameFor(model => model.Email)
@@ -26,22 +23,13 @@
                         <dt style="margin-bottom:8px;">
                             @Html.DisplayNameFor(model => model.Phone)
                         </dt>
-                        <dt style="margin-bottom:8px;">
-                            @Html.DisplayNameFor(model => model.WalletsCount)
-                        </dt>
                         <dt style="margin-bottom:9px;">
                             @Html.DisplayNameFor(model => model.Balance)
-                        </dt>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.TotalIncome)
                         </dt>
                     </div>
                     <div class="col-sm-8">
                         <dd>
-                            @Html.DisplayFor(model => model.FirstName)
-                        </dd>
-                        <dd>
-                            @Html.DisplayFor(model => model.LastName)
+                            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
                         </dd>
                         <dd>
                             @Html.DisplayFor(model => model.Email)
@@ -50,13 +38,7 @@
                             @Html.DisplayFor(model => model.Phone)
                         </dd>
                         <dd>
-                            @Html.DisplayFor(model => model.WalletsCount)
-                        </dd>
-                        <dd>
                             @Html.DisplayFor(model => model.Balance)
-                        </dd>
-                        <dd>
-                            @Html.DisplayFor(model => model.TotalIncome)
                         </dd>
                     </div>
                 </dl>
