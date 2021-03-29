@@ -58,7 +58,7 @@ namespace FamilyAccounting.Web.Services
             }
             else
             {
-                result = JsonSerializer.Serialize(new { message = ex?.Message });
+                result = JsonSerializer.Serialize(new { message = "Oops... Internal Server Error occured!Don't worry, it's being fixed"});
             }
             return response.WriteAsync(result);
         }
