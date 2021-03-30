@@ -168,5 +168,54 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Assert
             mockCard.Verify(a => a.Get(WalletId), Times.Once);
         }
+        [Test]
+        public void DeleteShouldRedirectToActionDelete()
+        {
+            //Arrange
+            var mockCard = new Mock<ICardWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+
+            var controller = new CardController(mockCard.Object, mockWallet.Object);
+
+            //Act
+            var result = controller.RedirectToAction("Delete");
+
+            //Assert
+            Assert.That(result.ActionName, Is.EqualTo("Delete"));
+        }
+        [Test]
+        public void DeleteShouldReturnViewResult()
+        {
+            // Arrange
+            int id = 1;
+            var mockCard = new Mock<ICardWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+
+            var controller = new CardController(mockCard.Object, mockWallet.Object);
+
+            // Act
+            var result = controller.Delete(id);
+
+            // Assert
+            Assert.That(result, Is.TypeOf<ViewResult>());
+        }
+
+
+        [Test]
+        public void Delete_NotNull_ResultIsNotNull()
+        {
+            //Arrange
+            var card = new WalletViewModel();
+            var mockCard = new Mock<ICardWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            mockCard.Setup(g => g.Delete(card.Id));
+            var controller = new CardController(mockCard.Object, mockWallet.Object);
+
+            //Act
+            ViewResult result = controller.Delete(card.Id) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
     }
 }
