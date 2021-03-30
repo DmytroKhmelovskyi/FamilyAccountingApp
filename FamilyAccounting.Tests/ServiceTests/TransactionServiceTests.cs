@@ -84,5 +84,32 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.That(() => mock.Object.SetInitialBalance(transactionDTO.Object), Throws.Exception);
         }
+        [Test]
+        public void TransactionService_Verify_MakeTransferCalledOnce()
+        {
+            //Arrange
+            var serviceMock = new Mock<ITransactionService>();
+            var transactionDTO = new Mock<TransactionDTO>();
+
+            //Act
+            serviceMock.Object.MakeTransfer(transactionDTO.Object);
+
+            //Assert
+            serviceMock.Verify(m => m.MakeTransfer(transactionDTO.Object), Times.Once);
+        }
+
+        [Test]
+        public void TransactionService_MakeTransfer_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<ITransactionService>();
+            var transactionDTO = new Mock<TransactionDTO>();
+
+            //Act
+            mock.Setup(a => a.MakeTransfer(transactionDTO.Object)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.MakeTransfer(transactionDTO.Object), Throws.Exception);
+        }
     }
 }
