@@ -1,0 +1,120 @@
+﻿@*@model IEnumerable<FamilyAccounting.DAL.Entities.AuditAction>*@
+
+@{
+    ViewData["Title"] = "Audit wallets";
+    var pagedList = (IPagedList)ViewBag.OnePageOfAuditWallets;
+}
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+
+<h1>Audit wallets</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<div>
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexActions">Transactions audit</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexWallets">Wallets audit</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexPersons">Persons audit</a>
+        </li>
+    </ul>
+    <table class="table">
+        <thead>
+            <tr class="header">
+                <th>
+                    Id
+                </th>
+                <th>
+                    Person Id
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Is Active
+                </th>
+                <th>
+                    Operation type
+                </th>
+                <th>
+                    Operation time
+                </th>
+                @*<th></th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @{ var rowStyle = ""; }
+            @foreach (var item in ViewBag.OnePageOfAuditWallets)
+            {
+                @switch (item.Type)
+                {
+                    case "Insert":
+                        rowStyle = "insert";
+                        break;
+                    case "Update":
+                        rowStyle = "update";
+                        break;
+                    case "Delete":
+                        rowStyle = "delete";
+                        break;
+                }
+            <tr class=@rowStyle>
+                <td>
+                    @item.Wallet.Id
+                </td>
+                <td>
+                    @item.Wallet.PersonId
+                </td>
+                <td>
+                    @item.Wallet.Description
+                </td>
+                <td>
+                    @item.Wallet.IsActive
+                </td>
+                <td>
+                    @item.Type
+                </td>
+                <td>
+                    @item.Time
+                </td>
+                @*            <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>*@
+            </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.OnePageOfAuditWallets, page => Url.Action("IndexWallets", new { page }), new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
+</div>
+
+<style type="text/css">
+    .insert {
+        background-color: #e0ffbd;
+    }
+
+    .update {
+        background-color: #fff8bd;
+    }
+
+    .delete {
+        background-color: #ffc0b8;
+    }
+
+    .header {
+        background-color: cornflowerblue;
+        color: white;
+    }
+</style>

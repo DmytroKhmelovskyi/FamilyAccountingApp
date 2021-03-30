@@ -25,6 +25,12 @@ namespace FamilyAccounting.AutoMapper
             CreateMap<Role, RoleDTO>();
             CreateMap<UserDTO, User>();
             CreateMap<User, UserDTO>();
+            CreateMap<AuditAction, AuditActionDTO>();
+            CreateMap<AuditActionDTO, AuditAction>();
+            CreateMap<AuditWallet, AuditWalletDTO>();
+            CreateMap<AuditWalletDTO, AuditWallet>();
+            CreateMap<AuditPerson, AuditPersonDTO>();
+            CreateMap<AuditPersonDTO, AuditPerson>();
         }
     }
 }

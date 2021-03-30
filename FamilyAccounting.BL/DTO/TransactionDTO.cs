@@ -1,5 +1,4 @@
-﻿using FamilyAccounting.DAL.Entities;
-using System;
+﻿using System;
 
 namespace FamilyAccounting.BL.DTO
 {
