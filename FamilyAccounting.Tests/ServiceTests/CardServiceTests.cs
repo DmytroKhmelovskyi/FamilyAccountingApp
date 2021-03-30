@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
@@ -6,6 +7,7 @@ using FamilyAccounting.DAL.Connection;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Repositories;
+using FamilyAccounting.Web.Models;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -174,6 +176,81 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //Assert
             serviceMock.Verify(m => m.Get(id), Times.Once);
+        }
+
+        [Test]
+        public void DeleteShouldCallDeleteInDalOnce()
+        {
+            //Arrange
+            var mockRepository = new Mock<ICardRepository>();
+            var mockMapper = new Mock<IMapper>();
+            ICardService service = new CardService(mockMapper.Object, mockRepository.Object);
+            mockRepository.Setup(x => x.Delete(1)).Returns(It.IsAny<int>);
+
+            //Act
+            service.Delete(1);
+
+            //Assert
+            mockRepository.Verify(x => x.Delete(1), Times.Once);
+        }
+
+        [Test]
+        public void CardService_DeleteCard_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<ICardService>();
+
+            //Act
+            mock.Setup(a => a.Delete(1)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Delete(1), Throws.Exception);
+        }
+        [Test]
+        public void DeleteCard_Success_CallsRepositoryWithCorrectParameters()
+        {
+            //Arrenge
+            int status = 1;
+            var cardViewModel = new CardViewModel()
+            {
+                WalletId = 1
+            };
+            var cardRepoMock = new Mock<ICardRepository>();
+            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            var cardService = new CardService(mapper, cardRepoMock.Object);
+
+            //Act
+            var result = cardService.Delete(cardViewModel.WalletId);
+
+            //Assert
+            cardRepoMock.Verify(r => r.Delete(It.Is<int>(id => id == cardViewModel.WalletId)), Times.Once);
+        }
+
+        [Test]
+        public void DeleteCard_IsNotNull()
+        {
+            //Arrenge
+            int status = 1;
+            var cardViewModel = new CardViewModel();
+            var cardRepoMock = new Mock<ICardRepository>();
+            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            var walletService = new CardService(mapper, cardRepoMock.Object);
+
+            //Act
+            var result = walletService.Delete(cardViewModel.WalletId);
+
+            //Assert
+            Assert.IsNotNull(result);
         }
     }
 }
