@@ -76,7 +76,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void DeleteGuest_Success_CallsRepositoryWithCorrectParameters()
+        public void DeleteWallet_Success_CallsRepositoryWithCorrectParameters()
         {
             //Arrenge
             int status = 1;
@@ -101,7 +101,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void DeleteGuest_IsNotNull()
+        public void DeleteWallet_IsNotNull()
         {
             //Arrenge
             int status = 1;
@@ -159,7 +159,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             };
             var mock = new Mock<IWalletService>();
             mock.Setup(x => x.Create(walletDTO)).Returns(walletDTO);
-           
+
             //Act
             var result = mock.Object.Create(walletDTO);
 
@@ -177,19 +177,19 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Id = 1,
                 Description = "for shopping",
             };
-            
+
             var walletId = wallet.Id;
             var mock = new Mock<IWalletService>();
 
             //Act
-           var result = mock.Setup(a => a.Update(walletId.Value, wallet));
+            var result = mock.Setup(a => a.Update(walletId.Value, wallet));
 
 
             //Assert
             Assert.IsNotNull(result);
         }
-      
-       public void GetTransactionsShouldNotBeNull()
+
+        public void GetTransactionsShouldNotBeNull()
         {
             //Arrange
             List<TransactionDTO> test = new List<TransactionDTO>();
@@ -256,7 +256,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             IEnumerable<TransactionDTO> result = service.GetTransactions(2);
 
             //Assert
-            Assert.AreEqual("FamilyAccounting.BL.DTO.TransactionDTO[]", "" + result.GetType() + "") ;
+            Assert.AreEqual("FamilyAccounting.BL.DTO.TransactionDTO[]", "" + result.GetType() + "");
         }
 
         [Test]
@@ -319,5 +319,32 @@ namespace FamilyAccounting.Tests.ServiceTests
             //Assert
             Assert.That(() => mock.Object.MakeActive(id), Throws.Exception);
         }
+
+        [Test]
+        public void GetListOfWallets_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<IWalletService>();
+
+            //Act
+            mock.Setup(a => a.Get()).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Get(), Throws.Exception);
+        }
+
+        [Test]
+        public void WalletService_GetListOfWallets_ShouldNotNull()
+        {
+            //Arrange
+            var serviceMock = new Mock<IWalletService>();
+
+            //Act
+            var result = serviceMock.Setup(a => a.Get());
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
     }
 }
