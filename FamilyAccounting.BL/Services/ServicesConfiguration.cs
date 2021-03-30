@@ -12,6 +12,7 @@ namespace FamilyAccounting.BL.Services
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<ITransactionService,TransactionService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuditService, AuditService>();
             return services;
         }
     }

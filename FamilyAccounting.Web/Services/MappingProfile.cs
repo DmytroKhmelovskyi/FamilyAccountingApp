@@ -27,6 +27,12 @@ namespace FamilyAccounting.Web.Services
             CreateMap<RoleViewModel, RoleDTO>();
             CreateMap<UserDTO, UserViewModel>();
             CreateMap<UserViewModel, UserDTO>();
+            CreateMap<AuditActionViewModel, AuditActionDTO>();
+            CreateMap<AuditActionDTO, AuditActionViewModel>();
+            CreateMap<AuditWalletViewModel, AuditWalletDTO>();
+            CreateMap<AuditWalletDTO, AuditWalletViewModel>();
+            CreateMap<AuditPersonViewModel, AuditPersonDTO>();
+            CreateMap<AuditPersonDTO, AuditPersonViewModel>();
         }
     }
 }

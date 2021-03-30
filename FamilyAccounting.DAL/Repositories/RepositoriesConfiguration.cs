@@ -14,6 +14,7 @@ namespace FamilyAccounting.DAL.Repositories
             services.AddTransient<IWalletRepository, WalletRepository>();
             services.AddTransient<ITransactionRepository,TransactionRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IAuditRepository, AuditRepository>();
             return services;
         }
     }
