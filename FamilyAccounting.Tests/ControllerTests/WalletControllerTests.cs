@@ -4,45 +4,12 @@ using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
     class WalletControllerTests
     {
-        [Test]
-        public void Details_ViewResultNotNull()
-        {
-            //Arrange
-            var mockWallet = new Mock<IWalletWebService>();
-            var mockPerson = new Mock<IPersonWebService>();
-            int id = 1;
-
-            mockWallet.Setup(a => a.Get(id));
-            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
-
-            //Act
-            ViewResult result = controller.Details(id, 1) as ViewResult;
-
-            //Assert
-            Assert.IsNotNull(result);
-        }
-
-        [Test]
-        public void Details_VerifyOnce()
-        {
-            //Arrange
-            var mockWallet = new Mock<IWalletWebService>();
-            var mockPerson = new Mock<IPersonWebService>();
-            int id = 1;
-            WalletController controller = new WalletController(mockWallet.Object, mockPerson.Object);
-
-            //Act
-            RedirectToActionResult result = controller.Details(id, 1) as RedirectToActionResult;
-
-            //Assert
-            mockWallet.Verify(a => a.Get(id), Times.Once);
-        }
-
         [Test]
         public void WalletController_CreateAnObject()
         {
@@ -60,23 +27,6 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldCallDeleteWalletInBlOnce()
-        {
-            //Arrange
-            var mockWallet = new Mock<IWalletWebService>();
-            var mockPerson = new Mock<IPersonWebService>();
-
-            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Delete(1));
-
-            //Act
-            controller.DeleteWallet(1);
-
-            //Assert
-            mockWallet.Verify(x => x.Delete(1), Times.Once);
-        }
-
-        [Test]
         public void DeleteShouldRedirectToActionDelete()
         {
             //Arrange
@@ -90,26 +40,6 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.That(result.ActionName, Is.EqualTo("Delete"));
-        }
-
-        [Test]
-        public void Delete_Success_ReturnsARedirectToActionResut()
-        {
-            //Arrange
-            var walletId = 1;
-            var wallet = new WalletViewModel() { Id = walletId };
-            var mockWallet = new Mock<IWalletWebService>();
-            var mockPerson = new Mock<IPersonWebService>();
-
-            mockWallet.Setup(g => g.Delete(walletId));
-            var controller = new WalletController(mockWallet.Object, mockPerson.Object);
-
-            //Act
-            var result = controller.DeleteWallet(walletId);
-
-            //Assert
-            var redirectToActionResult = result as RedirectToActionResult;
-            Assert.AreEqual("Index", redirectToActionResult.ActionName);
         }
 
         [Test]
@@ -175,10 +105,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             // Act
-            var result = controller.Create(1);
+            var result = controller.RedirectToAction("Create");
 
             // Assert
-            Assert.That(result, Is.TypeOf<ViewResult>());
+            Assert.That(result.ActionName, Is.EqualTo("Create"));
         }
 
 
