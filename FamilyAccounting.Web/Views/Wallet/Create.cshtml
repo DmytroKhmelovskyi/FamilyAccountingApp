@@ -34,7 +34,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to Person</a>
+    <a asp-controller="Person" asp-action="Details" asp-route-id=@Model.PersonId>Back to Person</a>
 </div>
 
 @section Scripts {

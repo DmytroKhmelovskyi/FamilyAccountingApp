@@ -107,7 +107,6 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mockWallet = new Mock<IWalletWebService>();
             var mockСard = new Mock<ICardWebService>();
-
             var controller = new CardController(mockСard.Object, mockWallet.Object);
 
             //Act
@@ -115,6 +114,59 @@ namespace FamilyAccounting.Tests.ControllerTests
 
             //Assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void Details_ViewResultNotNull()
+        {
+            //Arrange
+            var mockWallet = new Mock<IWalletWebService>();
+            var mockСard = new Mock<ICardWebService>();
+            int id = 1;
+            mockСard.Setup(a => a.Get(id));
+            var controller = new CardController(mockСard.Object, mockWallet.Object);
+
+            //Act
+            ViewResult result = controller.Details(id) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void Details_CardExists_ReturnsAViewResultWithCard()
+        {
+            //Arrange
+            var walletId = 1;
+            var testCard = new CardViewModel() { WalletId = walletId };
+            var mockCard = new Mock<ICardWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            mockCard.Setup(g => g.Get(walletId)).Returns(testCard);
+            var controller = new CardController(mockCard.Object, mockWallet.Object);
+
+            // Act
+            var result = controller.Details(walletId);
+
+            // Assert
+            var viewResult = result as ViewResult;
+            var model = viewResult.ViewData.Model as CardViewModel;
+            Assert.AreEqual(walletId, model.WalletId);
+        }
+
+        [Test]
+        public void Details_VerifyOnce()
+        {
+            //Arrange
+            var WalletId = 1;
+            var mockCard = new Mock<ICardWebService>();
+            var mockWallet = new Mock<IWalletWebService>();
+            var controller = new CardController(mockCard.Object, mockWallet.Object);
+
+            //Act
+            RedirectToActionResult result = controller.Details(1) as RedirectToActionResult;
+
+            //Assert
+            mockCard.Verify(a => a.Get(WalletId), Times.Once);
         }
     }
 }

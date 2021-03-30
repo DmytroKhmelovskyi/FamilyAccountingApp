@@ -87,7 +87,6 @@ namespace FamilyAccounting.Tests.ServiceTests
                 WalletId = 1,
                 Description = "for shopping",
             };
-
             var cardId = card.WalletId;
             var mock = new Mock<ICardService>();
 
@@ -107,7 +106,6 @@ namespace FamilyAccounting.Tests.ServiceTests
                 WalletId = 1,
                 Description = "for shopping",
             };
-
             var cardId = card.WalletId;
             var mock = new Mock<ICardService>();
 
@@ -135,6 +133,47 @@ namespace FamilyAccounting.Tests.ServiceTests
 
             //Assert
             Assert.That(() => mock.Object.Update(cardId, card), Throws.Exception);
+        }
+
+        [Test]
+        public void CardService_GetCard_ShouldNotBeNull()
+        {
+            //Arrange
+            var serviceMock = new Mock<ICardService>();
+            int id = 1;
+
+            //act
+            var result = serviceMock.Setup(a => a.Get(id));
+
+            //assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void CardService_GetCard_ThrowsException()
+        {
+            //Arrange
+            var mock = new Mock<ICardService>();
+            int id = 0;
+            //Act
+            mock.Setup(a => a.Get(id)).Throws(new Exception("Test Exception"));
+
+            //Assert
+            Assert.That(() => mock.Object.Get(id), Throws.Exception);
+        }
+
+        [Test]
+        public void CardtService_Verify_GetCardCalledOnce()
+        {
+            //Arrange
+            var serviceMock = new Mock<ICardService>();
+            int id = 1;
+
+            //Act
+            serviceMock.Object.Get(id);
+
+            //Assert
+            serviceMock.Verify(m => m.Get(id), Times.Once);
         }
     }
 }
