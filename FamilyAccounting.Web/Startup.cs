@@ -22,7 +22,6 @@ namespace FamilyAccounting.Web
         {
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            //var connectionString = Configuration.GetConnectionString("AzureConnection");
             services.AddRepositories(connectionString);
             services.AddServices();
             services.AddViewModelMapping();
@@ -37,8 +36,7 @@ namespace FamilyAccounting.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseGlobalExceptionMiddleware();
-            app.UseDeveloperExceptionPage();
+            app.UseGlobalExceptionMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

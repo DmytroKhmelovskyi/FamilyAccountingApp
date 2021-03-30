@@ -1,5 +1,7 @@
-﻿using FamilyAccounting.Web.Interfaces;
+﻿using FamilyAccounting.Web.Exceptions;
+using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
+using FamilyAccounting.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -49,6 +51,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            //throw new NotFoundException();
             var updatedWallet = walletWebService.Get(id);
             return View(updatedWallet);
         }
@@ -66,6 +69,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpGet]
         public ViewResult Delete(int? id)
         {
+            //throw new BadRequestException();
             var wallet = walletWebService.Get((int)id);
             return View(wallet);
         }
