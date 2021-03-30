@@ -27,8 +27,19 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexActions">Audit</a>
+                                <a onclick="ShowAndHide()" class="nav-link text-dark">Audit</a>
                             </li>
+                            <ul style="border:solid;border-color:cornflowerblue;border-radius:6px;visibility:hidden" id="auditbtn" class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexActions">Actions</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexWallets">Wallets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="IndexPersons">Persons</a>
+                                </li>
+                            </ul>
                         }
                     </ul>
                 </div>
@@ -69,3 +80,13 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<SCRIPT>
+    function ShowAndHide() {
+        var x = document.getElementById('auditbtn');
+        if (x.style.visibility == 'hidden') {
+            x.style.visibility = 'visible';
+        } else {
+            x.style.visibility = 'hidden';
+        }
+    }
+</SCRIPT>
