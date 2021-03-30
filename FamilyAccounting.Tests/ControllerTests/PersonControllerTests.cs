@@ -231,11 +231,12 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldReturnViewResult()
         {
             // Arrange
+            int id = 1;
             var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
-            var result = controller.Add();
+            var result = controller.Delete(id);
 
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
