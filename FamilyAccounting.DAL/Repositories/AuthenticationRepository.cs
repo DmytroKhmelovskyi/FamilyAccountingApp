@@ -1,13 +1,8 @@
 ﻿using FamilyAccounting.DAL.Connection;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Repositories
 {

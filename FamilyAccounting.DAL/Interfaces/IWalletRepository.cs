@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
-   public interface IWalletRepository
+    public interface IWalletRepository
     {
         public IEnumerable<Wallet> Get();
         public Wallet Get(int id);

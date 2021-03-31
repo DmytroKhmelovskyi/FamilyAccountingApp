@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
-using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Entities;
+using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 

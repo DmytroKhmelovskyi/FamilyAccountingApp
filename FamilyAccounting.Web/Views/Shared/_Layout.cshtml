@@ -26,7 +26,7 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item" style="cursor: pointer">
                                 <a onclick="ShowAndHide()" class="nav-link text-dark">Audit</a>
                             </li>
                             <ul style="border:solid;border-color:cornflowerblue;border-radius:6px;visibility:hidden" id="auditbtn" class="navbar-nav">
