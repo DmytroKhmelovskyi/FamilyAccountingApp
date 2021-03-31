@@ -1,5 +1,4 @@
 ﻿using FamilyAccounting.BL.DTO;
-using FamilyAccounting.DAL.Entities;
 using System.Collections.Generic;
 
 namespace FamilyAccounting.BL.Interfaces

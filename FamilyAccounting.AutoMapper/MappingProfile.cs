@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FamilyAccounting.AutoMapper
 {

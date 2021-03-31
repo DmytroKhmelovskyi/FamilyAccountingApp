@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FamilyAccounting.BL.DTO
+﻿namespace FamilyAccounting.BL.DTO
 {
-   public class CategoryDTO
+    public class CategoryDTO
     {
         public int Id { get; set; }
         public string Description { get; set; }

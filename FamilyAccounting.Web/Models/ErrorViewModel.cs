@@ -1,5 +1,3 @@
-using System;
-
 namespace FamilyAccounting.Web.Models
 {
     public class ErrorViewModel

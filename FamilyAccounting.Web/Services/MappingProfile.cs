@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
 {

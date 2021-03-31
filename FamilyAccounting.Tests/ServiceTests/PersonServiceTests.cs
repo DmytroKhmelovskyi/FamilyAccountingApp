@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
+using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Connection;
+using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using FamilyAccounting.DAL.Repositories;
-using FamilyAccounting.DAL.Entities;
 using Moq;
 using NUnit.Framework;
 using System;
-using FamilyAccounting.AutoMapper;
 
 namespace FamilyAccounting.Tests.ServiceTests
 {

@@ -3,11 +3,6 @@ using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Services
 {
