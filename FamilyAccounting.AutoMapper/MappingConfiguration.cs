@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace FamilyAccounting.AutoMapper
 {
-    public static class MapperServiceConfiguration
+    public static class MappingConfiguration
     {
-        public static IServiceCollection AddMapping(this IServiceCollection services)
+        public static IServiceCollection AddModelMapping(this IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {

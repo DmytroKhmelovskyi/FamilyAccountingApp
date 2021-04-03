@@ -109,7 +109,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 transactionWebService.Update(id, transaction);
             }
-            return RedirectToAction("Details", "Wallet", new { id = transaction.Id });
+            return RedirectToAction("Details", "Wallet", new { id =  transaction.TargetWalletId });
         }
 
         [HttpGet]
