@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FamilyAccounting.AutoMapper\FamilyAccounting.AutoMapper.csproj" />
+    <ProjectReference Include="..\FamilyAccounting.BL\FamilyAccounting.BL.csproj" />
+    <ProjectReference Include="..\FamilyAccounting.DAL\FamilyAccounting.DAL.csproj" />
+  </ItemGroup>
+
+
+</Project>

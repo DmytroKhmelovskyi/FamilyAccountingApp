@@ -114,4 +114,5 @@
     {
         @*<a asp-action="Details" asp-controller="Wallet" asp-route-id="@Model.TargetWalletId">Back to Wallet</a>*@
     }
+    <a asp-action="Update" asp-controller="Transaction"  asp-route-transactionId ="@Model.Id"  asp-route-id ="@Model.TargetWalletId">Update</a>
 </div>
