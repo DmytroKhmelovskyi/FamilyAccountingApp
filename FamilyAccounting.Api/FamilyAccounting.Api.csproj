@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FamilyAccounting.AutoMapper\FamilyAccounting.AutoMapper.csproj" />
     <ProjectReference Include="..\FamilyAccounting.BL\FamilyAccounting.BL.csproj" />
     <ProjectReference Include="..\FamilyAccounting.DAL\FamilyAccounting.DAL.csproj" />

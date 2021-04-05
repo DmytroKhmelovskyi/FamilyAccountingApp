@@ -33,6 +33,14 @@ namespace FamilyAccounting.Api
                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                });
+            services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+               {
+                   Title = "FamilyAccounting",
+                   Version = "v1"
+               });
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +50,13 @@ namespace FamilyAccounting.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => 
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "FamilyAccounting");
+            });
 
             app.UseHttpsRedirection();
 
