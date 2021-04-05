@@ -17,16 +17,21 @@ namespace FamilyAccounting.Api.Controllers
             this.auditService = auditService;
         }
 
+        [HttpGet]
         public ActionResult<IEnumerable<AuditActionDTO>> IndexActions(/*int Id, */)
         {
             var auditActions = auditService.GetActions();
             return auditActions.ToList();
         }
+
+        [HttpGet]
         public ActionResult<IEnumerable<AuditWalletDTO>> IndexWallets(/*int Id, */)
         {
             var auditWallets = auditService.GetWallets();
             return auditWallets.ToList();
         }
+
+        [HttpGet]
         public ActionResult<IEnumerable<AuditPersonDTO>> IndexPersons(/*int Id, */)
         {
             var auditPersons = auditService.GetPersons();
