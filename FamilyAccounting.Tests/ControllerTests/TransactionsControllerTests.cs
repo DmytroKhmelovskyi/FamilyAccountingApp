@@ -2,6 +2,7 @@
 using FamilyAccounting.BL.Interfaces;
 using Moq;
 using NUnit.Framework;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,19 +12,18 @@ namespace FamilyAccounting.Tests.ControllerTests
     class TransactionsControllerTests
     {
         [Test]
-        public void TransactionController_CreateAnObject()
+        public void TransactionDetails_StatusCodeShouldBeOk()
         {
             //Arrange
-            string expected = "TransactionsController";
-            var mock = new Mock<ITransactionService>();
-            var mock2 = new Mock<IWalletService>();
+            var client = new RestClient("https://localhost:44398/api/Transactions/Details/85?walletId=12&transactionId=85");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
 
             //Act
-            TransactionsController controller = new TransactionsController(mock.Object, mock2.Object);
+            IRestResponse response = client.Execute(request);
 
             //Assert
-            Assert.IsNotNull(controller);
-            Assert.AreEqual(expected, controller.GetType().Name);
+            Assert.That(response.StatusCode == System.Net.HttpStatusCode.OK);
         }  
     }
 }
