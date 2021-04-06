@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FamilyAccounting.Api\FamilyAccounting.Api.csproj" />
     <ProjectReference Include="..\FamilyAccounting.BL\FamilyAccounting.BL.csproj" />
     <ProjectReference Include="..\FamilyAccounting.Web\FamilyAccounting.Web.csproj" />
   </ItemGroup>

@@ -11,10 +11,10 @@ namespace FamilyAccounting.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly ILoginApiService authentication;
-        public AccountController(ILoginApiService authentication)
+        public AccountsController(ILoginApiService authentication)
         {
             this.authentication = authentication;
         }

@@ -9,10 +9,10 @@ namespace FamilyAccounting.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class PersonsController : ControllerBase
     {
         private readonly IPersonService personsService;
-        public PersonController(IPersonService personsService)
+        public PersonsController(IPersonService personsService)
         {
             this.personsService = personsService;
         }
