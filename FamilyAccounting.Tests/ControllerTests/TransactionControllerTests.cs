@@ -64,6 +64,86 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Assert
             Assert.IsNotNull(result);
         }
+
+        [Test]
+        public void MakeExpense_ReturnsRedirect_ToActionResut()
+        {
+            // Arrange
+            var transactionId = 1;
+            var transaction = new TransactionViewModel() { Id = transactionId };
+            var mockTransactions = new Mock<ITransactionWebService>();
+            var mockWallets = new Mock<IWalletWebService>();
+            mockTransactions.Setup(p => p.MakeExpense(It.IsAny<TransactionViewModel>()));
+            var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
+
+            // Act
+            var result = controller.MakeExpense(transaction);
+
+            // Assert
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Details", redirectToActionResult.ActionName);
+        }
+
+        [Test]
+        public void MakeExpense_NotNull_ViewResultIsNotNull()
+        {
+            //Arrange
+            var transaction = new TransactionViewModel()
+            {
+                Id = 1,
+                Description = "Transaction",
+                CategoryId = 1
+            };
+            var mockTransactions = new Mock<ITransactionWebService>();
+            var mockWallets = new Mock<IWalletWebService>();
+            var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
+
+            //Act
+            var result = controller.MakeExpense(transaction);
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void SetInitialBalance_ReturnsRedirect_ToActionResut()
+        {
+            // Arrange
+            var transactionId = 1;
+            var transaction = new TransactionViewModel() { Id = transactionId };
+            var mockTransactions = new Mock<ITransactionWebService>();
+            var mockWallets = new Mock<IWalletWebService>();
+            mockTransactions.Setup(p => p.SetInitialBalance(It.IsAny<TransactionViewModel>()));
+            var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
+
+            // Act
+            var result = controller.MakeExpense(transaction);
+
+            // Assert
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Details", redirectToActionResult.ActionName);
+        }
+
+        [Test]
+        public void SetInitialBalance_NotNull_ViewResultIsNotNull()
+        {
+            //Arrange
+            var transaction = new TransactionViewModel()
+            {
+                Id = 1,
+                Description = "Transaction",
+                CategoryId = 1
+            };
+            var mockTransactions = new Mock<ITransactionWebService>();
+            var mockWallets = new Mock<IWalletWebService>();
+            var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
+
+            //Act
+            var result = controller.SetInitialBalance(transaction);
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
     }
 
 }

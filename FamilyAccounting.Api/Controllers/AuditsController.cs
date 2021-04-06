@@ -8,11 +8,11 @@ namespace FamilyAccounting.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuditController : ControllerBase
+    public class AuditsController : ControllerBase
     {
         private readonly IAuditService auditService;
 
-        public AuditController(IAuditService auditService)
+        public AuditsController(IAuditService auditService)
         {
             this.auditService = auditService;
         }

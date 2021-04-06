@@ -6,12 +6,12 @@ namespace FamilyAccounting.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CardController : ControllerBase
+    public class CardsController : ControllerBase
     {
         private readonly ICardService cardService;
         private readonly IWalletService walletService;
 
-        public CardController(ICardService cardService, IWalletService walletService)
+        public CardsController(ICardService cardService, IWalletService walletService)
         {
             this.cardService = cardService;
             this.walletService = walletService;
