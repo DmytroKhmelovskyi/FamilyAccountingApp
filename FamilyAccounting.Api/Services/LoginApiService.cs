@@ -1,9 +1,10 @@
-﻿using FamilyAccounting.BL.DTO;
+﻿using FamilyAccounting.Api.Interfaces;
+using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 
 namespace FamilyAccounting.Api.Services
 {
-    public class LoginApiService
+    public class LoginApiService : ILoginApiService
     {
         private readonly IAuthenticationService authenticationService;
 

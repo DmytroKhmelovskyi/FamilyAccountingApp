@@ -1,3 +1,5 @@
+using FamilyAccounting.Api.Interfaces;
+using FamilyAccounting.Api.Services;
 using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.Services;
 using FamilyAccounting.DAL.Repositories;
@@ -26,6 +28,7 @@ namespace FamilyAccounting.Api
             services.AddControllers();
             services.AddServices();
             services.AddModelMapping();
+            services.AddTransient<ILoginApiService, LoginApiService>();
             services.AddRepositories(connectionString);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                .AddCookie(options =>
@@ -53,7 +56,7 @@ namespace FamilyAccounting.Api
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => 
+            app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("v1/swagger.json", "FamilyAccounting");
             });
