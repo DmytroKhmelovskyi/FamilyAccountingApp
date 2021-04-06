@@ -20,7 +20,7 @@ namespace FamilyAccounting.Api.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult<LoginDTO> Login(LoginDTO model)
         {
             if (ModelState.IsValid)
@@ -30,7 +30,7 @@ namespace FamilyAccounting.Api.Controllers
                 {
                     _ = Authenticate(user);
 
-                    return RedirectToAction("Index", "Home");
+                    return Ok();
                 }
                 ModelState.AddModelError("", "invalid login and password");
             }
