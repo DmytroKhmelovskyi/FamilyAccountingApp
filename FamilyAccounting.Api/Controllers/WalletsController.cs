@@ -19,32 +19,32 @@ namespace FamilyAccounting.Api.Controllers
             this.personService = personService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<WalletDTO>> Index()
+        public ActionResult Index()
         {
             var wallet = walletService.Get();
-            return wallet.ToList();
+            return new OkObjectResult(wallet.ToList());
         }
 
         [HttpPost("{id}")]
         public ActionResult MakeActive(int Id)
         {
             walletService.MakeActive(Id);
-            return Ok();
+            return new OkResult();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<WalletDTO> Details(int Id)
+        public ActionResult Details(int Id)
         {
             var wallet = walletService.Get(Id);
             wallet.Transactions = walletService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
-            return wallet;
+            return new OkObjectResult(wallet);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<WalletDTO> Update(int id)
+        public ActionResult Update(int id)
         {
             var updatedWallet = walletService.Get(id);
-            return updatedWallet;
+            return new OkObjectResult(updatedWallet);
         }
 
         [HttpPut("{id}")]
@@ -54,18 +54,17 @@ namespace FamilyAccounting.Api.Controllers
             {
                 walletService.Update(id, wallet);
 
-                return Ok();
+                return new OkResult();
             }
             return Content("Invalid inputs");
         }
 
-        //[HttpGet]
-        //public ViewResult Delete(int? id)
-        //{
-        //    //throw new BadRequestException();
-        //    var wallet = walletService.Get((int)id);
-        //    return View(wallet);
-        //}
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            var wallet = walletService.Get((int)id);
+            return new OkObjectResult(wallet);
+        }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
@@ -73,25 +72,25 @@ namespace FamilyAccounting.Api.Controllers
         {
             var wallet = walletService.Get((int)id);
             walletService.Delete((int)id);
-            return Ok();
+            return new OkResult();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<WalletDTO> Create(int id)
+        public ActionResult Create(int id)
         {
             var person = personService.Get(id);
             WalletDTO walletVM = new WalletDTO
             {
                 PersonId = person.Id
             };
-            return walletVM;
+            return new OkObjectResult(walletVM);
         }
 
         [HttpPost]
         public ActionResult Create(WalletDTO wallet)
         {
             walletService.Create(wallet);
-            return Ok();
+            return new OkResult();
         }
     }
 }
