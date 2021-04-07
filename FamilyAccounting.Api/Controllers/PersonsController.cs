@@ -2,7 +2,6 @@
 using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace FamilyAccounting.Api.Controllers
@@ -17,10 +16,10 @@ namespace FamilyAccounting.Api.Controllers
             this.personsService = personsService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<PersonDTO>> Index()
+        public ActionResult Index()
         {
             var person = personsService.Get();
-            return person.ToList();
+            return new OkObjectResult(person.ToList());
         }
 
         [Authorize(Roles = "admin")]
@@ -30,16 +29,16 @@ namespace FamilyAccounting.Api.Controllers
             if (ModelState.IsValid)
             {
                 personsService.Add(person);
-                return Ok();
+                return new OkResult();
             }
-            return Content("Invalid inputs");
+            return new BadRequestResult();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<PersonDTO> Update(int id)
+        public ActionResult Update(int id)
         {
             var updatedPerson = personsService.Get(id);
-            return updatedPerson;
+            return new OkObjectResult(updatedPerson);
         }
 
         [HttpPut("{id}")]
@@ -50,30 +49,29 @@ namespace FamilyAccounting.Api.Controllers
                 personsService.Update(id, person);
                 return Ok();
             }
-            return Content("Invalid inputs");
+            return new BadRequestResult();
         }
         [HttpGet("{id}")]
-        public ActionResult<PersonDTO> Details(int Id)
+        public ActionResult Details(int Id)
         {
             var person = personsService.Get(Id);
             person.Wallets = personsService.GetWallets(Id);
-            return person;
+            return new OkObjectResult(person);
         }
 
-
-        //[HttpGet]
-        //public ViewResult Delete(int? id)
-        //{
-        //    var person = personsWebService.Get((int)id);
-        //    return View(person);
-        //}
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            var person = personsService.Get((int)id);
+            return new OkObjectResult(person);
+        }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
-        public IActionResult DeletePerson(int? id)
+        public ActionResult DeletePerson(int? id)
         {
             personsService.Delete((int)id);
-            return Ok();
+            return new OkResult();
         }
     }
 }

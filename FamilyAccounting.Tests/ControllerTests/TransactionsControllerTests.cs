@@ -127,6 +127,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.AreEqual("ActionResult`1", result.GetType().Name);
             Assert.IsNotNull(result);
         }
+
     }
 }
 
