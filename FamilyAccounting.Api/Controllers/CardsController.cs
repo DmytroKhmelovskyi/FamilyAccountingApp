@@ -18,13 +18,13 @@ namespace FamilyAccounting.Api.Controllers
 
         }
         [HttpGet("{id}")]
-        public ActionResult<CardDTO> Create(int id)
+        public ActionResult Create(int id)
         {
             CardDTO cardDto = new CardDTO
             {
                 WalletId = id
             };
-            return cardDto;
+            return new OkObjectResult(cardDto);
         }
 
         [HttpPost]
@@ -51,10 +51,10 @@ namespace FamilyAccounting.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CardDTO> Update(int id)
+        public ActionResult Update(int id)
         {
             var updatedCard = cardService.Get(id);
-            return updatedCard;
+            return new OkObjectResult (updatedCard);
         }
 
         [HttpPost("{id}")]
@@ -65,14 +65,14 @@ namespace FamilyAccounting.Api.Controllers
                 cardService.Update(id, card);
                 return Ok();
             }
-            return Content("Invalid inputs");
+            return new BadRequestResult();
 
         }
         [HttpGet("{id}")]
-        public ActionResult<CardDTO> Details(int Id)
+        public ActionResult Details(int Id)
         {
             var card = cardService.Get(Id);
-            return card;
+            return new OkObjectResult(card);
         }
     }
 }
