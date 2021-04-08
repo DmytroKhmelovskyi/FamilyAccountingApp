@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.BL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
 using System;
@@ -117,7 +118,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.Get(1,1)).Returns(It.IsAny<TransactionDTO>());
+            mockTransactions.Setup(p => p.Get(1, 1)).Returns(It.IsAny<TransactionDTO>());
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -128,6 +129,41 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.IsNotNull(result);
         }
 
+        [Test]
+        public void Details_ShouldReturnData()
+        {
+            // Arrange
+            TransactionDTO transaction = new TransactionDTO
+            {
+                Id = 159,
+                Amount = 92,
+                SourceWalletId = 14,
+                SourceWallet = "Cash X",
+                TargetWalletId = 22,
+                TargetWallet = "Reserve funds S",
+                Description = "transfer act descr  J C U C B E E R L S",
+                TimeStamp = new DateTime(2019, 04, 07, 15, 15, 22),
+                CategoryId = 0,
+                Category = "",
+                State = false,
+                TransactionType = (TransactionTypeDTO)1,
+                BalanceBefore = 36,
+                BalanceAfter = 36
+            };
+            string shuoldBe = JsonConvert.SerializeObject(transaction);
+            var mockTransactions = new Mock<ITransactionService>();
+            var mockWallets = new Mock<IWalletService>();
+            mockTransactions.Setup(p => p.Get(14, 159)).Returns(transaction);
+            var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
+
+            // Act
+            var result = controller.Details(14, 159);
+            string output = JsonConvert.SerializeObject(result.Value);
+
+            // Assert
+            Assert.AreEqual(shuoldBe, output);
+            Assert.IsNotNull(result);
+        }
     }
 }
 

@@ -57,6 +57,13 @@ namespace FamilyAccounting.Api.Controllers
             return transaction;
         }
 
+        [HttpPost]
+        public ActionResult MakeIncome(TransactionDTO transaction)
+        {
+            transactionService.MakeIncome(transaction);
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public ActionResult<TransactionDTO> MakeTransfer(int id)
         {
@@ -69,13 +76,6 @@ namespace FamilyAccounting.Api.Controllers
             };
             var wallets = walletService.Get();
             return transaction;
-        }
-
-        [HttpPost]
-        public ActionResult MakeIncome(TransactionDTO transaction)
-        {
-            transactionService.MakeIncome(transaction);
-            return Ok();
         }
 
         [HttpPost]
