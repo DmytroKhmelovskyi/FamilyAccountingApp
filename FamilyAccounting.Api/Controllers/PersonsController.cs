@@ -28,8 +28,8 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Add(person);
-                return new OkResult();
+                var addedPerson = personsService.Add(person);
+                return new OkObjectResult(addedPerson);
             }
             return new BadRequestResult();
         }
@@ -46,8 +46,8 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                personsService.Update(id, person);
-                return Ok();
+                var updatedPerson = personsService.Update(id, person);
+                return new OkObjectResult(updatedPerson);
             }
             return new BadRequestResult();
         }
@@ -70,7 +70,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeletePerson(int? id)
         {
-            personsService.Delete((int)id);
+            var person = personsService.Delete((int)id);
             return new OkResult();
         }
     }
