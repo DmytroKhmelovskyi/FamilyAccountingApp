@@ -17,16 +17,31 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Index_IsNotNull()
         {
             //Arrange
+            var TestList = new List<PersonDTO>
+            {
+                new PersonDTO { FirstName = "Kristin", LastName = "Hansen", WalletsCount = 0 },
+                new PersonDTO { FirstName = "Aubrey", LastName = "Sampson", WalletsCount = 4 },
+                new PersonDTO { FirstName = "Phillip", LastName = "Espinoza", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Armand", LastName = "Powers", WalletsCount = 2 },
+                new PersonDTO { FirstName = "Walter", LastName = "Foley", WalletsCount = 4 },
+                new PersonDTO { FirstName = "Shaine", LastName = "Macdonald", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Regina", LastName = "Guy", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Edan", LastName = "Craft", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Rhoda", LastName = "Key", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Germaine", LastName = "Carrillo", WalletsCount = 3 },
+                new PersonDTO { FirstName = "Boris", LastName = "Pittman", WalletsCount = 3 }
+            };
             var mock = new Mock<IPersonService>();
-            mock.Setup(a => a.Get());
-            PersonsController controller = new PersonsController(mock.Object);
+            mock.Setup(a => a.Get()).Returns(TestList);
+            Mock<PersonsController> controller = new Mock<PersonsController>(mock.Object);
 
             //Act
-            var result = controller.Index() as OkObjectResult;
+            var result = controller.Object.Index() as OkObjectResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatusCode, 200);
+            Assert.AreEqual(result.Value, TestList);
         }
 
         [Test]
@@ -37,7 +52,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             PersonsController controller = new PersonsController(mock.Object);
 
             //Act
-            var result = controller.Index();
+            var result = controller.Index() as OkObjectResult;
 
             //Assert
             mock.Verify(a => a.Get(), Times.Once);
@@ -140,13 +155,21 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Arrange
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            var personDTO = new PersonDTO();
+            PersonDTO personDTO = new PersonDTO
+            {
+                FirstName = "Bob",
+                LastName = "Smith",
+                Phone = "0636363636",
+                Email = "email.email.com"
+            };
+            mock.Setup(a => a.Add(personDTO)).Returns(personDTO);
             // Act
-            var result = controller.Add(personDTO);
+            var result = controller.Add(personDTO) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.That(result, Is.TypeOf<OkResult>());
+            Assert.AreEqual(result.StatusCode, 200);
+            Assert.AreEqual(result.Value, personDTO);
         }
 
         [Test]
@@ -163,13 +186,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            mock.Setup(x => x.Update(personDTO.Id, personDTO));
+            mock.Setup(x => x.Update(personDTO.Id, personDTO)).Returns(personDTO);
 
             //Act
-            controller.Update(personDTO.Id, personDTO);
+            var result = controller.Update(personDTO.Id, personDTO) as OkObjectResult;
 
             //Assert
             mock.Verify(x => x.Update(personDTO.Id, personDTO));
+            Assert.AreEqual(result.Value, personDTO);
         }
 
         [Test]
@@ -206,6 +230,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatusCode, 200);
+            Assert.AreEqual(result.Value, testPerson);
         }
 
         [Test]
@@ -241,16 +266,23 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void DeleteShouldReturnActionResult()
         {
             // Arrange
-            int id = 1;
+            PersonDTO personDTO = new PersonDTO
+            {
+                Id = 1,
+                FirstName = "Bob",
+                LastName = "Smith",
+                Phone = "0636363636",
+                Email = "email.email.com"
+            };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
 
             // Act
-            var result = controller.Delete(id);
+            var result = controller.Delete(personDTO.Id) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.That(result, Is.TypeOf<OkObjectResult>());
+            Assert.AreEqual(result.StatusCode, 200);
         }
     }
 }
