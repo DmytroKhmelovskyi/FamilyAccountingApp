@@ -36,7 +36,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Arrange
             var mockWallet = new Mock<IWalletService>();
             var mockCard = new Mock<ICardService>();
-            mockCard.Setup(a => a.Create(card));
+            mockCard.Setup(a => a.Create(card)).Returns(card);
             CardsController controller = new CardsController(mockCard.Object, mockWallet.Object);
 
             // Act
@@ -45,6 +45,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             // Assert
             Assert.AreEqual(result.StatusCode, 200);
             Assert.IsNotNull(result);
+
         }
 
         [Test]
@@ -71,18 +72,23 @@ namespace FamilyAccounting.Tests.ControllerTests
         public void Details_ViewResultNotNull()
         {
             //Arrange
+            var testCard = new CardDTO { 
+                WalletId = 3, 
+                Number = "6011111111111117", 
+                Description = "O.O.N.Q.D.U.Y.U.R.D"
+            };
             var mockWallet = new Mock<IWalletService>();
             var mockСard = new Mock<ICardService>();
-            int id = 1;
-            mockСard.Setup(a => a.Get(id));
+            mockСard.Setup(a => a.Get(testCard.WalletId)).Returns(testCard);
             var controller = new CardsController(mockСard.Object, mockWallet.Object);
 
             //Act
-            var result = controller.Details(id) as OkObjectResult;
+            var result = controller.Details(testCard.WalletId) as OkObjectResult;
 
             //Assert
             Assert.AreEqual(result.StatusCode, 200);
             Assert.IsNotNull(result);
+            Assert.AreEqual(result.Value, testCard);
         }
 
         [Test]
