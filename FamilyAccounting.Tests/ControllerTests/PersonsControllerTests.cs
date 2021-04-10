@@ -207,7 +207,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonsController(mock.Object);
 
             // Act
-            var result = controller.Update(personId, person) as OkResult;
+            var result = controller.Update(personId, person) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
