@@ -61,8 +61,7 @@ namespace FamilyAccounting.Api.Controllers
         public ActionResult Update(int id, CardDTO card)
         {
             if (ModelState.IsValid)
-            {
-                
+            {                
                 return new OkObjectResult(cardService.Update(id, card));
             }
             return new BadRequestResult();

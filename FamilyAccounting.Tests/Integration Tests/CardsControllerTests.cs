@@ -75,7 +75,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
         {
             // Arrange
             var walletId = 1;
-            CardRepoMock.Setup(r => r.Get(walletId)).Returns(new Card { WalletId = walletId, Description="for shopping" ,Number = "3566002020360505" });
+            CardRepoMock.Setup(r => r.Get(walletId)).Returns(new Card { WalletId = walletId, Description="for shopping", Number = "3566002020360505" });
 
             // Act
             var response = await Client.GetAsync($"/api/cards/Details/{walletId}");
