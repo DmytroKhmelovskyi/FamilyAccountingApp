@@ -121,7 +121,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardsController(mockСard.Object, mockWallet.Object);
 
             //Act
-            var result = controller.Update(card.WalletId, card) as OkResult;
+            var result = controller.Update(card.WalletId, card) as OkObjectResult;
 
             //Assert
             Assert.AreEqual(result.StatusCode, 200);
