@@ -12,6 +12,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ServiceTests
 {
@@ -76,7 +77,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void DeleteWallet_Success_CallsRepositoryWithCorrectParameters()
+        public async Task DeleteWallet_Success_CallsRepositoryWithCorrectParameters()
         {
             //Arrenge
             int status = 1;
@@ -85,7 +86,7 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Id = 1
             };
             var walletRepoMock = new Mock<IWalletRepository>();
-            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).ReturnsAsync(status);
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -94,20 +95,20 @@ namespace FamilyAccounting.Tests.ServiceTests
             var walletService = new WalletService(walletRepoMock.Object, mapper);
 
             //Act
-            var result = walletService.Delete(walletViewModel.Id);
+            var result = await walletService.Delete(walletViewModel.Id);
 
             //Assert
             walletRepoMock.Verify(r => r.Delete(It.Is<int>(id => id == walletViewModel.Id)), Times.Once);
         }
 
         [Test]
-        public void DeleteWallet_IsNotNull()
+        public async Task DeleteWallet_IsNotNull()
         {
             //Arrenge
             int status = 1;
             var walletViewModel = new WalletViewModel();
             var walletRepoMock = new Mock<IWalletRepository>();
-            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            walletRepoMock.Setup(r => r.Delete(It.IsAny<int>())).ReturnsAsync(status);
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -116,14 +117,14 @@ namespace FamilyAccounting.Tests.ServiceTests
             var walletService = new WalletService(walletRepoMock.Object, mapper);
 
             //Act
-            var result = walletService.Delete(walletViewModel.Id);
+            var result = await walletService.Delete(walletViewModel.Id);
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void CreateWalletShouldCallCreateInDalOnce()
+        public async Task CreateWalletShouldCallCreateInDalOnce()
         {
             //Arrange
             WalletDTO walletDTO = new WalletDTO
@@ -134,17 +135,17 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<IWalletRepository>();
             IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.Create(It.IsAny<Wallet>())).Returns(It.IsAny<Wallet>());
+            mockRepository.Setup(x => x.Create(It.IsAny<Wallet>())).ReturnsAsync(It.IsAny<Wallet>());
 
             //Act
-            service.Create(walletDTO);
+            await service.Create(walletDTO);
 
             //Assert
             mockRepository.Verify(x => x.Create(It.IsAny<Wallet>()), Times.Once);
         }
 
         [Test]
-        public void CreateShouldReturnWalletDTO()
+        public async Task CreateShouldReturnWalletDTO()
         {
             //Arrange
             WalletDTO shouldBe = new WalletDTO
@@ -158,10 +159,10 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Balance = 100
             };
             var mock = new Mock<IWalletService>();
-            mock.Setup(x => x.Create(walletDTO)).Returns(walletDTO);
+            mock.Setup(x => x.Create(walletDTO)).ReturnsAsync(walletDTO);
 
             //Act
-            var result = mock.Object.Create(walletDTO);
+            var result = await mock.Object.Create(walletDTO);
 
             //Assert
             Assert.IsNotNull(result);
@@ -189,15 +190,16 @@ namespace FamilyAccounting.Tests.ServiceTests
             Assert.IsNotNull(result);
         }
 
-        public void GetTransactionsShouldNotBeNull()
+        [Test]
+        public async Task GetTransactionsShouldNotBeNull()
         {
             //Arrange
             List<TransactionDTO> test = new List<TransactionDTO>();
             var mock = new Mock<IWalletService>();
-            mock.Setup(x => x.GetTransactions(2)).Returns(test);
+            mock.Setup(x => x.GetTransactions(2)).ReturnsAsync(test);
 
             //Act
-            IEnumerable<TransactionDTO> result = mock.Object.GetTransactions(2);
+            IEnumerable<TransactionDTO> result = await mock.Object.GetTransactions(2);
 
             //Assert
             Assert.IsNotNull(result);
@@ -223,71 +225,69 @@ namespace FamilyAccounting.Tests.ServiceTests
             mock.Verify(m => m.Update(walletId.Value, wallet), Times.Once);
         }
 
-
-
         [Test]
-        public void GetTransactionsShouldCallGetTransactionsInDALOnce()
+        public async Task GetTransactionsShouldCallGetTransactionsInDALOnce()
         {
             //Arrange
             List<Transaction> test = new List<Transaction>();
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<IWalletRepository>();
             IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.GetTransactions(2)).Returns(test);
+            mockRepository.Setup(x => x.GetTransactions(2)).ReturnsAsync(test);
 
             //Act
-            service.GetTransactions(2);
+            await service.GetTransactions(2);
 
             //Assert
             mockRepository.Verify(x => x.GetTransactions(2), Times.Once);
         }
 
         [Test]
-        public void GetTransactionShouldReturnIEnumerableOfTransactionDTO()
+        public async Task GetTransactionShouldReturnIEnumerableOfTransactionDTO()
         {
             //Arrange
             List<Transaction> test = new List<Transaction>();
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<IWalletRepository>();
             IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.GetTransactions(2)).Returns(test);
+            mockRepository.Setup(x => x.GetTransactions(2)).ReturnsAsync(test);
 
             //Act
-            IEnumerable<TransactionDTO> result = service.GetTransactions(2);
+            IEnumerable<TransactionDTO> result = await service.GetTransactions(2);
 
             //Assert
             Assert.AreEqual("FamilyAccounting.BL.DTO.TransactionDTO[]", "" + result.GetType() + "");
         }
 
         [Test]
-        public void GetTransactionsShouldCallGetTransactionsWithDateInDALOnce()
+        public async Task GetTransactionsShouldCallGetTransactionsWithDateInDALOnce()
         {
             //Arrange
             List<Transaction> test = new List<Transaction>();
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<IWalletRepository>();
             IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(test);
+            mockRepository.Setup(x => x.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(test);
 
             //Act
-            service.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>());
+            await service.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>());
 
             //Assert
             mockRepository.Verify(x => x.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once);
         }
 
         [Test]
-        public void GetTransactionWithDateShouldReturnIEnumerableOfTransactionDTO()
+        public async Task GetTransactionWithDateShouldReturnIEnumerableOfTransactionDTO()
         {
             //Arrange
             List<Transaction> test = new List<Transaction>();
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<IWalletRepository>();
             IWalletService service = new WalletService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(test);
+            mockRepository.Setup(x => x.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(test);
 
             //Act
-            IEnumerable<TransactionDTO> result = service.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>());
+            IEnumerable<TransactionDTO> result = await service.GetTransactions(2, It.IsAny<DateTime>(), It.IsAny<DateTime>());
 
             //Assert
             Assert.AreEqual("FamilyAccounting.BL.DTO.TransactionDTO[]", "" + result.GetType() + "");

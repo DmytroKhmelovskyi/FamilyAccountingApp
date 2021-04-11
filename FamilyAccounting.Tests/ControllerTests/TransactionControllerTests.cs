@@ -4,6 +4,7 @@ using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -26,7 +27,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_ReturnsRedirect_ToActionResut()
+        public async Task Update_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var transactionId = 1;
@@ -37,7 +38,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             // Act
-            var result = controller.Update(transactionId, transaction);
+            var result = await controller.Update(transactionId, transaction);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -45,7 +46,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_NotNull_ViewResultIsNotNull()
+        public async Task Update_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var transaction = new TransactionViewModel()
@@ -59,14 +60,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             //Act
-            var result = controller.Update(transaction.Id, transaction);
+            var result = await controller.Update(transaction.Id, transaction);
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void MakeExpense_ReturnsRedirect_ToActionResut()
+        public async Task MakeExpense_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var transactionId = 1;
@@ -77,7 +78,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             // Act
-            var result = controller.MakeExpense(transaction);
+            var result = await controller.MakeExpense(transaction);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -85,7 +86,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void MakeExpense_NotNull_ViewResultIsNotNull()
+        public async Task MakeExpense_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var transaction = new TransactionViewModel()
@@ -99,14 +100,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             //Act
-            var result = controller.MakeExpense(transaction);
+            var result = await controller.MakeExpense(transaction);
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void SetInitialBalance_ReturnsRedirect_ToActionResut()
+        public async Task SetInitialBalance_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var transactionId = 1;
@@ -117,7 +118,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             // Act
-            var result = controller.MakeExpense(transaction);
+            var result = await controller.MakeExpense(transaction);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -125,7 +126,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void SetInitialBalance_NotNull_ViewResultIsNotNull()
+        public async Task SetInitialBalance_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var transaction = new TransactionViewModel()
@@ -139,7 +140,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new TransactionController(mockTransactions.Object, mockWallets.Object);
 
             //Act
-            var result = controller.SetInitialBalance(transaction);
+            var result = await controller.SetInitialBalance(transaction);
 
             //Assert
             Assert.IsNotNull(result);
