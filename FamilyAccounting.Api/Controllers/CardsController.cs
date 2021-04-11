@@ -57,13 +57,12 @@ namespace FamilyAccounting.Api.Controllers
             return new OkObjectResult (updatedCard);
         }
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public ActionResult Update(int id, CardDTO card)
         {
             if (ModelState.IsValid)
-            {
-                cardService.Update(id, card);
-                return Ok();
+            {                
+                return new OkObjectResult(cardService.Update(id, card));
             }
             return new BadRequestResult();
 
