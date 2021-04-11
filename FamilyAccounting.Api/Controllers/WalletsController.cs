@@ -3,6 +3,7 @@ using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Api.Controllers
 {
@@ -18,41 +19,43 @@ namespace FamilyAccounting.Api.Controllers
             this.walletService = walletService;
             this.personService = personService;
         }
+
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var wallet = walletService.Get();
-            return new OkObjectResult(wallet.ToList());
+            //var k = await walletService.Get().ToListAsync();
+            return new OkObjectResult(await walletService.Get());
         }
 
         [HttpPost("{id}")]
-        public ActionResult MakeActive(int Id)
+        public async Task<ActionResult> MakeActive(int Id)
         {
-            walletService.MakeActive(Id);
+            await walletService.MakeActive(Id);
             return new OkResult();
         }
 
         [HttpGet("{id}")]
-        public ActionResult Details(int Id)
+        public async Task<ActionResult> Details(int Id)
         {
-            var wallet = walletService.Get(Id);
-            wallet.Transactions = walletService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
+            var wallet = await walletService.Get(Id);
+            wallet.Transactions = await walletService.GetTransactions(Id);
+
+            //wallet.Transactions = await walletService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
             return new OkObjectResult(wallet);
         }
 
         [HttpGet("{id}")]
-        public ActionResult Update(int id)
+        public async Task<ActionResult> Update(int id)
         {
-            var updatedWallet = walletService.Get(id);
-            return new OkObjectResult(updatedWallet);
+            return new OkObjectResult(await walletService.Get(id));
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(int id, WalletDTO wallet)
+        public async Task<ActionResult> Update(int id, WalletDTO wallet)
         {
             if (ModelState.IsValid)
             {
-                walletService.Update(id, wallet);
+                await walletService.Update(id, wallet);
 
                 return new OkResult();
             }
@@ -60,36 +63,35 @@ namespace FamilyAccounting.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
-            var wallet = walletService.Get((int)id);
-            return new OkObjectResult(wallet);
+            return new OkObjectResult(await walletService.Get((int)id));
         }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
-        public ActionResult DeleteWallet(int? id)
+        public async Task<ActionResult> DeleteWallet(int? id)
         {
             var wallet = walletService.Get((int)id);
-            walletService.Delete((int)id);
+            await walletService.Delete((int)id);
             return new OkResult();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult Create(int id)
-        {
-            var person = personService.Get(id);
-            WalletDTO walletVM = new WalletDTO
-            {
-                PersonId = person.Id
-            };
-            return new OkObjectResult(walletVM);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult> Create(int id)
+        //{
+        //    var person = await personService.Get(id);
+        //    WalletDTO walletVM = new WalletDTO
+        //    {
+        //        PersonId = person.Id
+        //    };
+        //    return new OkObjectResult(walletVM);
+        //}
 
         [HttpPost]
-        public ActionResult Create(WalletDTO wallet)
+        public async Task<ActionResult> Create(WalletDTO wallet)
         {
-            walletService.Create(wallet);
+            await walletService.Create(wallet);
             return new OkResult();
         }
     }

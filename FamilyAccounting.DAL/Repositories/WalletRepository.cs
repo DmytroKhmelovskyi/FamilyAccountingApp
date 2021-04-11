@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Repositories
 {
@@ -16,7 +17,7 @@ namespace FamilyAccounting.DAL.Repositories
             connectionString = dbConfig.ConnectionString;
         }
 
-        public IEnumerable<Wallet> Get()
+        public async Task<IEnumerable<Wallet>> Get()
         {
             string sqlProcedure = "PR_Wallets_Read";
             List<Wallet> table = new List<Wallet>();
@@ -27,7 +28,7 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -54,7 +55,7 @@ namespace FamilyAccounting.DAL.Repositories
             return table;
         }
 
-        public Wallet Get(int id)
+        public async Task<Wallet> Get(int id)
         {
             Wallet wallet = new Wallet();
             using (var con = new SqlConnection(connectionString))
@@ -69,7 +70,7 @@ namespace FamilyAccounting.DAL.Repositories
                     Value = id
                 };
                 cmd.Parameters.Add(idParam);
-                using (var dr = cmd.ExecuteReader())
+                using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (dr.Read())
                     {
@@ -91,7 +92,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
         }
 
-        public Wallet Update(int id, Wallet wallet)
+        public async Task<Wallet> Update(int id, Wallet wallet)
         {
             string sqlExpression = $"EXEC PR_Wallets_Update {id}, '{wallet.Description}'";
 
@@ -99,14 +100,14 @@ namespace FamilyAccounting.DAL.Repositories
             {
                 sql.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 sql.Close();
             }
 
             return wallet;
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -126,13 +127,13 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     conn.Open();
                 }
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 int deleteStatus = (int)cmd.Parameters["@_status"].Value;
                 return deleteStatus;
             }
         }
 
-        public Wallet Create(Wallet wallet)
+        public async Task<Wallet> Create(Wallet wallet)
         {
             string sqlExpression = $"EXEC PR_Wallets_Create '{wallet.PersonId}', '{wallet.Description}', '{wallet.Balance}'";
 
@@ -141,7 +142,7 @@ namespace FamilyAccounting.DAL.Repositories
                 sql.Open();
 
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 sql.Close();
             }
@@ -149,7 +150,7 @@ namespace FamilyAccounting.DAL.Repositories
             return wallet;
         }
 
-        public IEnumerable<Transaction> GetTransactions(int walletId)
+        public async Task<IEnumerable<Transaction>> GetTransactions(int walletId)
         {
             string sqlExpression = $"EXEC PR_ActionsWallets_Read {walletId}";
 
@@ -160,7 +161,7 @@ namespace FamilyAccounting.DAL.Repositories
                 sql.Open();
 
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
 
                 if (reader.HasRows)
                 {
@@ -199,7 +200,7 @@ namespace FamilyAccounting.DAL.Repositories
             return transactions;
         }
 
-        public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to)
+        public async Task<IEnumerable<Transaction>> GetTransactions(int walletId, DateTime from, DateTime to)
         {
             //DateTime fromDate = DateTime.Parse(from);
             //DateTime toDate = DateTime.Parse(to);
@@ -232,7 +233,7 @@ namespace FamilyAccounting.DAL.Repositories
                     Value = to
                 };
                 command.Parameters.Add(toDateParam);
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
 
                 if (reader.HasRows)
                 {
@@ -270,7 +271,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return transactions;
         }
-        public Wallet MakeActive(int id)
+        public async Task<Wallet> MakeActive(int id)
         {
             Wallet wallet = new Wallet();
             using (var con = new SqlConnection(connectionString))
@@ -285,7 +286,7 @@ namespace FamilyAccounting.DAL.Repositories
                     Value = id
                 };
                 cmd.Parameters.Add(idParam);
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 return wallet;
             }
         }

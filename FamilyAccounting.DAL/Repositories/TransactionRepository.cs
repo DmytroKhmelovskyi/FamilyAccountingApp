@@ -4,6 +4,7 @@ using FamilyAccounting.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Repositories
 {
@@ -14,7 +15,7 @@ namespace FamilyAccounting.DAL.Repositories
         {
             connectionString = dbConfig.ConnectionString;
         }
-        public Transaction MakeExpense(Transaction transaction)
+        public async Task<Transaction> MakeExpense(Transaction transaction)
         {
             string sqlExpression = "PR_Wallets_Update_MakeExpense";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -35,13 +36,13 @@ namespace FamilyAccounting.DAL.Repositories
                 };
                 output.Direction = ParameterDirection.Output;
                 command.Parameters.Add(output);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 int successStatus = (int)command.Parameters["@_success"].Value;
             }
             return transaction;
         }
 
-        public Transaction MakeIncome(Transaction transaction)
+        public async Task<Transaction> MakeIncome(Transaction transaction)
         {
             string sqlExpression = "PR_Wallets_Update_MakeIncome";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -55,12 +56,12 @@ namespace FamilyAccounting.DAL.Repositories
                 command.Parameters.AddWithValue("@_amount", transaction.Amount);
                 command.Parameters.AddWithValue("@_id_category", transaction.CategoryId);
                 command.Parameters.AddWithValue("@_description", transaction.Description);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             return transaction;
         }
 
-        public Transaction MakeTransfer(Transaction transaction)
+        public async Task<Transaction> MakeTransfer(Transaction transaction)
         {
             string sqlExpression = "PR_Wallets_Update_MakeTransfer";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -81,13 +82,13 @@ namespace FamilyAccounting.DAL.Repositories
                 };
                 output.Direction = ParameterDirection.Output;
                 command.Parameters.Add(output);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 int successStatus = (int)command.Parameters["@_success"].Value;
             }
             return transaction;
         }
 
-        public Transaction Update(int id, Transaction transaction)
+        public async Task<Transaction> Update(int id, Transaction transaction)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -97,12 +98,12 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     con.Open();
                 }
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             return transaction;
         }
 
-        public Transaction Get(int walletId, int transactionId)
+        public async Task<Transaction> Get(int walletId, int transactionId)
         {
             var transaction = new Transaction();
             using (var conn = new SqlConnection(connectionString))
@@ -117,7 +118,7 @@ namespace FamilyAccounting.DAL.Repositories
                     conn.Open();
                 }
 
-                using (var dr = cmd.ExecuteReader())
+                using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (dr.Read())
                     {
@@ -151,7 +152,7 @@ namespace FamilyAccounting.DAL.Repositories
             return transaction;
         }
 
-        public Transaction SetInitialBalance(Transaction transaction)
+        public async Task<Transaction> SetInitialBalance(Transaction transaction)
         {
             string sqlExpression = "PR_Wallets_Update_SetInitialBalance";
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -163,12 +164,12 @@ namespace FamilyAccounting.DAL.Repositories
                 };
                 command.Parameters.AddWithValue("@_id_wallet", transaction.SourceWalletId);
                 command.Parameters.AddWithValue("@_initial_balance", transaction.Amount);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             return transaction;
         }
 
-        public IEnumerable<Category> GetExpenseCategories()
+        public async Task<IEnumerable<Category>> GetExpenseCategories()
         {
             string sqlProcedure = "PR_Categories_Read_Expenses";
             List<Category> table = new List<Category>();
@@ -179,7 +180,7 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -199,7 +200,7 @@ namespace FamilyAccounting.DAL.Repositories
             return table;
         }
 
-        public IEnumerable<Category> GetIncomeCategories()
+        public async Task<IEnumerable<Category>> GetIncomeCategories()
         {
             string sqlProcedure = "PR_Categories_Read_Incomes";
             List<Category> table = new List<Category>();
@@ -210,7 +211,7 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
