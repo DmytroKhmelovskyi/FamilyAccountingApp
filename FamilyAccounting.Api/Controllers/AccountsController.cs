@@ -40,9 +40,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Logout()
         {
-
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
             return Ok();
         }
 

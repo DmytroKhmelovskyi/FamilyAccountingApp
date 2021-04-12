@@ -3,6 +3,7 @@ using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Api.Controllers
 {
@@ -18,24 +19,21 @@ namespace FamilyAccounting.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AuditActionDTO>> IndexActions(/*int Id, */)
+        public Task<IEnumerable<AuditActionDTO>> GetActions()
         {
-            var auditActions = auditService.GetActions();
-            return auditActions.ToList();
+            return auditService.GetActionsAsync();
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AuditWalletDTO>> IndexWallets(/*int Id, */)
+        public Task<IEnumerable<AuditWalletDTO>> GetWallets()
         {
-            var auditWallets = auditService.GetWallets();
-            return auditWallets.ToList();
+            return auditService.GetWalletsAsync();
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AuditPersonDTO>> IndexPersons(/*int Id, */)
+        public Task<IEnumerable<AuditPersonDTO>> GetPersons()
         {
-            var auditPersons = auditService.GetPersons();
-            return auditPersons.ToList();
+            return auditService.GetPersonsAsync();
         }
     }
 }

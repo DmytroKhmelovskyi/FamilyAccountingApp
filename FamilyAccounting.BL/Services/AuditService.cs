@@ -5,6 +5,7 @@ using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -18,6 +19,7 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
             this.auditRepository = auditRepository;
         }
+
         public IEnumerable<AuditActionDTO> GetActions()
         {
             try
@@ -30,6 +32,7 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
         public IEnumerable<AuditWalletDTO> GetWallets()
         {
             try
@@ -42,6 +45,7 @@ namespace FamilyAccounting.BL.Services
                 throw new Exception(ex.Message);
             }
         }
+
         public IEnumerable<AuditPersonDTO> GetPersons()
         {
             try
