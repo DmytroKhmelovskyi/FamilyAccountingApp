@@ -21,8 +21,8 @@ namespace FamilyAccounting.Tests.Integration_Tests
             var newCard = new CardDTO {  WalletId = 1, Description = "for shopping"};
 
             CardRepoMock.Setup(r => r.Create(It.IsAny<Card>())).Returns(new Card());
-            var newPersonJson = JsonConvert.SerializeObject(newCard);
-            var content = new StringContent(newPersonJson, Encoding.UTF8, "application/json");
+            var newCardJson = JsonConvert.SerializeObject(newCard);
+            var content = new StringContent(newCardJson, Encoding.UTF8, "application/json");
 
             // Act
             var response = await Client.PostAsync("/api/cards/Create", content);
@@ -41,8 +41,8 @@ namespace FamilyAccounting.Tests.Integration_Tests
             var card = new CardDTO { WalletId = walletId, Description = "new description"};
 
             CardRepoMock.Setup(r => r.Update(walletId, It.IsAny<Card>())).Returns(new Card());
-            var newPersonJson = JsonConvert.SerializeObject(card);
-            var content = new StringContent(newPersonJson, Encoding.UTF8, "application/json");
+            var newCardJson = JsonConvert.SerializeObject(card);
+            var content = new StringContent(newCardJson, Encoding.UTF8, "application/json");
 
             // Act
             var response = await Client.PutAsync($"/api/cards/Update/{walletId}", content);
@@ -84,8 +84,8 @@ namespace FamilyAccounting.Tests.Integration_Tests
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             var content = await response.Content.ReadAsStringAsync();
-            var person = JsonConvert.DeserializeObject<CardDTO>(content);
-            Assert.AreEqual(walletId, person.WalletId);
+            var card = JsonConvert.DeserializeObject<CardDTO>(content);
+            Assert.AreEqual(walletId, card.WalletId);
         }
     }
 }
