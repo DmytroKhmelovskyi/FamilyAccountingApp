@@ -4,6 +4,7 @@ using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -42,7 +43,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Delete_NotNull_ResultIsNotNull()
+        public async Task Delete_NotNull_ResultIsNotNull()
         {
             //Arrange
             var wallet = new WalletViewModel();
@@ -52,14 +53,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             //Act
-            ViewResult result = controller.Delete(wallet.Id) as ViewResult;
+            ViewResult result = await controller.Delete(wallet.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void CreateShouldCallCreateWalletInBlOnce()
+        public async Task CreateShouldCallCreateWalletInBlOnce()
         {
             //Arrange
             WalletViewModel walletVM = new WalletViewModel
@@ -71,10 +72,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mockPerson = new Mock<IPersonWebService>();
             var mockWallet = new Mock<IWalletWebService>();
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Create(It.IsAny<WalletViewModel>())).Returns(It.IsAny<WalletViewModel>());
+            mockWallet.Setup(x => x.Create(It.IsAny<WalletViewModel>())).ReturnsAsync(It.IsAny<WalletViewModel>());
 
             //Act
-            controller.Create(walletVM);
+            await controller.Create(walletVM);
 
             //Assert
             mockWallet.Verify(x => x.Create(It.IsAny<WalletViewModel>()), Times.Once);
@@ -110,9 +111,8 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.That(result.ActionName, Is.EqualTo("Create"));
         }
 
-
         [Test]
-        public void Update_ReturnsRedirect_ToActionResut()
+        public async Task Update_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var walletId = 1;
@@ -124,7 +124,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockWallet.Setup(p => p.Update(walletId, It.IsAny<WalletViewModel>()));
 
             // Act
-            var result = controller.Update(walletId, wallet);
+            var result = await controller.Update(walletId, wallet);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -132,7 +132,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_NotNull_ViewResultIsNotNull()
+        public async Task Update_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var wallet = new WalletViewModel()
@@ -145,7 +145,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new WalletController(mockWallet.Object, mockPerson.Object);
 
             //Act
-            var result = controller.Update(wallet.Id, wallet);
+            var result = await controller.Update(wallet.Id, wallet);
 
             //Assert
             Assert.IsNotNull(result);
@@ -167,7 +167,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void MakeActiveVerifyOnce()
+        public async Task MakeActiveVerifyOnce()
         {
             //Arrange
             int id = 1;
@@ -177,7 +177,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockWallet.Setup(x => x.MakeActive(id));
 
             //Act
-            controller.MakeActive(id);
+            await controller.MakeActive(id);
 
             //Assert
             mockWallet.Verify(x => x.MakeActive(id), Times.Once);

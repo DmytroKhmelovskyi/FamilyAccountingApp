@@ -31,7 +31,8 @@ namespace FamilyAccounting.Api.Controllers
             return new OkResult();
         }
 
-        [HttpPost("{id}")]
+
+        [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, CardDTO card)
         {
             if (ModelState.IsValid)

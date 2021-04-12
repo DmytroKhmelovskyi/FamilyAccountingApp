@@ -1,18 +1,19 @@
 ﻿using FamilyAccounting.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Interfaces
 {
     public interface IWalletRepository
     {
-        public IEnumerable<Wallet> Get();
-        public Wallet Get(int id);
-        public Wallet Update(int id, Wallet wallet);
-        public int Delete(int id);
-        public Wallet Create(Wallet wallet);
-        public IEnumerable<Transaction> GetTransactions(int walletId);
-        public IEnumerable<Transaction> GetTransactions(int walletId, DateTime from, DateTime to);
-        public Wallet MakeActive(int id);
+        public Task<IEnumerable<Wallet>> Get();
+        public Task<Wallet> Get(int id);
+        public Task<Wallet> Update(int id, Wallet wallet);
+        public Task<int> Delete(int id);
+        public Task<Wallet> Create(Wallet wallet);
+        public Task<IEnumerable<Transaction>> GetTransactions(int walletId);
+        public Task<IEnumerable<Transaction>> GetTransactions(int walletId, DateTime from, DateTime to);
+        public Task<Wallet> MakeActive(int id);
     }
 }

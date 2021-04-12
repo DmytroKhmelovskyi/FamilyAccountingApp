@@ -5,6 +5,7 @@ using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
 {
@@ -18,11 +19,11 @@ namespace FamilyAccounting.Web.Services
             this.walletService = walletService;
         }
 
-        public WalletViewModel Create(WalletViewModel wallet)
+        public async Task<WalletViewModel> Create(WalletViewModel wallet)
         {
             try
             {
-                WalletDTO _wallet = walletService.Create(mapper.Map<WalletDTO>(wallet));
+                WalletDTO _wallet = await walletService.Create(mapper.Map<WalletDTO>(wallet));
                 return mapper.Map<WalletViewModel>(_wallet);
             }
             catch (Exception ex)
@@ -31,11 +32,11 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             try
             {
-                return walletService.Delete(id);
+                return await walletService.Delete(id);
             }
             catch (Exception ex)
             {
@@ -43,11 +44,11 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public IEnumerable<WalletViewModel> Get()
+        public async Task<IEnumerable<WalletViewModel>> Get()
         {
             try
             {
-                IEnumerable<WalletDTO> wallet = walletService.Get();
+                IEnumerable<WalletDTO> wallet = await walletService.Get();
                 return mapper.Map<IEnumerable<WalletViewModel>>(wallet);
             }
             catch (Exception ex)
@@ -56,17 +57,17 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public WalletViewModel Get(int id)
+        public async Task<WalletViewModel> Get(int id)
         {
-            WalletDTO wallet = walletService.Get(id);
+            WalletDTO wallet = await walletService.Get(id);
             return mapper.Map<WalletViewModel>(wallet);
         }
 
-        public IEnumerable<TransactionViewModel> GetTransactions(int walletId)
+        public async Task<IEnumerable<TransactionViewModel>> GetTransactions(int walletId)
         {
             try
             {
-                IEnumerable<TransactionDTO> transactions = walletService.GetTransactions(walletId);
+                IEnumerable<TransactionDTO> transactions = await walletService.GetTransactions(walletId);
                 return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
             }
             catch (Exception ex)
@@ -75,24 +76,24 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public IEnumerable<TransactionViewModel> GetTransactions(int walletId, DateTime from, DateTime to)
+        public async Task<IEnumerable<TransactionViewModel>> GetTransactions(int walletId, DateTime from, DateTime to)
         {
-            IEnumerable<TransactionDTO> transactions = walletService.GetTransactions(walletId, from, to);
+            IEnumerable<TransactionDTO> transactions = await walletService.GetTransactions(walletId, from, to);
             return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
         }
 
-        public WalletViewModel MakeActive(int id)
+        public async Task<WalletViewModel> MakeActive(int id)
         {
-            WalletDTO _wallet = walletService.MakeActive(id);
+            WalletDTO _wallet = await walletService.MakeActive(id);
             return mapper.Map<WalletViewModel>(_wallet);
         }
 
-        public WalletViewModel Update(int id, WalletViewModel wallet)
+        public async Task<WalletViewModel> Update(int id, WalletViewModel wallet)
         {
             try
             {
                 WalletDTO newWallet = mapper.Map<WalletDTO>(wallet);
-                WalletDTO updatedWallet = walletService.Update(id, newWallet);
+                WalletDTO updatedWallet = await walletService.Update(id, newWallet);
                 return mapper.Map<WalletViewModel>(updatedWallet);
             }
             catch (Exception ex)
