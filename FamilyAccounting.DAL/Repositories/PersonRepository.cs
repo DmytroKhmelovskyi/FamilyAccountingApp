@@ -4,6 +4,7 @@ using FamilyAccounting.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Repositories
 {
@@ -16,7 +17,7 @@ namespace FamilyAccounting.DAL.Repositories
             connectionString = dbConfig.ConnectionString;
         }
 
-        public IEnumerable<Person> Get()
+        public async Task<IEnumerable<Person>> Get()
         {
             string sqlProcedure = "PR_Persons_Read";
             List<Person> table = new List<Person>();
@@ -27,7 +28,7 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -48,7 +49,7 @@ namespace FamilyAccounting.DAL.Repositories
             return table;
         }
 
-        public Person Add(Person person)
+        public async Task<Person> Add(Person person)
         {
             string sqlExpression = $"EXEC PR_Persons_Create '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
 
@@ -57,14 +58,14 @@ namespace FamilyAccounting.DAL.Repositories
                 con.Open();
 
                 SqlCommand command = new SqlCommand(sqlExpression, con);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 con.Close();
             }
 
             return person;
         }
-        public Person Update(int id, Person person)
+        public async Task<Person> Update(int id, Person person)
         {
             string sqlExpression = $"EXEC PR_Persons_Update {id}, '{person.FirstName}', '{person.LastName}', '{person.Email}', '{person.Phone}'";
 
@@ -72,14 +73,14 @@ namespace FamilyAccounting.DAL.Repositories
             {
                 con.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, con);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 con.Close();
             }
-            
+
             return person;
         }
 
-        public Person Get(int id)
+        public async Task<Person> Get(int id)
         {
             var person = new Person();
             using (var conn = new SqlConnection(connectionString))
@@ -94,7 +95,7 @@ namespace FamilyAccounting.DAL.Repositories
                     conn.Open();
                 }
 
-                using (var dr = cmd.ExecuteReader())
+                using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (dr.Read())
                     {
@@ -116,7 +117,7 @@ namespace FamilyAccounting.DAL.Repositories
             return person;
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             string sqlExpression = "PR_Persons_Delete";
 
@@ -137,7 +138,7 @@ namespace FamilyAccounting.DAL.Repositories
                 output.Direction = ParameterDirection.Output;
                 command.Parameters.Add(output);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 int deleteStatus = (int)command.Parameters["@_status"].Value;
 
@@ -146,7 +147,7 @@ namespace FamilyAccounting.DAL.Repositories
             }
         }
 
-        public IEnumerable<Wallet> GetWallets(int id)
+        public async Task<IEnumerable<Wallet>> GetWallets(int id)
         {
             string sqlProcedure = $"EXEC PR_WalletsPersons_Read {id}";
             List<Wallet> table = new List<Wallet>();
@@ -154,7 +155,7 @@ namespace FamilyAccounting.DAL.Repositories
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand(sqlProcedure, con);
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())

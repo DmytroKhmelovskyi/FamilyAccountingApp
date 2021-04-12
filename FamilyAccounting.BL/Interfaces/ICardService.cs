@@ -1,12 +1,13 @@
 ﻿using FamilyAccounting.BL.DTO;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Interfaces
 {
     public interface ICardService
     {
-        public CardDTO Create(CardDTO card);
-        public int Delete(int id);
-        public CardDTO Get(int id);
-        public CardDTO Update(int id, CardDTO card);
+        public Task<CardDTO> Create(CardDTO card);
+        public Task<int> Delete(int id);
+        public Task<CardDTO> Get(int id);
+        public Task<CardDTO> Update(int id, CardDTO card);
     }
 }

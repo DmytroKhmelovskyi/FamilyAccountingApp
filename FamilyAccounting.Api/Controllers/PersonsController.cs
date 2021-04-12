@@ -3,6 +3,7 @@ using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Api.Controllers
 {
@@ -16,61 +17,44 @@ namespace FamilyAccounting.Api.Controllers
             this.personsService = personsService;
         }
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> GetAll()
         {
-            var person = personsService.Get();
-            return new OkObjectResult(person.ToList());
+            return new OkObjectResult(await personsService.Get());
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public ActionResult Add(PersonDTO person)
+        public async Task<ActionResult> Add(PersonDTO person)
         {
             if (ModelState.IsValid)
             {
-                var addedPerson = personsService.Add(person);
-                return new OkObjectResult(addedPerson);
+                return new OkObjectResult(await personsService.Add(person));
             }
             return new BadRequestResult();
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult Update(int id)
-        {
-            var updatedPerson = personsService.Get(id);
-            return new OkObjectResult(updatedPerson);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(int id, PersonDTO person)
+        public async Task<ActionResult> Update(int id, PersonDTO person)
         {
             if (ModelState.IsValid)
             {
-                var updatedPerson = personsService.Update(id, person);
-                return new OkObjectResult(updatedPerson);
+                return new OkObjectResult(await personsService.Update(id, person));
             }
             return new BadRequestResult();
         }
         [HttpGet("{id}")]
-        public ActionResult Details(int Id)
+        public async Task<ActionResult> Details(int Id)
         {
-            var person = personsService.Get(Id);
-            person.Wallets = personsService.GetWallets(Id);
-            return new OkObjectResult(person);
-        }
-
-        [HttpGet]
-        public ActionResult Delete(int? id)
-        {
-            var person = personsService.Get((int)id);
+            var person = await personsService.Get(Id);
+            person.Wallets = await personsService.GetWallets(Id);
             return new OkObjectResult(person);
         }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
-        public ActionResult DeletePerson(int? id)
+        public async Task<ActionResult> DeletePerson(int id)
         {
-            var person = personsService.Delete((int)id);
+            await personsService.Delete(id);
             return new OkResult();
         }
     }

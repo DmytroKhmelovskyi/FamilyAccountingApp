@@ -5,6 +5,7 @@ using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -18,75 +19,38 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
         }
 
-        public PersonDTO Add(PersonDTO person)
+        public async Task<PersonDTO> Add(PersonDTO person)
         {
-            try
-            {
-                Person _person = personsRepository.Add(mapper.Map<Person>(person));
-                return mapper.Map<PersonDTO>(_person);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<PersonDTO>(await personsRepository.Add(mapper.Map<Person>(person)));
+
         }
-        public PersonDTO Update(int id,PersonDTO person)
+        public async Task<PersonDTO> Update(int id, PersonDTO person)
         {
-            try
-            {
-                Person newPerson = mapper.Map<Person>(person);
-                Person updatedPerson = personsRepository.Update(id, newPerson);
-                return mapper.Map<PersonDTO>(updatedPerson);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Person newPerson = mapper.Map<Person>(person);
+            return mapper.Map<PersonDTO>(await personsRepository.Update(id, newPerson));
+
         }
 
-        public IEnumerable<PersonDTO> Get()
+        public async Task<IEnumerable<PersonDTO>> Get()
         {
-            try
-            {
-                IEnumerable<Person> person = personsRepository.Get();
-                return mapper.Map<IEnumerable<PersonDTO>>(person);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            IEnumerable<Person> person = await personsRepository.Get();
+            return mapper.Map<IEnumerable<PersonDTO>>(person);
+
         }
 
-        public PersonDTO Get(int id)
+        public async Task<PersonDTO> Get(int id)
         {
-            Person person = personsRepository.Get(id);
-            return mapper.Map<PersonDTO>(person);
+            return mapper.Map<PersonDTO>(await personsRepository.Get(id));
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            try
-            {
-                return personsRepository.Delete(id);
-                //return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return await personsRepository.Delete(id);
         }
 
-        public IEnumerable<WalletDTO> GetWallets(int id)
+        public async Task<IEnumerable<WalletDTO>> GetWallets(int id)
         {
-            try
-            {
-                IEnumerable<Wallet> wallets = personsRepository.GetWallets(id);
-                return mapper.Map<IEnumerable<WalletDTO>>(wallets);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<IEnumerable<WalletDTO>>(await personsRepository.GetWallets(id));
         }
     }
 }

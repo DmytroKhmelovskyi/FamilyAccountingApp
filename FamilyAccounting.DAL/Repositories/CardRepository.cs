@@ -3,6 +3,7 @@ using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.DAL.Repositories
 {
@@ -14,7 +15,7 @@ namespace FamilyAccounting.DAL.Repositories
             connectionString = dbConfig.ConnectionString;
         }
 
-        public Card Create(Card card)
+        public async Task<Card> Create(Card card)
         {
             string sqlExpression = $"EXEC PR_Cards_Create {card.WalletId}, '{card.Number}', '{card.Description}'";
 
@@ -22,13 +23,13 @@ namespace FamilyAccounting.DAL.Repositories
             {
                 sql.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 sql.Close();
             }
 
             return card;
         }
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -48,12 +49,12 @@ namespace FamilyAccounting.DAL.Repositories
                 {
                     conn.Open();
                 }
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 int deleteStatus = (int)cmd.Parameters["@_status"].Value;
                 return deleteStatus;
             }
         }
-        public Card Get(int id)
+        public async Task<Card> Get(int id)
         {
             var card = new Card();
             using (var conn = new SqlConnection(connectionString))
@@ -68,7 +69,7 @@ namespace FamilyAccounting.DAL.Repositories
                     conn.Open();
                 }
 
-                using (var dr = cmd.ExecuteReader())
+                using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (dr.Read())
                     {
@@ -82,14 +83,14 @@ namespace FamilyAccounting.DAL.Repositories
             }
             return card;
         }
-        public Card Update(int id, Card card)
+        public async Task<Card> Update(int id, Card card)
         {
             string sqlExpression = $"EXEC PR_Cards_Update {id}, '{card.Number}','{card.Description}'";
             using (SqlConnection sql = new SqlConnection(connectionString))
             {
                 sql.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, sql);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 sql.Close();
             }
             return card;
