@@ -7,13 +7,14 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
     class WalletsControllerTests
     {
         [Test]
-        public void Index_IsNotNull()
+        public async Task Index_IsNotNull()
         {
             //Arrange
             var mockWallet = new Mock<IWalletService>();
@@ -23,7 +24,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             //Act
-            var result = controller.Index() as OkObjectResult;
+            var result = await controller.Index() as OkObjectResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -62,7 +63,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldCallAddWalletOnce()
+        public async Task AddShouldCallAddWalletOnce()
         {
             //Arrange
             WalletDTO walletDTO = new WalletDTO
@@ -72,11 +73,11 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
-            WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Create(It.IsAny<WalletDTO>())).Returns(It.IsAny<WalletDTO>());
+            WalletsController controller =  new WalletsController(mockWallet.Object, mockPerson.Object);
+            mockWallet.Setup(x => x.Create(It.IsAny<WalletDTO>())).ReturnsAsync(It.IsAny<WalletDTO>());
 
             //Act
-            controller.Create(walletDTO);
+            await controller.Create(walletDTO);
 
             //Assert
             mockWallet.Verify(x => x.Create(It.IsAny<WalletDTO>()), Times.Once);
@@ -98,7 +99,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldReturnOkResult()
+        public async Task AddShouldReturnOkResult()
         {
             // Arrange
             var mockWallet = new Mock<IWalletService>();
@@ -106,7 +107,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
             var walletDTO = new WalletDTO();
             // Act
-            var result = controller.Create(walletDTO);
+            var result = await controller.Create(walletDTO);
 
             // Assert
             Assert.IsNotNull(result);
@@ -114,7 +115,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void UpdateVerifyOnce()
+        public async Task UpdateVerifyOnce()
         {
             //Arrange
             WalletDTO walletDTO = new WalletDTO
@@ -129,14 +130,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockWallet.Setup(x => x.Update((int)walletDTO.Id, walletDTO));
 
             //Act
-            controller.Update((int)walletDTO.Id, walletDTO);
+            await controller.Update((int)walletDTO.Id, walletDTO);
 
             //Assert
             mockWallet.Verify(x => x.Update((int)walletDTO.Id, walletDTO));
         }
 
         [Test]
-        public void Update_ReturnsOkResult()
+        public async Task Update_ReturnsOkResult()
         {
             // Arrange
             var walletId = 1;
@@ -147,7 +148,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
-            var result = controller.Update(walletId, wallet) as OkResult;
+            var result = await controller.Update(walletId, wallet) as OkResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -155,18 +156,18 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Details_IsNotNull()
+        public async Task Details_IsNotNull()
         {
             //Arrange
             var walletId = 1;
             var testWallet = new WalletDTO() { Id = walletId };
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
-            mockWallet.Setup(g => g.Get(walletId)).Returns(testWallet);
+            mockWallet.Setup(g => g.Get(walletId)).ReturnsAsync(testWallet);
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
-            var result = controller.Details(walletId) as OkObjectResult;
+            var result = await controller.Details(walletId) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -174,7 +175,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldCallDeleteWalletInBlOnce()
+        public async Task DeleteShouldCallDeleteWalletInBlOnce()
         {
             //Arrange
             var mockWallet = new Mock<IWalletService>();
@@ -183,7 +184,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockWallet.Setup(x => x.Delete(1));
 
             //Act
-            controller.DeleteWallet(1);
+            await controller.DeleteWallet(1);
 
             //Assert
             mockWallet.Verify(x => x.Delete(1), Times.Once);
@@ -205,7 +206,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldReturnActionResult()
+        public async Task DeleteShouldReturnActionResult()
         {
             // Arrange
             int id = 1;
@@ -214,14 +215,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
-            var result = controller.Delete(id);
+            var result = await controller.Delete(id);
 
             // Assert
             Assert.IsNotNull(result);
             Assert.That(result, Is.TypeOf<OkObjectResult>());
         }
         [Test]
-        public void DeleteWalletShouldReturnActionResult()
+        public async Task DeleteWalletShouldReturnActionResult()
         {
             // Arrange
             int id = 1;
@@ -230,7 +231,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
-            var result = controller.DeleteWallet(id);
+            var result = await controller.DeleteWallet(id);
 
             // Assert
             Assert.IsNotNull(result);

@@ -1,6 +1,7 @@
 ﻿using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Controllers
 {
@@ -16,17 +17,17 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int walletId, int transactionId)
+        public async Task<IActionResult> Details(int walletId, int transactionId)
         {
-            var transaction = transactionWebService.Get(walletId, transactionId);
+            var transaction = await transactionWebService.Get(walletId, transactionId);
             return View(transaction);
         }
 
         [HttpGet]
-        public IActionResult MakeExpense(int id)
+        public async Task<IActionResult> MakeExpense(int id)
         {
-            var wallet = walletWebService.Get(id);
-            var categories = transactionWebService.GetExpenseCategories();
+            var wallet = await walletWebService.Get(id);
+            var categories = await transactionWebService.GetExpenseCategories();
             var transaction = new TransactionViewModel
             {
                 SourceWalletId = (int)wallet.Id,
@@ -37,9 +38,9 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult MakeExpense(TransactionViewModel transaction)
+        public async Task<IActionResult> MakeExpense(TransactionViewModel transaction)
         {
-            transactionWebService.MakeExpense(transaction);
+            await transactionWebService.MakeExpense(transaction);
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.SourceWalletId
@@ -47,10 +48,10 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult MakeIncome(int id)
+        public async Task<IActionResult> MakeIncome(int id)
         {
-            var wallet = walletWebService.Get(id);
-            var categories = transactionWebService.GetIncomeCategories();
+            var wallet = await walletWebService.Get(id);
+            var categories = await transactionWebService.GetIncomeCategories();
             var transaction = new TransactionViewModel
             {
                 TargetWalletId = (int)wallet.Id,
@@ -61,24 +62,24 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult MakeTransfer(int id)
+        public async Task<IActionResult> MakeTransfer(int id)
         {
-            var wallet = walletWebService.Get(id);
+            var wallet = await walletWebService.Get(id);
             var transaction = new TransactionViewModel
             {
                 SourceWalletId = (int)wallet.Id,
                 SourceWallet = wallet.Description,
                  
             };
-            var wallets = walletWebService.Get();
+            var wallets = await walletWebService.Get();
             ViewBag.Wallets = wallets;
             return View(transaction);
         }
 
         [HttpPost]
-        public IActionResult MakeIncome(TransactionViewModel transaction)
+        public async Task<IActionResult> MakeIncome(TransactionViewModel transaction)
         {
-            transactionWebService.MakeIncome(transaction);
+            await transactionWebService.MakeIncome(transaction);
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.TargetWalletId
@@ -86,9 +87,9 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult MakeTransfer(TransactionViewModel transaction)
+        public async Task<IActionResult> MakeTransfer(TransactionViewModel transaction)
         {
-            transactionWebService.MakeTransfer(transaction);
+            await transactionWebService.MakeTransfer(transaction);
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.SourceWalletId
@@ -96,26 +97,26 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int id, int transactionId)
+        public async Task<IActionResult> Update(int id, int transactionId)
         {
-            var updatedTransaction = transactionWebService.Get(id, transactionId);
+            var updatedTransaction = await transactionWebService.Get(id, transactionId);
             return View(updatedTransaction);
         }
 
         [HttpPost]
-        public IActionResult Update(int id, TransactionViewModel transaction)
+        public async Task<IActionResult> Update(int id, TransactionViewModel transaction)
         {
             if (ModelState.IsValid)
             {
-                transactionWebService.Update(id, transaction);
+                await transactionWebService.Update(id, transaction);
             }
             return RedirectToAction("Details", "Wallet", new { id =  transaction.TargetWalletId });
         }
 
         [HttpGet]
-        public IActionResult SetInitialBalance(int id)
+        public async Task<IActionResult> SetInitialBalance(int id)
         {
-            var wallet = walletWebService.Get(id);
+            var wallet = await walletWebService.Get(id);
             var transaction = new TransactionViewModel
             {
 
@@ -126,9 +127,9 @@ namespace FamilyAccounting.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetInitialBalance(TransactionViewModel transaction)
+        public async Task<IActionResult> SetInitialBalance(TransactionViewModel transaction)
         {
-            transactionWebService.SetInitialBalance(transaction);
+            await transactionWebService.SetInitialBalance(transaction);
             return RedirectToAction("Details", "Wallet", new
             {
                 id = transaction.SourceWalletId

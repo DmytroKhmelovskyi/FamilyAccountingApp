@@ -5,6 +5,7 @@ using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -19,11 +20,11 @@ namespace FamilyAccounting.BL.Services
             this.walletsRepository = walletsRepository;
         }
 
-        public WalletDTO Create(WalletDTO wallet)
+        public async Task<WalletDTO> Create(WalletDTO wallet)
         {
             try
             {
-                Wallet _wallet = walletsRepository.Create(mapper.Map<Wallet>(wallet));
+                Wallet _wallet = await walletsRepository.Create(mapper.Map<Wallet>(wallet));
                 return mapper.Map<WalletDTO>(_wallet);
             }
             catch(Exception ex)
@@ -32,11 +33,11 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             try
             {
-               return walletsRepository.Delete(id);
+               return await walletsRepository.Delete(id);
             }
             catch (Exception ex)
             {
@@ -44,11 +45,11 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
-        public IEnumerable<WalletDTO> Get()
+        public async Task<IEnumerable<WalletDTO>> Get()
         {
             try
             {
-                IEnumerable<Wallet> wallet = walletsRepository.Get();
+                IEnumerable<Wallet> wallet = await walletsRepository.Get();
                 return mapper.Map<IEnumerable<WalletDTO>>(wallet);
             }
             catch (Exception ex)
@@ -57,17 +58,17 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
-        public WalletDTO Get(int id)
+        public async Task<WalletDTO> Get(int id)
         {
-            Wallet wallet = walletsRepository.Get(id);
+            Wallet wallet = await walletsRepository.Get(id);
             return mapper.Map<WalletDTO>(wallet);
         }
 
-        public IEnumerable<TransactionDTO> GetTransactions(int walletId)
+        public async Task<IEnumerable<TransactionDTO>> GetTransactions(int walletId)
         {
             try
             {
-                IEnumerable<Transaction> transactions = walletsRepository.GetTransactions(walletId);
+                IEnumerable<Transaction> transactions = await walletsRepository.GetTransactions(walletId);
                 return mapper.Map<IEnumerable<TransactionDTO>>(transactions);
             }
             catch (Exception ex)
@@ -76,24 +77,24 @@ namespace FamilyAccounting.BL.Services
             }
         }
 
-        public IEnumerable<TransactionDTO> GetTransactions(int walletId, DateTime from, DateTime to)
+        public async Task<IEnumerable<TransactionDTO>> GetTransactions(int walletId, DateTime from, DateTime to)
         {
-            IEnumerable<Transaction> transactions = walletsRepository.GetTransactions(walletId, from, to);
+            IEnumerable<Transaction> transactions = await walletsRepository.GetTransactions(walletId, from, to);
             return mapper.Map<IEnumerable<TransactionDTO>>(transactions);
         }
 
-        public WalletDTO MakeActive(int id)
+        public async Task<WalletDTO> MakeActive(int id)
         {
-            Wallet wallet = walletsRepository.MakeActive(id);
+            Wallet wallet = await walletsRepository.MakeActive(id);
             return mapper.Map<WalletDTO>(wallet);
         }
 
-        public WalletDTO Update(int id, WalletDTO wallet)
+        public async Task<WalletDTO> Update(int id, WalletDTO wallet)
         {
             try
             {
                 Wallet newWallet = mapper.Map<Wallet>(wallet);
-                Wallet updatedWallet = walletsRepository.Update(id, newWallet);
+                Wallet updatedWallet = await walletsRepository.Update(id, newWallet);
                 return mapper.Map<WalletDTO>(updatedWallet);
             }
             catch (Exception ex)

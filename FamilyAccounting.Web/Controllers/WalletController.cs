@@ -3,6 +3,7 @@ using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using X.PagedList;
 
 namespace FamilyAccounting.Web.Controllers
@@ -17,84 +18,86 @@ namespace FamilyAccounting.Web.Controllers
             this.walletWebService = walletWebService;
             this.personWebService = personWebService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var wallet = walletWebService.Get();
+            var wallet = await walletWebService.Get();
             return View(wallet);
         }
 
-        public IActionResult MakeActive(int Id)
+        public async Task<IActionResult> MakeActive(int Id)
         {
-            walletWebService.MakeActive(Id);
+            await walletWebService.MakeActive(Id);
             return RedirectToAction("Details", "Wallet", new { id = Id });
         }
-        public IActionResult Details(int Id, int? page)
+        public async Task<IActionResult> Details(int Id, int? page)
         {
             var pageNumber = page ?? 1;
-            var wallet = walletWebService.Get(Id);
-            wallet.Transactions = walletWebService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
+            var wallet = await walletWebService.Get(Id);
+            //wallet.Transactions = walletWebService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
+            wallet.Transactions = await walletWebService.GetTransactions(Id);
             var onePageOfTransactions = wallet.Transactions.ToPagedList(pageNumber, 4);
             ViewBag.OnePageOfTransactions = onePageOfTransactions;
             return View(wallet);
         }
 
-        public IActionResult Detail(int Id, DateTime from, DateTime to)
+        public async Task<IActionResult> Detail(int Id, DateTime from, DateTime to)
         {
-            var wallet = walletWebService.Get(Id);
-            wallet.Transactions = walletWebService.GetTransactions(Id, from, to).OrderByDescending(x => x.TimeStamp);
+            var wallet = await walletWebService.Get(Id);
+            //wallet.Transactions = walletWebService.GetTransactions(Id, from, to).OrderByDescending(x => x.TimeStamp);\
+            wallet.Transactions = await walletWebService.GetTransactions(Id, from, to);
             return View(wallet);
         }
 
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             //throw new NotFoundException();
-            var updatedWallet = walletWebService.Get(id);
+            var updatedWallet = await walletWebService.Get(id);
             return View(updatedWallet);
         }
 
         [HttpPost]
-        public IActionResult Update(int id, WalletViewModel wallet)
+        public async Task<IActionResult> Update(int id, WalletViewModel wallet)
         {
             if (ModelState.IsValid)
             {
-                walletWebService.Update(id, wallet);
+                await walletWebService.Update(id, wallet);
             }
             return RedirectToAction("Details", "Wallet", new { id = wallet.Id });
         }
 
         [HttpGet]
-        public ViewResult Delete(int? id)
+        public async Task<ViewResult> Delete(int? id)
         {
             //throw new BadRequestException();
-            var wallet = walletWebService.Get((int)id);
+            var wallet = await walletWebService.Get((int)id);
             return View(wallet);
         }
 
         [ActionName("Delete")]
         [HttpPost]
-        public IActionResult DeleteWallet(int? id)
+        public async Task<IActionResult> DeleteWallet(int? id)
         {
-            var wallet = walletWebService.Get((int)id);
-            walletWebService.Delete((int)id);
+            var wallet = await walletWebService.Get((int)id);
+            await walletWebService.Delete((int)id);
             return RedirectToAction("Details", "Person", new { id = wallet.PersonId });
         }
 
-        public IActionResult Create(int id)
-        {
-            var person = personWebService.Get(id);
-            WalletViewModel walletVM = new WalletViewModel
-            {
-                PersonId = person.Id
-            };
-            return View(walletVM);
-        }
+        //public async Task<IActionResult> Create(int id)
+        //{
+        //    var person = await personWebService.Get(id);
+        //    WalletViewModel walletVM = new WalletViewModel
+        //    {
+        //        PersonId = person.Id
+        //    };
+        //    return View(walletVM);
+        //}
 
         [HttpPost]
-        public IActionResult Create(WalletViewModel wallet)
+        public async Task<IActionResult> Create(WalletViewModel wallet)
         {
-            walletWebService.Create(wallet);
+            await walletWebService.Create(wallet);
             return RedirectToAction("Details", "Person", new
             {
                 id = wallet.PersonId
