@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.DAL.Entities;
 using FamilyAccounting.DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.BL.Services
 {
@@ -18,41 +19,25 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
             this.cardsRepository = cardsRepository;
         }
-        public CardDTO Create(CardDTO card)
+        public async Task<CardDTO> Create(CardDTO card)
         {
-            try
-            {
-                Card _card = cardsRepository.Create(mapper.Map<Card>(card));
-                return mapper.Map<CardDTO>(_card);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<CardDTO>(await cardsRepository.Create(mapper.Map<Card>(card)));
         }
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            try
-            {
-                return cardsRepository.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            return await cardsRepository.Delete(id);
         }
 
-        public CardDTO Get(int id)
+        public async Task<CardDTO> Get(int id)
         {
-            Card card = cardsRepository.Get(id);
-            return mapper.Map<CardDTO>(card);
+            return mapper.Map<CardDTO>(await cardsRepository.Get(id));
         }
 
-        public CardDTO Update(int id, CardDTO card)
+        public async Task<CardDTO> Update(int id, CardDTO card)
         {
             Card newCard = mapper.Map<Card>(card);
-            Card updatedCard = cardsRepository.Update(id, newCard);
-            return mapper.Map<CardDTO>(updatedCard);
+            return mapper.Map<CardDTO>(await cardsRepository.Update(id, newCard));
         }
 
     }

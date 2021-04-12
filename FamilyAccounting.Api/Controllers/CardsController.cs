@@ -1,6 +1,7 @@
 ﻿using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Api.Controllers
 {
@@ -9,70 +10,41 @@ namespace FamilyAccounting.Api.Controllers
     public class CardsController : ControllerBase
     {
         private readonly ICardService cardService;
-        private readonly IWalletService walletService;
 
-        public CardsController(ICardService cardService, IWalletService walletService)
+        public CardsController(ICardService cardService)
         {
             this.cardService = cardService;
-            this.walletService = walletService;
 
-        }
-        [HttpGet("{id}")]
-        public ActionResult Create(int id)
-        {
-            CardDTO cardDto = new CardDTO
-            {
-                WalletId = id
-            };
-            return new OkObjectResult(cardDto);
         }
 
         [HttpPost]
-        public ActionResult Create(CardDTO card)
+        public async Task<ActionResult> Create(CardDTO card)
         {
-            cardService.Create(card);
-            return Ok();
+            return new OkObjectResult(await cardService.Create(card));
         }
-
-        //[HttpGet]
-        //public ViewResult Delete(int? id)
-        //{
-        //    var card = cardService.Get((int)id);
-        //    return View(card);
-        //}
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
-        public ActionResult DeleteCard(int? id)
+        public async Task<ActionResult> DeleteCard(int id)
         {
-            var card = cardService.Get((int)id);
-            cardService.Delete((int)id);
-            return Ok();
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult Update(int id)
-        {
-            var updatedCard = cardService.Get(id);
-            return new OkObjectResult (updatedCard);
+            await cardService.Delete(id);
+            return new OkResult();
         }
 
         [HttpPost("{id}")]
-        public ActionResult Update(int id, CardDTO card)
+        public async Task<ActionResult> Update(int id, CardDTO card)
         {
             if (ModelState.IsValid)
             {
-                cardService.Update(id, card);
-                return Ok();
+                return new OkObjectResult(await cardService.Update(id, card));
             }
             return new BadRequestResult();
 
         }
         [HttpGet("{id}")]
-        public ActionResult Details(int Id)
+        public async Task<ActionResult> Details(int Id)
         {
-            var card = cardService.Get(Id);
-            return new OkObjectResult(card);
+            return new OkObjectResult(await cardService.Get(Id));
         }
     }
 }
