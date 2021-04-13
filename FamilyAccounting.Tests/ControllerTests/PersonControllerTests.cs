@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -47,7 +48,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.IsTrue(isModelStateValid);
         }
         [Test]
-        public void Index_ViewResultNotNull()
+        public async Task Index_ViewResultNotNull()
         {
             //Arrange
             var mock = new Mock<IPersonWebService>();
@@ -55,21 +56,21 @@ namespace FamilyAccounting.Tests.ControllerTests
             PersonController controller = new PersonController(mock.Object);
 
             //Act
-            ViewResult result = controller.Index(3) as ViewResult;
+            ViewResult result =await controller.Index(3) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void Index_VerifyOnce()
+        public async Task Index_VerifyOnce()
         {
             //Arrange
             var mock = new Mock<IPersonWebService>();
             PersonController controller = new PersonController(mock.Object);
 
             //Act
-            RedirectToActionResult result = controller.Index(1) as RedirectToActionResult;
+            RedirectToActionResult result = await controller.Index(1) as RedirectToActionResult;
 
             //Assert
             mock.Verify(a => a.Get(), Times.Once);
@@ -91,7 +92,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldCallAddPersonOnce()
+        public async Task AddShouldCallAddPersonOnce()
         {
             //Arrange
             PersonViewModel pvm = new PersonViewModel
@@ -103,10 +104,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
-            mock.Setup(x => x.Add(It.IsAny<PersonViewModel>())).Returns(It.IsAny<PersonViewModel>());
+            mock.Setup(x => x.Add(It.IsAny<PersonViewModel>())).ReturnsAsync(It.IsAny<PersonViewModel>());
 
             //Act
-            controller.Add(pvm);
+            await controller.Add(pvm);
 
             //Assert
             mock.Verify(x => x.Add(It.IsAny<PersonViewModel>()), Times.Once);
@@ -127,21 +128,21 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldReturnViewResult()
+        public async Task AddShouldReturnViewResult()
         {
             // Arrange
             var mock = new Mock<IPersonWebService>();
             var controller = new PersonController(mock.Object);
 
             // Act
-            var result = controller.Add();
+            var result = await controller.Add();
 
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
         }
 
         [Test]
-        public void Update_ReturnsRedirect_ToActionResut()
+        public async Task Update_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var personId = 1;
@@ -151,7 +152,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(mock.Object);
 
             // Act
-            var result = controller.Update(personId, person);
+            var result = await controller.Update(personId, person);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -159,7 +160,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_NotNull_ViewResultIsNotNull()
+        public async Task Update_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var person = new PersonViewModel()
@@ -172,24 +173,24 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(mock.Object);
 
             //Act
-            var result = controller.Update(person.Id, person);
+            var result = await controller.Update(person.Id, person);
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void Details_PersonExists_ReturnsAViewResultWithPerson()
+        public async Task Details_PersonExists_ReturnsAViewResultWithPerson()
         {
             //Arrange
             var personId = 1;
             var testPerson = new PersonViewModel () { Id = personId };
             var personsRepo = new Mock<IPersonWebService>();
-            personsRepo.Setup(g => g.Get(personId)).Returns(testPerson);
+            personsRepo.Setup(g => g.Get(personId)).ReturnsAsync(testPerson);
             var controller = new PersonController(personsRepo.Object);
 
             // Act
-            var result = controller.Details(personId, 1);
+            var result = await controller.Details(personId, 1);
 
             // Assert
             var viewResult = result as ViewResult;
@@ -198,7 +199,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldCallDeletePersonInBlOnce()
+        public async Task DeleteShouldCallDeletePersonInBlOnce()
         {
             //Arrange
             var mock = new Mock<IPersonWebService>();
@@ -206,7 +207,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mock.Setup(x => x.Delete(1));
 
             //Act
-            controller.DeletePerson(1);
+            await controller.DeletePerson(1);
 
             //Assert
             mock.Verify(x => x.Delete(1), Times.Once);
@@ -227,7 +228,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldReturnViewResult()
+        public async Task DeleteShouldReturnViewResult()
         {
             // Arrange
             int id = 1;
@@ -235,7 +236,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonController(mock.Object);
 
             // Act
-            var result = controller.Delete(id);
+            var result = await controller.Delete(id);
 
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());

@@ -20,7 +20,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             var newCard = new CardDTO {  WalletId = 1, Description = "for shopping"};
 
-            CardRepoMock.Setup(r => r.Create(It.IsAny<Card>())).Returns(new Card());
+            CardRepoMock.Setup(r => r.Create(It.IsAny<Card>())).ReturnsAsync(new Card());
             var newCardJson = JsonConvert.SerializeObject(newCard);
             var content = new StringContent(newCardJson, Encoding.UTF8, "application/json");
 
@@ -40,7 +40,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             var walletId = 1;
             var card = new CardDTO { WalletId = walletId, Description = "new description"};
 
-            CardRepoMock.Setup(r => r.Update(walletId, It.IsAny<Card>())).Returns(new Card());
+            CardRepoMock.Setup(r => r.Update(walletId, It.IsAny<Card>())).ReturnsAsync(new Card());
             var newCardJson = JsonConvert.SerializeObject(card);
             var content = new StringContent(newCardJson, Encoding.UTF8, "application/json");
 
@@ -59,7 +59,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             var walletId = 1;
 
-            CardRepoMock.Setup(r => r.Delete(walletId)).Returns(0);
+            CardRepoMock.Setup(r => r.Delete(walletId)).ReturnsAsync(0);
 
             // Act
             var response = await Client.DeleteAsync($"/api/cards/Delete/{walletId}");
@@ -75,7 +75,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
         {
             // Arrange
             var walletId = 1;
-            CardRepoMock.Setup(r => r.Get(walletId)).Returns(new Card { WalletId = walletId, Description="for shopping", Number = "3566002020360505" });
+            CardRepoMock.Setup(r => r.Get(walletId)).ReturnsAsync(new Card { WalletId = walletId, Description="for shopping", Number = "3566002020360505" });
 
             // Act
             var response = await Client.GetAsync($"/api/cards/Details/{walletId}");
