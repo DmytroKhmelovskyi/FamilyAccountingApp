@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -14,11 +15,10 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             string expected = "CardsController";
-            var mockWallet = new Mock<IWalletService>();
             var mockCard = new Mock<ICardService>();
 
             //Act
-            CardsController controller = new CardsController(mockCard.Object, mockWallet.Object);
+            CardsController controller = new CardsController(mockCard.Object);
 
             //Assert
             Assert.IsNotNull(controller);
@@ -26,7 +26,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void CreateCard_ShouldBeNotNull()
+        public async Task CreateCard_ShouldBeNotNull()
         {
             var card = new CardDTO()
             {
@@ -34,13 +34,12 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Description = "for shopping",
             };
             // Arrange
-            var mockWallet = new Mock<IWalletService>();
             var mockCard = new Mock<ICardService>();
-            mockCard.Setup(a => a.Create(card)).Returns(card);
-            CardsController controller = new CardsController(mockCard.Object, mockWallet.Object);
+            mockCard.Setup(a => a.Create(card)).ReturnsAsync(card);
+            CardsController controller = new CardsController(mockCard.Object);
 
             // Act
-            var result = controller.Create(card) as OkResult;
+            var result = await controller.Create(card) as OkObjectResult;
 
             // Assert
             Assert.AreEqual(result.StatusCode, 200);
@@ -49,41 +48,40 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void CreateCard_ShouldCallCreateCardInBlOnce()
+        public async Task CreateCard_ShouldCallCreateCardInBlOnce()
         {
             //Arrange
             CardDTO cardVM = new CardDTO
             {
                 Description = "Description",
             };
-            var mockWallet = new Mock<IWalletService>();
             var mockCard = new Mock<ICardService>();
-            CardsController controller = new CardsController(mockCard.Object, mockWallet.Object);
-            mockCard.Setup(x => x.Create(It.IsAny<CardDTO>())).Returns(It.IsAny<CardDTO>());
+            CardsController controller = new CardsController(mockCard.Object);
+            mockCard.Setup(x => x.Create(It.IsAny<CardDTO>())).ReturnsAsync(It.IsAny<CardDTO>());
 
             //Act
-            controller.Create(cardVM);
+            await controller.Create(cardVM);
 
             //Assert
             mockCard.Verify(x => x.Create(It.IsAny<CardDTO>()), Times.Once);
         }
 
         [Test]
-        public void Details_ViewResultNotNull()
+        public async Task Details_ViewResultNotNull()
         {
             //Arrange
-            var testCard = new CardDTO { 
-                WalletId = 3, 
-                Number = "6011111111111117", 
+            var testCard = new CardDTO
+            {
+                WalletId = 3,
+                Number = "6011111111111117",
                 Description = "O.O.N.Q.D.U.Y.U.R.D"
             };
-            var mockWallet = new Mock<IWalletService>();
             var mockСard = new Mock<ICardService>();
-            mockСard.Setup(a => a.Get(testCard.WalletId)).Returns(testCard);
-            var controller = new CardsController(mockСard.Object, mockWallet.Object);
+            mockСard.Setup(a => a.Get(testCard.WalletId)).ReturnsAsync(testCard);
+            var controller = new CardsController(mockСard.Object);
 
             //Act
-            var result = controller.Details(testCard.WalletId) as OkObjectResult;
+            var result = await controller.Details(testCard.WalletId) as OkObjectResult;
 
             //Assert
             Assert.AreEqual(result.StatusCode, 200);
@@ -92,23 +90,22 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Details_VerifyOnce()
+        public async Task Details_VerifyOnce()
         {
             //Arrange
             var WalletId = 1;
             var mockCard = new Mock<ICardService>();
-            var mockWallet = new Mock<IWalletService>();
-            var controller = new CardsController(mockCard.Object, mockWallet.Object);
+            var controller = new CardsController(mockCard.Object);
 
             //Act
-            var result = controller.Details(1) as OkObjectResult;
+            var result = await controller.Details(1) as OkObjectResult;
 
             //Assert
             mockCard.Verify(a => a.Get(WalletId), Times.Once);
         }
 
         [Test]
-        public void UpdateCard_NotNull_ViewResultIsNotNull()
+        public async Task UpdateCard_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var card = new CardDTO()
@@ -116,12 +113,11 @@ namespace FamilyAccounting.Tests.ControllerTests
                 WalletId = 1,
                 Description = "for shopping",
             };
-            var mockWallet = new Mock<IWalletService>();
             var mockСard = new Mock<ICardService>();
-            var controller = new CardsController(mockСard.Object, mockWallet.Object);
+            var controller = new CardsController(mockСard.Object);
 
             //Act
-            var result = controller.Update(card.WalletId, card) as OkObjectResult;
+            var result = await controller.Update(card.WalletId, card) as OkObjectResult;
 
             //Assert
             Assert.AreEqual(result.StatusCode, 200);
@@ -129,7 +125,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_VerifyOnce()
+        public async Task Update_VerifyOnce()
         {
             //Arrange
             CardDTO card = new CardDTO()
@@ -138,12 +134,11 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Description = "for shopping",
             };
             var mockCard = new Mock<ICardService>();
-            var mockWallet = new Mock<IWalletService>();
-            var controller = new CardsController(mockCard.Object, mockWallet.Object);
+            var controller = new CardsController(mockCard.Object);
             mockCard.Setup(a => a.Update(card.WalletId, card));
 
             //Act
-            var result = controller.Update(card.WalletId, card) as OkResult;
+            var result = await controller.Update(card.WalletId, card) as OkResult;
 
             //Assert
             mockCard.Verify(a => a.Update(card.WalletId, card), Times.Once);
@@ -153,9 +148,8 @@ namespace FamilyAccounting.Tests.ControllerTests
         {
             //Arrange
             var mockCard = new Mock<ICardService>();
-            var mockWallet = new Mock<IWalletService>();
 
-            var controller = new CardsController(mockCard.Object, mockWallet.Object);
+            var controller = new CardsController(mockCard.Object);
 
             //Act
             var result = controller.RedirectToAction("Delete");
@@ -164,34 +158,32 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.That(result.ActionName, Is.EqualTo("Delete"));
         }
         [Test]
-        public void DeleteCard_ShouldReturnOkResult()
+        public async Task DeleteCard_ShouldReturnOkResult()
         {
             //Arrange
             var walletId = 1;
             var mockCard = new Mock<ICardService>();
-            var mockWallet = new Mock<IWalletService>();
             mockCard.Setup(g => g.Delete(walletId));
-            var controller = new CardsController(mockCard.Object, mockWallet.Object);
+            var controller = new CardsController(mockCard.Object);
 
             //Act
-            var result = controller.DeleteCard(walletId) as OkResult;
+            var result = await controller.DeleteCard(walletId) as OkResult;
 
             //Assert
             Assert.That(result, Is.TypeOf<OkResult>());
         }
 
         [Test]
-        public void Delete_ResultIsNotNull()
+        public async Task Delete_ResultIsNotNull()
         {
             //Arrange
             var walletId = 1;
             var mockCard = new Mock<ICardService>();
-            var mockWallet = new Mock<IWalletService>();
             mockCard.Setup(g => g.Delete(walletId));
-            var controller = new CardsController(mockCard.Object, mockWallet.Object);
+            var controller = new CardsController(mockCard.Object);
 
             //Act
-            var result = controller.DeleteCard(walletId) as OkResult;
+            var result = await controller.DeleteCard(walletId) as OkResult;
 
             //Assert
             Assert.IsNotNull(result);

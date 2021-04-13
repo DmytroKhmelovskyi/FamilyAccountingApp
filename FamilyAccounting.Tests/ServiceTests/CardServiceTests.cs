@@ -11,6 +11,7 @@ using FamilyAccounting.Web.Models;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ServiceTests
 {
@@ -45,7 +46,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mockMapper = new Mock<IMapper>();
             var mockRepository = new Mock<ICardRepository>();
             ICardService service = new CardService(mockMapper.Object, mockRepository.Object);
-            mockRepository.Setup(x => x.Create(It.IsAny<Card>())).Returns(It.IsAny<Card>());
+            mockRepository.Setup(x => x.Create(It.IsAny<Card>())).ReturnsAsync(It.IsAny<Card>());
 
             //Act
             service.Create(cardDTO);
@@ -55,7 +56,7 @@ namespace FamilyAccounting.Tests.ServiceTests
         }
 
         [Test]
-        public void CreateCard_ShouldReturnCardDTO()
+        public async Task CreateCard_ShouldReturnCardDTO()
         {
             //Arrange
             CardDTO shouldBe = new CardDTO
@@ -68,10 +69,10 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Description = "Description",
             };
             var mock = new Mock<ICardService>();
-            mock.Setup(x => x.Create(cardDTO)).Returns(cardDTO);
+            mock.Setup(x => x.Create(cardDTO)).ReturnsAsync(cardDTO);
 
             //Act
-            var result = mock.Object.Create(cardDTO);
+            var result = await mock.Object.Create(cardDTO);
 
             //Assert
             Assert.IsNotNull(result);
@@ -183,7 +184,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mockRepository = new Mock<ICardRepository>();
             var mockMapper = new Mock<IMapper>();
             ICardService service = new CardService(mockMapper.Object, mockRepository.Object);
-            mockRepository.Setup(x => x.Delete(1)).Returns(It.IsAny<int>);
+            mockRepository.Setup(x => x.Delete(1)).ReturnsAsync(It.IsAny<int>);
 
             //Act
             service.Delete(1);
@@ -214,7 +215,7 @@ namespace FamilyAccounting.Tests.ServiceTests
                 WalletId = 1
             };
             var cardRepoMock = new Mock<ICardRepository>();
-            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).ReturnsAsync(status);
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -236,7 +237,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             int status = 1;
             var cardViewModel = new CardViewModel();
             var cardRepoMock = new Mock<ICardRepository>();
-            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).Returns(status);
+            cardRepoMock.Setup(r => r.Delete(It.IsAny<int>())).ReturnsAsync(status);
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());

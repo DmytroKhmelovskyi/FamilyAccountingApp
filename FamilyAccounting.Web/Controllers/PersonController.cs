@@ -2,6 +2,7 @@
 using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using X.PagedList;
 
 namespace FamilyAccounting.Web.Controllers
@@ -14,71 +15,71 @@ namespace FamilyAccounting.Web.Controllers
             this.personsWebService = personsWebService;
         }
 
-        public IActionResult Index(int? page)
+        public async Task<IActionResult> Index(int? page)
         {
             var pageNumber = page ?? 1;
-            var person = personsWebService.Get();
+            var person = await personsWebService.Get();
             var onePageOfPersons = person.ToPagedList(pageNumber, 8);
             ViewBag.OnePageOfPersons = onePageOfPersons;
             return View(person);
         }
 
         [Authorize(Roles = "admin")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult Add(PersonViewModel person)
+        public async Task<IActionResult> Add(PersonViewModel person)
         {
             if (ModelState.IsValid)
             {
-                personsWebService.Add(person);
+                await personsWebService.Add(person);
                 return RedirectToAction("Index");
             }
             return Content("Invalid inputs");
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var updatedPerson = personsWebService.Get(id);
+            var updatedPerson = await personsWebService.Get(id);
             return View(updatedPerson);
         }
 
         [HttpPost]
-        public IActionResult Update(int id, PersonViewModel person)
+        public async Task<IActionResult> Update(int id, PersonViewModel person)
         {
             if (ModelState.IsValid)
             {
-                personsWebService.Update(id, person);
+                await personsWebService.Update(id, person);
             }
             return RedirectToAction("Details", "Person", new {id});
         }
-        public IActionResult Details(int Id, int? page)
+        public async Task<IActionResult> Details(int Id, int? page)
         {
             var pageNumber = page ?? 1;
-            var person = personsWebService.Get(Id);
-            person.Wallets = personsWebService.GetWallets(Id);
+            var person = await personsWebService.Get(Id);
+            person.Wallets = await personsWebService.GetWallets(Id);
             var onePageOfWallets = person.Wallets.ToPagedList(pageNumber, 4);
             ViewBag.OnePageOfWallets = onePageOfWallets;
             return View(person);
         }
 
         [HttpGet]
-        public ViewResult Delete(int? id)
+        public async Task<ViewResult> Delete(int? id)
         {
-            var person = personsWebService.Get((int)id);
+            var person = await personsWebService.Get((int)id);
             return View(person);
         }
 
         [ActionName("Delete")]
         [HttpPost]
-        public IActionResult DeletePerson(int? id)
+        public async Task<IActionResult> DeletePerson(int? id)
         {
-            personsWebService.Delete((int)id);
+           await personsWebService.Delete((int)id);
             return RedirectToAction("Index");
         }
     }

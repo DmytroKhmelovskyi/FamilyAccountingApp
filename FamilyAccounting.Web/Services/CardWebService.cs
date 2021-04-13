@@ -4,6 +4,7 @@ using FamilyAccounting.BL.Interfaces;
 using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
 {
@@ -17,11 +18,11 @@ namespace FamilyAccounting.Web.Services
             this.mapper = mapper;
             this.cardService = cardService;
         }
-        public CardViewModel Create(CardViewModel card)
+        public async Task<CardViewModel> Create(CardViewModel card)
         {
             try
             {
-                CardDTO _card = cardService.Create(mapper.Map<CardDTO>(card));
+                CardDTO _card = await cardService.Create(mapper.Map<CardDTO>(card));
                 return mapper.Map<CardViewModel>(_card);
             }
             catch (Exception ex)
@@ -29,11 +30,11 @@ namespace FamilyAccounting.Web.Services
                 throw new Exception(ex.Message);
             }
         }
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
             try
             {
-                return cardService.Delete(id);
+                return await cardService.Delete(id);
             }
             catch (Exception ex)
             {
@@ -41,16 +42,16 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public CardViewModel Get(int id)
+        public async Task<CardViewModel> Get(int id)
         {
-            CardDTO card = cardService.Get(id);
+            CardDTO card = await cardService.Get(id);
             return mapper.Map<CardViewModel>(card);
         }
 
-        public CardViewModel Update(int id, CardViewModel card)
+        public async Task<CardViewModel> Update(int id, CardViewModel card)
         {
             CardDTO newCard = mapper.Map<CardDTO>(card);
-            CardDTO updatedCard = cardService.Update(id, newCard);
+            CardDTO updatedCard = await cardService.Update(id, newCard);
             return mapper.Map<CardViewModel>(updatedCard);
         }
 

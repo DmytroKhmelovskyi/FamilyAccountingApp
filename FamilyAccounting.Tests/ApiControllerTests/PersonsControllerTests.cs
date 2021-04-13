@@ -8,13 +8,14 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
     class PersonsControllerTests
     {
         [Test]
-        public void Index_IsNotNull()
+        public async Task Index_IsNotNull()
         {
             //Arrange
             var TestList = new List<PersonDTO>
@@ -32,11 +33,11 @@ namespace FamilyAccounting.Tests.ControllerTests
                 new PersonDTO { FirstName = "Boris", LastName = "Pittman", WalletsCount = 3 }
             };
             var mock = new Mock<IPersonService>();
-            mock.Setup(a => a.Get()).Returns(TestList);
+            mock.Setup(a => a.Get()).ReturnsAsync(TestList);
             Mock<PersonsController> controller = new Mock<PersonsController>(mock.Object);
 
             //Act
-            var result = controller.Object.Index() as OkObjectResult;
+            var result = await controller.Object.GetAll() as OkObjectResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -45,14 +46,14 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Index_VerifyOnce()
+        public async Task Index_VerifyOnce()
         {
             //Arrange
             var mock = new Mock<IPersonService>();
             PersonsController controller = new PersonsController(mock.Object);
 
             //Act
-            var result = controller.Index() as OkObjectResult;
+            var result = await controller.GetAll() as OkObjectResult;
 
             //Assert
             mock.Verify(a => a.Get(), Times.Once);
@@ -114,7 +115,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldCallAddPersonOnce()
+        public async Task AddShouldCallAddPersonOnce()
         {
             //Arrange
             PersonDTO personDTO = new PersonDTO
@@ -126,10 +127,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            mock.Setup(x => x.Add(It.IsAny<PersonDTO>())).Returns(It.IsAny<PersonDTO>());
+            mock.Setup(x => x.Add(It.IsAny<PersonDTO>())).ReturnsAsync(It.IsAny<PersonDTO>());
 
             //Act
-            controller.Add(personDTO);
+            await controller.Add(personDTO);
 
             //Assert
             mock.Verify(x => x.Add(It.IsAny<PersonDTO>()), Times.Once);
@@ -150,7 +151,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void AddShouldReturnOkResult()
+        public async Task AddShouldReturnOkResult()
         {
             // Arrange
             var mock = new Mock<IPersonService>();
@@ -162,9 +163,9 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Phone = "0636363636",
                 Email = "email.email.com"
             };
-            mock.Setup(a => a.Add(personDTO)).Returns(personDTO);
+            mock.Setup(a => a.Add(personDTO)).ReturnsAsync(personDTO);
             // Act
-            var result = controller.Add(personDTO) as OkObjectResult;
+            var result = await controller.Add(personDTO) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -173,7 +174,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void UpdateVerifyOnce()
+        public async Task UpdateVerifyOnce()
         {
             //Arrange
             PersonDTO personDTO = new PersonDTO
@@ -186,10 +187,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            mock.Setup(x => x.Update(personDTO.Id, personDTO)).Returns(personDTO);
+            mock.Setup(x => x.Update(personDTO.Id, personDTO)).ReturnsAsync(personDTO);
 
             //Act
-            var result = controller.Update(personDTO.Id, personDTO) as OkObjectResult;
+            var result = await controller.Update(personDTO.Id, personDTO) as OkObjectResult;
 
             //Assert
             mock.Verify(x => x.Update(personDTO.Id, personDTO));
@@ -197,7 +198,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Update_ReturnsOkResult()
+        public async Task Update_ReturnsOkResult()
         {
             // Arrange
             var personId = 1;
@@ -207,7 +208,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonsController(mock.Object);
 
             // Act
-            var result = controller.Update(personId, person) as OkObjectResult;
+            var result = await controller.Update(personId, person) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -215,17 +216,17 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Details_IsNotNull()
+        public async Task Details_IsNotNull()
         {
             //Arrange
             var personId = 1;
             var testPerson = new PersonDTO() { Id = personId };
             var personsRepo = new Mock<IPersonService>();
-            personsRepo.Setup(g => g.Get(personId)).Returns(testPerson);
+            personsRepo.Setup(g => g.Get(personId)).ReturnsAsync(testPerson);
             var controller = new PersonsController(personsRepo.Object);
 
             // Act
-            var result = controller.Details(personId) as OkObjectResult;
+            var result = await controller.Details(personId) as OkObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -234,7 +235,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldCallDeletePersonInBlOnce()
+        public async Task DeleteShouldCallDeletePersonInBlOnce()
         {
             //Arrange
             var mock = new Mock<IPersonService>();
@@ -242,7 +243,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mock.Setup(x => x.Delete(1));
 
             //Act
-            controller.DeletePerson(1);
+            await controller.DeletePerson(1);
 
             //Assert
             mock.Verify(x => x.Delete(1), Times.Once);
@@ -263,7 +264,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void DeleteShouldReturnActionResult()
+        public async Task DeleteShouldReturnActionResult()
         {
             // Arrange
             PersonDTO personDTO = new PersonDTO
@@ -278,7 +279,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new PersonsController(mock.Object);
 
             // Act
-            var result = controller.Delete(personDTO.Id) as OkObjectResult;
+            var result = await controller.DeletePerson(personDTO.Id) as OkResult;
 
             // Assert
             Assert.IsNotNull(result);

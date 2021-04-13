@@ -1,12 +1,13 @@
 ﻿using FamilyAccounting.Web.Models;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Interfaces
 {
     public interface ICardWebService
     {
-        public CardViewModel Create(CardViewModel card);
-        public int Delete(int id);
-        public CardViewModel Get(int id);
-        public CardViewModel Update(int id, CardViewModel card);
+        public  Task<CardViewModel> Create(CardViewModel card);
+        public Task<int> Delete(int id);
+        public Task<CardViewModel> Get(int id);
+        public Task<CardViewModel> Update(int id, CardViewModel card);
     }
 }

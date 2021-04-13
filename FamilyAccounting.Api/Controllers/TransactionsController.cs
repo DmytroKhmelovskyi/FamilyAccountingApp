@@ -93,7 +93,7 @@ namespace FamilyAccounting.Api.Controllers
             return updatedTransaction;
         }
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, TransactionDTO transaction)
         {
             if (ModelState.IsValid)

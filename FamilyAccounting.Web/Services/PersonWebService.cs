@@ -5,6 +5,7 @@ using FamilyAccounting.Web.Interfaces;
 using FamilyAccounting.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Web.Services
 {
@@ -19,24 +20,17 @@ namespace FamilyAccounting.Web.Services
             this.mapper = mapper;
         }
 
-        public PersonViewModel Add(PersonViewModel person)
+        public async Task<PersonViewModel> Add(PersonViewModel person)
         {
-            try
-            {
-                PersonDTO _person = personService.Add(mapper.Map<PersonDTO>(person));
+                PersonDTO _person = await personService.Add(mapper.Map<PersonDTO>(person));
                 return mapper.Map<PersonViewModel>(_person);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
-        public PersonViewModel Update(int id, PersonViewModel person)
+        public async Task<PersonViewModel> Update(int id, PersonViewModel person)
         {
             try
             {
                 PersonDTO newPerson = mapper.Map<PersonDTO>(person);
-                PersonDTO updatedPerson = personService.Update(id, newPerson);
+                PersonDTO updatedPerson = await personService.Update(id, newPerson);
                 return mapper.Map<PersonViewModel>(updatedPerson);
             }
             catch (Exception ex)
@@ -45,11 +39,11 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public IEnumerable<PersonViewModel> Get()
+        public async Task<IEnumerable<PersonViewModel>> Get()
         {
             try
             {
-                IEnumerable<PersonDTO> person = personService.Get();
+                IEnumerable<PersonDTO> person = await personService.Get();
                 return mapper.Map<IEnumerable<PersonViewModel>>(person);
             }
             catch (Exception ex)
@@ -58,35 +52,21 @@ namespace FamilyAccounting.Web.Services
             }
         }
 
-        public PersonViewModel Get(int id)
+        public async Task<PersonViewModel> Get(int id)
         {
-            PersonDTO person = personService.Get(id);
+            PersonDTO person = await personService.Get(id);
             return mapper.Map<PersonViewModel>(person);
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            try
-            {
-                return personService.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+                return await personService.Delete(id);
         }
 
-        public IEnumerable<WalletViewModel> GetWallets(int id)
+        public async Task<IEnumerable<WalletViewModel>> GetWallets(int id)
         {
-            try
-            {
-                IEnumerable<WalletDTO> wallets = personService.GetWallets(id);
+                IEnumerable<WalletDTO> wallets = await personService.GetWallets(id);
                 return mapper.Map<IEnumerable<WalletViewModel>>(wallets);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
     }
 }

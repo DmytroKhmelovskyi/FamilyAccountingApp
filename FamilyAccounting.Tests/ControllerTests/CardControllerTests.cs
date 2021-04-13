@@ -4,6 +4,7 @@ using FamilyAccounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace FamilyAccounting.Tests.ControllerTests
 {
@@ -26,7 +27,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void CreateCard_ShouldCallCreateCardInBlOnce()
+        public async Task CreateCard_ShouldCallCreateCardInBlOnce()
         {
             //Arrange
             CardViewModel cardVM = new CardViewModel
@@ -36,10 +37,10 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mockWallet = new Mock<IWalletWebService>();
             var mockCard = new Mock<ICardWebService>();
             CardController controller = new CardController(mockCard.Object, mockWallet.Object);
-            mockCard.Setup(x => x.Create(It.IsAny<CardViewModel>())).Returns(It.IsAny<CardViewModel>());
+            mockCard.Setup(x => x.Create(It.IsAny<CardViewModel>())).ReturnsAsync(It.IsAny<CardViewModel>());
 
             //Act
-            controller.Create(cardVM);
+            await controller.Create(cardVM);
 
             //Assert
             mockCard.Verify(x => x.Create(It.IsAny<CardViewModel>()), Times.Once);
@@ -75,7 +76,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void UpdateСard_ReturnsRedirect_ToActionResut()
+        public async Task UpdateСard_ReturnsRedirect_ToActionResut()
         {
             // Arrange
             var walletId = 1;
@@ -86,7 +87,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mockСard.Setup(p => p.Update(walletId, It.IsAny<CardViewModel>()));
 
             // Act
-            var result = controller.Update(walletId, card);
+            var result = await controller.Update(walletId, card);
 
             // Assert
             var redirectToActionResult = result as RedirectToActionResult;
@@ -94,7 +95,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void UpdateCard_NotNull_ViewResultIsNotNull()
+        public async Task UpdateCard_NotNull_ViewResultIsNotNull()
         {
             //Arrange
             var card = new CardViewModel()
@@ -107,14 +108,14 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardController(mockСard.Object, mockWallet.Object);
 
             //Act
-            var result = controller.Update(card.WalletId, card);
+            var result = await controller.Update(card.WalletId, card);
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void Details_ViewResultNotNull()
+        public async Task Details_ViewResultNotNull()
         {
             //Arrange
             var mockWallet = new Mock<IWalletWebService>();
@@ -124,25 +125,25 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardController(mockСard.Object, mockWallet.Object);
 
             //Act
-            ViewResult result = controller.Details(id) as ViewResult;
+            ViewResult result = await controller.Details(id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void Details_CardExists_ReturnsAViewResultWithCard()
+        public async Task Details_CardExists_ReturnsAViewResultWithCard()
         {
             //Arrange
             var walletId = 1;
             var testCard = new CardViewModel() { WalletId = walletId };
             var mockCard = new Mock<ICardWebService>();
             var mockWallet = new Mock<IWalletWebService>();
-            mockCard.Setup(g => g.Get(walletId)).Returns(testCard);
+            mockCard.Setup(g => g.Get(walletId)).ReturnsAsync(testCard);
             var controller = new CardController(mockCard.Object, mockWallet.Object);
 
             // Act
-            var result = controller.Details(walletId);
+            var result = await controller.Details(walletId);
 
             // Assert
             var viewResult = result as ViewResult;
@@ -151,7 +152,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Details_VerifyOnce()
+        public async Task Details_VerifyOnce()
         {
             //Arrange
             var WalletId = 1;
@@ -160,7 +161,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardController(mockCard.Object, mockWallet.Object);
 
             //Act
-            RedirectToActionResult result = controller.Details(1) as RedirectToActionResult;
+            RedirectToActionResult result = await controller.Details(1) as RedirectToActionResult;
 
             //Assert
             mockCard.Verify(a => a.Get(WalletId), Times.Once);
@@ -181,7 +182,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             Assert.That(result.ActionName, Is.EqualTo("Delete"));
         }
         [Test]
-        public void DeleteShouldReturnViewResult()
+        public async Task DeleteShouldReturnViewResult()
         {
             // Arrange
             int id = 1;
@@ -191,7 +192,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardController(mockCard.Object, mockWallet.Object);
 
             // Act
-            var result = controller.Delete(id);
+            var result = await controller.Delete(id);
 
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
@@ -199,7 +200,7 @@ namespace FamilyAccounting.Tests.ControllerTests
 
 
         [Test]
-        public void Delete_NotNull_ResultIsNotNull()
+        public async Task Delete_NotNull_ResultIsNotNull()
         {
             //Arrange
             var card = new WalletViewModel();
@@ -209,7 +210,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var controller = new CardController(mockCard.Object, mockWallet.Object);
 
             //Act
-            ViewResult result = controller.Delete(card.Id) as ViewResult;
+            ViewResult result = await controller.Delete(card.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
