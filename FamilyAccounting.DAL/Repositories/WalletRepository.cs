@@ -45,7 +45,6 @@ namespace FamilyAccounting.DAL.Repositories
                             Expense = 0,
                             PersonId = 0,
                             Transactions = null
-
                         };
                         table.Add(wallet);
                     }

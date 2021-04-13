@@ -21,9 +21,8 @@ namespace FamilyAccounting.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> GetWallets()
         {
-            //var k = await walletService.Get().ToListAsync();
             return new OkObjectResult(await walletService.Get());
         }
 
@@ -39,8 +38,6 @@ namespace FamilyAccounting.Api.Controllers
         {
             var wallet = await walletService.Get(Id);
             wallet.Transactions = await walletService.GetTransactions(Id);
-
-            //wallet.Transactions = await walletService.GetTransactions(Id).OrderByDescending(x => x.TimeStamp);
             return new OkObjectResult(wallet);
         }
 
@@ -56,7 +53,6 @@ namespace FamilyAccounting.Api.Controllers
             if (ModelState.IsValid)
             {
                 await walletService.Update(id, wallet);
-
                 return new OkResult();
             }
             return Content("Invalid inputs");
@@ -77,16 +73,16 @@ namespace FamilyAccounting.Api.Controllers
             return new OkResult();
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult> Create(int id)
-        //{
-        //    var person = await personService.Get(id);
-        //    WalletDTO walletVM = new WalletDTO
-        //    {
-        //        PersonId = person.Id
-        //    };
-        //    return new OkObjectResult(walletVM);
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Create(int id)
+        {
+            var person = await personService.Get(id);
+            WalletDTO walletVM = new WalletDTO
+            {
+                PersonId = person.Id
+            };
+            return new OkObjectResult(walletVM);
+        }
 
         [HttpPost]
         public async Task<ActionResult> Create(WalletDTO wallet)

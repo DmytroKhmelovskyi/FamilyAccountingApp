@@ -21,82 +21,39 @@ namespace FamilyAccounting.BL.Services
 
         public async Task<TransactionDTO> Get(int walletId, int transactionId)
         {
-            try
-            {
-                Transaction transaction = await transactionRepository.Get(walletId, transactionId);
-                return mapper.Map<TransactionDTO>(transaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction transaction = await transactionRepository.Get(walletId, transactionId);
+            return mapper.Map<TransactionDTO>(transaction);
         }
 
         public async Task<TransactionDTO> MakeExpense(TransactionDTO transaction)
         {
-            try
-            {
-                Transaction _transaction = await transactionRepository.MakeExpense(mapper.Map<Transaction>(transaction));
-                return mapper.Map<TransactionDTO>(_transaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction _transaction = await transactionRepository.MakeExpense(mapper.Map<Transaction>(transaction));
+            return mapper.Map<TransactionDTO>(_transaction);
         }
 
         public async Task<TransactionDTO> MakeTransfer(TransactionDTO transaction)
         {
-            try
-            {
-                Transaction _transaction = await transactionRepository.MakeTransfer(mapper.Map<Transaction>(transaction));
-                return mapper.Map<TransactionDTO>(_transaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction _transaction = await transactionRepository.MakeTransfer(mapper.Map<Transaction>(transaction));
+            return mapper.Map<TransactionDTO>(_transaction);
         }
 
         public async Task<TransactionDTO> Update(int id, TransactionDTO transaction)
         {
-            try
-            {
-                Transaction newTransaction = mapper.Map<Transaction>(transaction);
-                Transaction updatedTransaction = await transactionRepository.Update(id, newTransaction);
-                return mapper.Map<TransactionDTO>(updatedTransaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction newTransaction = mapper.Map<Transaction>(transaction);
+            Transaction updatedTransaction = await transactionRepository.Update(id, newTransaction);
+            return mapper.Map<TransactionDTO>(updatedTransaction);
         }
 
         public async Task<TransactionDTO> SetInitialBalance(TransactionDTO transaction)
         {
-            try
-            {
-                Transaction _transaction = await transactionRepository.SetInitialBalance(mapper.Map<Transaction>(transaction));
-                return mapper.Map<TransactionDTO>(_transaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction _transaction = await transactionRepository.SetInitialBalance(mapper.Map<Transaction>(transaction));
+            return mapper.Map<TransactionDTO>(_transaction);
         }
 
         public async Task<TransactionDTO> MakeIncome(TransactionDTO transaction)
         {
-            try
-            {
-
-                Transaction _transaction = await transactionRepository.MakeIncome(mapper.Map<Transaction>(transaction));
-                return mapper.Map<TransactionDTO>(_transaction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            Transaction _transaction = await transactionRepository.MakeIncome(mapper.Map<Transaction>(transaction));
+            return mapper.Map<TransactionDTO>(_transaction);
         }
 
         public async Task<IEnumerable<CategoryDTO>> GetExpenseCategories()

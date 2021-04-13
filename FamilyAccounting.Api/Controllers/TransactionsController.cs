@@ -21,8 +21,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> Details(int walletId, int transactionId)
         {
-            var transaction = await transactionService.Get(walletId, transactionId);
-            return transaction;
+            return await transactionService.Get(walletId, transactionId);
         }
 
         [HttpGet("{id}")]
@@ -89,8 +88,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> Update(int id, int transactionId)
         {
-            var updatedTransaction = await transactionService.Get(id, transactionId);
-            return updatedTransaction;
+            return await transactionService.Get(id, transactionId);
         }
 
         [HttpPost("{id}")]
