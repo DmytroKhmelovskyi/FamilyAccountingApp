@@ -14,7 +14,7 @@ namespace FamilyAccounting.Tests.ControllerTests
     class WalletsControllerTests
     {
         [Test]
-        public async Task Index_IsNotNull()
+        public async Task GetWallets_IsNotNull()
         {
             //Arrange
             var mockWallet = new Mock<IWalletService>();
@@ -24,7 +24,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             //Act
-            var result = await controller.Index() as OkObjectResult;
+            var result = await controller.GetWallets() as OkObjectResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -32,7 +32,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void Index_VerifyOnce()
+        public void GetWallets_VerifyOnce()
         {
             //Arrange
             var mockWallet = new Mock<IWalletService>();
@@ -40,7 +40,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             //Act
-            var result = controller.Index();
+            var result = controller.GetWallets();
 
             //Assert
             mockWallet.Verify(a => a.Get(), Times.Once);
