@@ -1,4 +1,5 @@
 using FamilyAccounting.Api.Interfaces;
+using FamilyAccounting.Api.Middlewares;
 using FamilyAccounting.Api.Services;
 using FamilyAccounting.AutoMapper;
 using FamilyAccounting.BL.Services;
@@ -50,10 +51,7 @@ namespace FamilyAccounting.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseGlobalExceptionMiddleware();
 
             app.UseSwagger();
 

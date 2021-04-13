@@ -22,41 +22,17 @@ namespace FamilyAccounting.BL.Services
 
         public IEnumerable<AuditActionDTO> GetActions()
         {
-            try
-            {
-                IEnumerable<AuditAction> auditAction = auditRepository.GetActions();
-                return mapper.Map<IEnumerable<AuditActionDTO>>(auditAction);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<IEnumerable<AuditActionDTO>>(auditRepository.GetActions());
         }
 
         public IEnumerable<AuditWalletDTO> GetWallets()
         {
-            try
-            {
-                IEnumerable<AuditWallet> auditWallet = auditRepository.GetWallets();
-                return mapper.Map<IEnumerable<AuditWalletDTO>>(auditWallet);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<IEnumerable<AuditWalletDTO>>(auditRepository.GetWallets());
         }
 
         public IEnumerable<AuditPersonDTO> GetPersons()
         {
-            try
-            {
-                IEnumerable<AuditPerson> auditPerson = auditRepository.GetPersons();
-                return mapper.Map<IEnumerable<AuditPersonDTO>>(auditPerson);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return mapper.Map<IEnumerable<AuditPersonDTO>>(auditRepository.GetPersons());
         }
     }
 }
