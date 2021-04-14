@@ -19,7 +19,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return new OkObjectResult(await personsService.Get());
+            return new OkObjectResult(await personsService.GetAsync());
         }
 
         [Authorize(Roles = "admin")]
@@ -28,7 +28,7 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new OkObjectResult(await personsService.Add(person));
+                return new OkObjectResult(await personsService.AddAsync(person));
             }
             return new BadRequestResult();
         }
@@ -38,15 +38,15 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new OkObjectResult(await personsService.Update(id, person));
+                return new OkObjectResult(await personsService.UpdateAsync(id, person));
             }
             return new BadRequestResult();
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> Details(int Id)
         {
-            var person = await personsService.Get(Id);
-            person.Wallets = await personsService.GetWallets(Id);
+            var person = await personsService.GetAsync(Id);
+            person.Wallets = await personsService.GetWalletsAsync(Id);
             return new OkObjectResult(person);
         }
 
@@ -54,7 +54,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePerson(int id)
         {
-            await personsService.Delete(id);
+            await personsService.DeleteAsync(id);
             return new OkResult();
         }
     }

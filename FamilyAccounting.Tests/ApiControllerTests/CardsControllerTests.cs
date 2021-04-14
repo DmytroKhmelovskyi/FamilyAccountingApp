@@ -35,7 +35,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             // Arrange
             var mockCard = new Mock<ICardService>();
-            mockCard.Setup(a => a.Create(card)).ReturnsAsync(card);
+            mockCard.Setup(a => a.CreateAsync(card)).ReturnsAsync(card);
             CardsController controller = new CardsController(mockCard.Object);
 
             // Act
@@ -57,7 +57,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mockCard = new Mock<ICardService>();
             CardsController controller = new CardsController(mockCard.Object);
-            mockCard.Setup(x => x.Create(It.IsAny<CardDTO>())).ReturnsAsync(It.IsAny<CardDTO>());
+            mockCard.Setup(x => x.CreateAsync(It.IsAny<CardDTO>())).ReturnsAsync(It.IsAny<CardDTO>());
 
             //Act
             await controller.Create(cardVM);
@@ -77,7 +77,7 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Description = "O.O.N.Q.D.U.Y.U.R.D"
             };
             var mockСard = new Mock<ICardService>();
-            mockСard.Setup(a => a.Get(testCard.WalletId)).ReturnsAsync(testCard);
+            mockСard.Setup(a => a.GetAsync(testCard.WalletId)).ReturnsAsync(testCard);
             var controller = new CardsController(mockСard.Object);
 
             //Act

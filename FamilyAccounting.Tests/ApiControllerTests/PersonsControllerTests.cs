@@ -33,7 +33,7 @@ namespace FamilyAccounting.Tests.ControllerTests
                 new PersonDTO { FirstName = "Boris", LastName = "Pittman", WalletsCount = 3 }
             };
             var mock = new Mock<IPersonService>();
-            mock.Setup(a => a.Get()).ReturnsAsync(TestList);
+            mock.Setup(a => a.GetAsync()).ReturnsAsync(TestList);
             Mock<PersonsController> controller = new Mock<PersonsController>(mock.Object);
 
             //Act
@@ -127,7 +127,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            mock.Setup(x => x.Add(It.IsAny<PersonDTO>())).ReturnsAsync(It.IsAny<PersonDTO>());
+            mock.Setup(x => x.AddAsync(It.IsAny<PersonDTO>())).ReturnsAsync(It.IsAny<PersonDTO>());
 
             //Act
             await controller.Add(personDTO);
@@ -163,7 +163,7 @@ namespace FamilyAccounting.Tests.ControllerTests
                 Phone = "0636363636",
                 Email = "email.email.com"
             };
-            mock.Setup(a => a.Add(personDTO)).ReturnsAsync(personDTO);
+            mock.Setup(a => a.AddAsync(personDTO)).ReturnsAsync(personDTO);
             // Act
             var result = await controller.Add(personDTO) as OkObjectResult;
 
@@ -187,7 +187,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             };
             var mock = new Mock<IPersonService>();
             var controller = new PersonsController(mock.Object);
-            mock.Setup(x => x.Update(personDTO.Id, personDTO)).ReturnsAsync(personDTO);
+            mock.Setup(x => x.UpdateAsync(personDTO.Id, personDTO)).ReturnsAsync(personDTO);
 
             //Act
             var result = await controller.Update(personDTO.Id, personDTO) as OkObjectResult;
@@ -222,7 +222,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var personId = 1;
             var testPerson = new PersonDTO() { Id = personId };
             var personsRepo = new Mock<IPersonService>();
-            personsRepo.Setup(g => g.Get(personId)).ReturnsAsync(testPerson);
+            personsRepo.Setup(g => g.GetAsync(personId)).ReturnsAsync(testPerson);
             var controller = new PersonsController(personsRepo.Object);
 
             // Act
