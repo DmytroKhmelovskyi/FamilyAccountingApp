@@ -45,6 +45,7 @@ namespace FamilyAccounting.Api
                    Version = "v1"
                });
            });
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -63,6 +64,7 @@ namespace FamilyAccounting.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.AutoMapper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.Api", "FamilyAccounting.Api\FamilyAccounting.Api.csproj", "{F16CA92F-08B0-4943-AF56-26E242ABEE8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAccounting.React", "FamilyAccounting.React\FamilyAccounting.React.csproj", "{C4304542-327D-4B53-8D6E-3342F6D13949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyAccounting.ReactJS", "FamilyAccounting.ReactJS\FamilyAccounting.ReactJS.csproj", "{3B9FE02C-B559-4AF8-B466-B13B7BB57154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{F16CA92F-08B0-4943-AF56-26E242ABEE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F16CA92F-08B0-4943-AF56-26E242ABEE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F16CA92F-08B0-4943-AF56-26E242ABEE8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4304542-327D-4B53-8D6E-3342F6D13949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4304542-327D-4B53-8D6E-3342F6D13949}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4304542-327D-4B53-8D6E-3342F6D13949}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4304542-327D-4B53-8D6E-3342F6D13949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9FE02C-B559-4AF8-B466-B13B7BB57154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9FE02C-B559-4AF8-B466-B13B7BB57154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9FE02C-B559-4AF8-B466-B13B7BB57154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9FE02C-B559-4AF8-B466-B13B7BB57154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
