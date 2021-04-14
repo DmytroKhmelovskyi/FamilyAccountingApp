@@ -27,7 +27,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void GetPersons_IsNotNull()
+        public void GetPersonsAsync_IsNotNull()
         {
             //Arrange
             var mock = new Mock<IAuditService>();
@@ -42,7 +42,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void GetPersons_VerifyOnce()
+        public void GetPersonsAsync_VerifyOnce()
         {
             //Arrange
             var mock = new Mock<IAuditService>();
@@ -55,7 +55,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             mock.Verify(a => a.GetPersonsAsync(), Times.Once);
         }
         [Test]
-        public void GetActions_IsNotNull()
+        public void GetActionsAsync_IsNotNull()
         {
             //Arrange
             var mock = new Mock<IAuditService>();
@@ -70,7 +70,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void GetActions_VerifyOnce()
+        public void GetActionsAsync_VerifyOnce()
         {
             //Arrange
             var mock = new Mock<IAuditService>();
@@ -84,7 +84,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void GetWallets_IsNotNull()
+        public void GetWalletsAsync_IsNotNull()
         {
             //Arrange
             var mock = new Mock<IAuditService>();
@@ -99,7 +99,7 @@ namespace FamilyAccounting.Tests.ControllerTests
         }
 
         [Test]
-        public void GetWallets_VerifyOnce()
+        public void GetWalletsAsync_VerifyOnce()
         {
             //Arrange
             var mock = new Mock<IAuditService>();

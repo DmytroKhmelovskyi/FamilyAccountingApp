@@ -34,5 +34,20 @@ namespace FamilyAccounting.BL.Services
         {
             return mapper.Map<IEnumerable<AuditPersonDTO>>(auditRepository.GetPersons());
         }
+
+        public async Task<IEnumerable<AuditActionDTO>> GetActionsAsync()
+        {
+            return mapper.Map<IEnumerable<AuditActionDTO>>(await auditRepository.GetActionsAsync());
+        }
+
+        public async Task<IEnumerable<AuditWalletDTO>> GetWalletsAsync()
+        {
+            return mapper.Map<IEnumerable<AuditWalletDTO>>(await auditRepository.GetWalletsAsync());
+        }
+
+        public async Task<IEnumerable<AuditPersonDTO>> GetPersonsAsync()
+        {
+            return mapper.Map<IEnumerable<AuditPersonDTO>>(await auditRepository.GetPersonsAsync());
+        }
     }
 }
