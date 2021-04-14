@@ -20,7 +20,7 @@ namespace FamilyAccounting.Tests
         {
             // Arrange
             var personsList = new List<Person>() { new Person { }, new Person { } };
-            PersonRepoMock.Setup(r => r.Get()).ReturnsAsync(personsList);
+            PersonRepoMock.Setup(r => r.GetAsync()).ReturnsAsync(personsList);
 
             // Act
             var response = await Client.GetAsync("/api/persons/getall");
@@ -40,7 +40,7 @@ namespace FamilyAccounting.Tests
             // Arrange
             var newPerson = new PersonDTO { FirstName = "A", LastName = "B", Phone = "324234", Email = "sdf@f.com" };
 
-            PersonRepoMock.Setup(r => r.Add(It.IsAny<Person>())).ReturnsAsync(new Person());
+            PersonRepoMock.Setup(r => r.AddAsync(It.IsAny<Person>())).ReturnsAsync(new Person());
             var newPersonJson = JsonConvert.SerializeObject(newPerson);
             var content = new StringContent(newPersonJson, Encoding.UTF8, "application/json");
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
@@ -61,7 +61,7 @@ namespace FamilyAccounting.Tests
             var personId = 1;
             var person = new PersonDTO { FirstName = "A", LastName = "B", Phone = "324234", Email = "sdf@f.com" };
 
-            PersonRepoMock.Setup(r => r.Update(personId, It.IsAny<Person>())).ReturnsAsync(new Person());
+            PersonRepoMock.Setup(r => r.UpdateAsync(personId, It.IsAny<Person>())).ReturnsAsync(new Person());
             var newPersonJson = JsonConvert.SerializeObject(person);
             var content = new StringContent(newPersonJson, Encoding.UTF8, "application/json");
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
@@ -81,7 +81,7 @@ namespace FamilyAccounting.Tests
             // Arrange
             var personId = 1;
 
-            PersonRepoMock.Setup(r => r.Delete(personId)).ReturnsAsync(0);
+            PersonRepoMock.Setup(r => r.DeleteAsync(personId)).ReturnsAsync(0);
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
             // Act
@@ -100,8 +100,8 @@ namespace FamilyAccounting.Tests
             var personId = 1;
             var walletId = 2;
 
-            PersonRepoMock.Setup(r => r.Get(personId)).ReturnsAsync(new Person { Id = personId, FirstName = "A", LastName = "B" });
-            PersonRepoMock.Setup(r => r.GetWallets(personId)).ReturnsAsync(new List<Wallet>() { new Wallet { Id = walletId } });
+            PersonRepoMock.Setup(r => r.GetAsync(personId)).ReturnsAsync(new Person { Id = personId, FirstName = "A", LastName = "B" });
+            PersonRepoMock.Setup(r => r.GetWalletsAsync(personId)).ReturnsAsync(new List<Wallet>() { new Wallet { Id = walletId } });
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
             // Act

@@ -19,26 +19,46 @@ namespace FamilyAccounting.BL.Services
             this.mapper = mapper;
             this.cardsRepository = cardsRepository;
         }
-        public async Task<CardDTO> Create(CardDTO card)
+        public async Task<CardDTO> CreateAsync(CardDTO card)
         {
-            return mapper.Map<CardDTO>(await cardsRepository.Create(mapper.Map<Card>(card)));
+            return mapper.Map<CardDTO>(await cardsRepository.CreateAsync(mapper.Map<Card>(card)));
         }
-        public async Task<int> Delete(int id)
+        public async Task<int> DeleteAsync(int id)
         {
 
-            return await cardsRepository.Delete(id);
+            return await cardsRepository.DeleteAsync(id);
         }
 
-        public async Task<CardDTO> Get(int id)
+        public async Task<CardDTO> GetAsync(int id)
         {
-            return mapper.Map<CardDTO>(await cardsRepository.Get(id));
+            return mapper.Map<CardDTO>(await cardsRepository.GetAsync(id));
         }
 
-        public async Task<CardDTO> Update(int id, CardDTO card)
+        public async Task<CardDTO> UpdateAsync(int id, CardDTO card)
         {
             Card newCard = mapper.Map<Card>(card);
-            return mapper.Map<CardDTO>(await cardsRepository.Update(id, newCard));
+            return mapper.Map<CardDTO>(await cardsRepository.UpdateAsync(id, newCard));
         }
 
+        public CardDTO Create(CardDTO card)
+        {
+            return mapper.Map<CardDTO>(cardsRepository.Create(mapper.Map<Card>(card)));
+        }
+        public int Delete(int id)
+        {
+
+            return cardsRepository.Delete(id);
+        }
+
+        public CardDTO Get(int id)
+        {
+            return mapper.Map<CardDTO>(cardsRepository.Get(id));
+        }
+
+        public CardDTO Update(int id, CardDTO card)
+        {
+            Card newCard = mapper.Map<Card>(card);
+            return mapper.Map<CardDTO>(cardsRepository.Update(id, newCard));
+        }
     }
 }
