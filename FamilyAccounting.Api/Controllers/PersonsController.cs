@@ -49,7 +49,7 @@ namespace FamilyAccounting.Api.Controllers
             person.Wallets = await personsService.GetWalletsAsync(Id);
             return new OkObjectResult(person);
         }
-
+  
         [ActionName("Delete")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePerson(int id)
