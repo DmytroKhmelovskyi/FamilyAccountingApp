@@ -12,7 +12,7 @@ export class PersonDetails extends React.Component {
     componentDidMount() {
         this.populatePersonsData();
     }
-   
+ 
 
     static renderPersonsData(personDetails) {
         return (
@@ -55,7 +55,6 @@ export class PersonDetails extends React.Component {
 
                 </tbody>
             </table>
-
         );
     }
     render() {

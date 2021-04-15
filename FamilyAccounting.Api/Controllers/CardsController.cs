@@ -20,14 +20,14 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CardDTO card)
         {
-            return new OkObjectResult(await cardService.Create(card));
+            return new OkObjectResult(await cardService.CreateAsync(card));
         }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCard(int id)
         {
-            await cardService.Delete(id);
+            await cardService.DeleteAsync(id);
             return new OkResult();
         }
 
@@ -37,7 +37,7 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new OkObjectResult(await cardService.Update(id, card));
+                return new OkObjectResult(await cardService.UpdateAsync(id, card));
             }
             return new BadRequestResult();
 
@@ -45,7 +45,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Details(int Id)
         {
-            return new OkObjectResult(await cardService.Get(Id));
+            return new OkObjectResult(await cardService.GetAsync(Id));
         }
     }
 }

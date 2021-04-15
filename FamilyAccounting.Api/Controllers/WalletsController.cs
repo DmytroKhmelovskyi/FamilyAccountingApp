@@ -76,7 +76,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Create(int id)
         {
-            var person = await personService.Get(id);
+            var person = await personService.GetAsync(id);
             WalletDTO walletVM = new WalletDTO
             {
                 PersonId = person.Id

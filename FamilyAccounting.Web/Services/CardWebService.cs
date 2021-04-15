@@ -22,7 +22,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                CardDTO _card = await cardService.Create(mapper.Map<CardDTO>(card));
+                CardDTO _card = await cardService.CreateAsync(mapper.Map<CardDTO>(card));
                 return mapper.Map<CardViewModel>(_card);
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                return await cardService.Delete(id);
+                return await cardService.DeleteAsync(id);
             }
             catch (Exception ex)
             {
@@ -44,14 +44,14 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<CardViewModel> Get(int id)
         {
-            CardDTO card = await cardService.Get(id);
+            CardDTO card = await cardService.GetAsync(id);
             return mapper.Map<CardViewModel>(card);
         }
 
         public async Task<CardViewModel> Update(int id, CardViewModel card)
         {
             CardDTO newCard = mapper.Map<CardDTO>(card);
-            CardDTO updatedCard = await cardService.Update(id, newCard);
+            CardDTO updatedCard = await cardService.UpdateAsync(id, newCard);
             return mapper.Map<CardViewModel>(updatedCard);
         }
 
