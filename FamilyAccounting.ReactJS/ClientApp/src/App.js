@@ -7,7 +7,6 @@ import { Counter } from './components/Counter';
 import { Person } from './components/Person';
 import { PersonDetails } from './components/PersonDetails';
 
-
 import './custom.css'
 
 export default class App extends Component {
