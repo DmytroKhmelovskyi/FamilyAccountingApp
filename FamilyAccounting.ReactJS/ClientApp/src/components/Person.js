@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { API_BASE_URL } from '../config'
+import { API_BASE_URL } from '../config';
+import { Link } from 'react-router-dom';
 
 export class Person extends Component {
     static displayName = Person.name;
@@ -7,28 +8,39 @@ export class Person extends Component {
     constructor(props) {
         super(props);
         this.state = { persons: [], loading: true };
+        //this.handleDetails = this.handleDetails.bind(this);  
+
     }
 
     componentDidMount() {
         this.populatePersonsData();
     }
 
+
+    // handleDetails(id) {
+    //    this.props.history.push("/persons/details/" + id);
+    //}  
+
+
     static renderPersonsData(persons) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>FName</th>
-                        <th>LName</th>
+                        <th>FName LName</th>
                         <th>WalletsCount</th>
                     </tr>
                 </thead>
                 <tbody>
                     {persons.map(person =>
                         <tr key={person.id}>
-                            <td>{person.firstName}</td>
-                            <td>{person.lastName}</td>
+                            <td>
+                                <div className="col-xs-2">
+                                    <Link to={`persons/details/${person.id}`}><strong>{`${person.firstName} ${person.lastName}`}</strong></Link>
+                                </div>
+                            </td>  
                             <td>{person.walletsCount}</td>
+                           
                         </tr>
                     )}
                 </tbody>
