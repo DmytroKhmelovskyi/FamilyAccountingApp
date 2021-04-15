@@ -22,15 +22,15 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<PersonViewModel> Add(PersonViewModel person)
         {
-                PersonDTO _person = await personService.Add(mapper.Map<PersonDTO>(person));
-                return mapper.Map<PersonViewModel>(_person);
+            PersonDTO _person = await personService.AddAsync(mapper.Map<PersonDTO>(person));
+            return mapper.Map<PersonViewModel>(_person);
         }
         public async Task<PersonViewModel> Update(int id, PersonViewModel person)
         {
             try
             {
                 PersonDTO newPerson = mapper.Map<PersonDTO>(person);
-                PersonDTO updatedPerson = await personService.Update(id, newPerson);
+                PersonDTO updatedPerson = await personService.UpdateAsync(id, newPerson);
                 return mapper.Map<PersonViewModel>(updatedPerson);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                IEnumerable<PersonDTO> person = await personService.Get();
+                IEnumerable<PersonDTO> person = await personService.GetAsync();
                 return mapper.Map<IEnumerable<PersonViewModel>>(person);
             }
             catch (Exception ex)
@@ -54,19 +54,19 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<PersonViewModel> Get(int id)
         {
-            PersonDTO person = await personService.Get(id);
+            PersonDTO person = await personService.GetAsync(id);
             return mapper.Map<PersonViewModel>(person);
         }
 
         public async Task<int> Delete(int id)
         {
-                return await personService.Delete(id);
+            return await personService.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<WalletViewModel>> GetWallets(int id)
         {
-                IEnumerable<WalletDTO> wallets = await personService.GetWallets(id);
-                return mapper.Map<IEnumerable<WalletViewModel>>(wallets);
+            IEnumerable<WalletDTO> wallets = await personService.GetWalletsAsync(id);
+            return mapper.Map<IEnumerable<WalletViewModel>>(wallets);
         }
     }
 }
