@@ -24,7 +24,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             IPersonRepository personRepository = new PersonRepository(dbConfig);
             var mock = new Mock<IMapper>();
             string expected = "PersonService";
-      
+
             //Act
             PersonService personService = new PersonService(personRepository, mock.Object);
 
@@ -134,7 +134,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mockRepository = new Mock<IPersonRepository>();
             var mockMapper = new Mock<IMapper>();
             IPersonService service = new PersonService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.Add(It.IsAny<Person>())).ReturnsAsync(It.IsAny<Person>());
+            mockRepository.Setup(x => x.AddAsync(It.IsAny<Person>())).ReturnsAsync(It.IsAny<Person>());
 
             //Act
             service.Add(personDTO);
@@ -162,10 +162,10 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Email = "email.email.com"
             };
             var mock = new Mock<IPersonService>();
-            mock.Setup(x => x.Add(personDTO)).ReturnsAsync(personDTO);
+            mock.Setup(x => x.AddAsync(personDTO)).ReturnsAsync(personDTO);
 
             //Act
-            var result = await mock.Object.Add(personDTO);
+            var result = await mock.Object.AddAsync(personDTO);
 
             //Assert
             Assert.IsNotNull(result);
@@ -194,7 +194,7 @@ namespace FamilyAccounting.Tests.ServiceTests
                 Id = 1
             };
             var personRepoMock = new Mock<IPersonRepository>();
-            personRepoMock.Setup(r => r.Get(It.IsAny<int>())).ReturnsAsync(new Person());
+            personRepoMock.Setup(r => r.GetAsync(It.IsAny<int>())).ReturnsAsync(new Person());
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -216,7 +216,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mockRepository = new Mock<IPersonRepository>();
             var mockMapper = new Mock<IMapper>();
             IPersonService service = new PersonService(mockRepository.Object, mockMapper.Object);
-            mockRepository.Setup(x => x.Delete(1)).ReturnsAsync(It.IsAny<int>);
+            mockRepository.Setup(x => x.DeleteAsync(1)).ReturnsAsync(It.IsAny<int>);
 
             //Act
             service.Delete(1);

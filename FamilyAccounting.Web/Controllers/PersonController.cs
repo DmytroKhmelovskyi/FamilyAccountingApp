@@ -56,7 +56,7 @@ namespace FamilyAccounting.Web.Controllers
             {
                 await personsWebService.Update(id, person);
             }
-            return RedirectToAction("Details", "Person", new {id});
+            return RedirectToAction("Details", "Person", new { id });
         }
         public async Task<IActionResult> Details(int Id, int? page)
         {
@@ -79,7 +79,7 @@ namespace FamilyAccounting.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePerson(int? id)
         {
-           await personsWebService.Delete((int)id);
+            await personsWebService.Delete((int)id);
             return RedirectToAction("Index");
         }
     }
