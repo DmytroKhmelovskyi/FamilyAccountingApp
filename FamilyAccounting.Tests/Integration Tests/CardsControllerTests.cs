@@ -30,7 +30,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            CardRepoMock.Verify(r => r.Create(It.IsAny<Card>()), Times.Once);
+            CardRepoMock.Verify(r => r.CreateAsync(It.IsAny<Card>()), Times.Once);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            CardRepoMock.Verify(r => r.Update(walletId, It.IsAny<Card>()), Times.Once);
+            CardRepoMock.Verify(r => r.UpdateAsync(walletId, It.IsAny<Card>()), Times.Once);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            CardRepoMock.Verify(r => r.Delete(walletId), Times.Once);
+            CardRepoMock.Verify(r => r.DeleteAsync(walletId), Times.Once);
         }
 
         [Test]

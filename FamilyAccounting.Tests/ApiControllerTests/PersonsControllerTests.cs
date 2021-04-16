@@ -56,7 +56,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var result = await controller.GetAll() as OkObjectResult;
 
             //Assert
-            mock.Verify(a => a.Get(), Times.Once);
+            mock.Verify(a => a.GetAsync(), Times.Once);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             await controller.Add(personDTO);
 
             //Assert
-            mock.Verify(x => x.Add(It.IsAny<PersonDTO>()), Times.Once);
+            mock.Verify(x => x.AddAsync(It.IsAny<PersonDTO>()), Times.Once);
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var result = await controller.Update(personDTO.Id, personDTO) as OkObjectResult;
 
             //Assert
-            mock.Verify(x => x.Update(personDTO.Id, personDTO));
+            mock.Verify(x => x.UpdateAsync(personDTO.Id, personDTO));
             Assert.AreEqual(result.Value, personDTO);
         }
 
@@ -246,7 +246,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             await controller.DeletePerson(1);
 
             //Assert
-            mock.Verify(x => x.Delete(1), Times.Once);
+            mock.Verify(x => x.DeleteAsync(1), Times.Once);
         }
 
         [Test]

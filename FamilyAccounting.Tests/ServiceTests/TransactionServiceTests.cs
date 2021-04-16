@@ -37,10 +37,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
 
             //Act
-            serviceMock.Object.MakeExpense(transactionDTO.Object);
+            serviceMock.Object.MakeExpenseAsync(transactionDTO.Object);
 
             //Assert
-            serviceMock.Verify(m => m.MakeExpense(transactionDTO.Object), Times.Once);
+            serviceMock.Verify(m => m.MakeExpenseAsync(transactionDTO.Object), Times.Once);
         }
 
         [Test]
@@ -51,10 +51,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
 
             //Act
-            mock.Setup(a => a.MakeExpense(transactionDTO.Object)).Throws(new Exception("Test Exception"));
+            mock.Setup(a => a.MakeExpenseAsync(transactionDTO.Object)).Throws(new Exception("Test Exception"));
 
             //Assert
-            Assert.That(() => mock.Object.MakeExpense(transactionDTO.Object), Throws.Exception);
+            Assert.That(() => mock.Object.MakeExpenseAsync(transactionDTO.Object), Throws.Exception);
         }
 
         [Test]
@@ -65,10 +65,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
 
             //Act
-            serviceMock.Object.SetInitialBalance(transactionDTO.Object);
+            serviceMock.Object.SetInitialBalanceAsync(transactionDTO.Object);
 
             //Assert
-            serviceMock.Verify(m => m.SetInitialBalance(transactionDTO.Object), Times.Once);
+            serviceMock.Verify(m => m.SetInitialBalanceAsync(transactionDTO.Object), Times.Once);
         }
 
         [Test]
@@ -79,10 +79,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
 
             //Act
-            mock.Setup(a => a.SetInitialBalance(transactionDTO.Object)).Throws(new Exception("Test Exception"));
+            mock.Setup(a => a.SetInitialBalanceAsync(transactionDTO.Object)).Throws(new Exception("Test Exception"));
 
             //Assert
-            Assert.That(() => mock.Object.SetInitialBalance(transactionDTO.Object), Throws.Exception);
+            Assert.That(() => mock.Object.SetInitialBalanceAsync(transactionDTO.Object), Throws.Exception);
         }
 
 
@@ -93,10 +93,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var serviceMock = new Mock<ITransactionService>();
             var transactionDTO = new Mock<TransactionDTO>();
              //Act
-            serviceMock.Object.MakeIncome(transactionDTO.Object);
+            serviceMock.Object.MakeIncomeAsync(transactionDTO.Object);
 
             //Assert
-            serviceMock.Verify(m => m.MakeIncome(transactionDTO.Object), Times.Once);
+            serviceMock.Verify(m => m.MakeIncomeAsync(transactionDTO.Object), Times.Once);
         }
 
         [Test]
@@ -107,10 +107,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
   
             //Act                  
-            serviceMock.Object.MakeTransfer(transactionDTO.Object);
+            serviceMock.Object.MakeTransferAsync(transactionDTO.Object);
 
             //Assert
-            serviceMock.Verify(m => m.MakeTransfer(transactionDTO.Object), Times.Once);
+            serviceMock.Verify(m => m.MakeTransferAsync(transactionDTO.Object), Times.Once);
         }    
 
         [Test]
@@ -121,10 +121,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
           
              //Act
-            mock.Setup(a => a.MakeIncome(transactionDTO.Object)).Throws(new Exception("Test Exception"));
+            mock.Setup(a => a.MakeIncomeAsync(transactionDTO.Object)).Throws(new Exception("Test Exception"));
 
             //Assert
-            Assert.That(() => mock.Object.MakeIncome(transactionDTO.Object), Throws.Exception);
+            Assert.That(() => mock.Object.MakeIncomeAsync(transactionDTO.Object), Throws.Exception);
         }
 
         [Test]
@@ -135,10 +135,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var transactionDTO = new Mock<TransactionDTO>();
           
           //Act
-            mock.Setup(a => a.MakeTransfer(transactionDTO.Object)).Throws(new Exception("Test Exception"));
+            mock.Setup(a => a.MakeTransferAsync(transactionDTO.Object)).Throws(new Exception("Test Exception"));
 
             //Assert
-            Assert.That(() => mock.Object.MakeTransfer(transactionDTO.Object), Throws.Exception);
+            Assert.That(() => mock.Object.MakeTransferAsync(transactionDTO.Object), Throws.Exception);
         }
 
         [Test]
@@ -155,10 +155,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mock = new Mock<ITransactionService>();
 
             //Act
-            mock.Setup(a => a.Update(transactionId, transaction)).Throws(new Exception("Test Exception"));
+            mock.Setup(a => a.UpdateAsync(transactionId, transaction)).Throws(new Exception("Test Exception"));
 
             //Assert
-            Assert.That(() => mock.Object.Update(transactionId, transaction), Throws.Exception);
+            Assert.That(() => mock.Object.UpdateAsync(transactionId, transaction), Throws.Exception);
         }
 
         [Test]
@@ -175,10 +175,10 @@ namespace FamilyAccounting.Tests.ServiceTests
             var mock = new Mock<ITransactionService>();
 
             //Act
-            mock.Object.Update(transactionId, transaction);
+            mock.Object.UpdateAsync(transactionId, transaction);
 
             //Assert
-            mock.Verify(m => m.Update(transactionId, transaction), Times.Once);
+            mock.Verify(m => m.UpdateAsync(transactionId, transaction), Times.Once);
         }
     }
 }

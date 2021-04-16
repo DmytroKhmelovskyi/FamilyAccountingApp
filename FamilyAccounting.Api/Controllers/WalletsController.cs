@@ -23,28 +23,28 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWallets()
         {
-            return new OkObjectResult(await walletService.Get());
+            return new OkObjectResult(await walletService.GetAsync());
         }
 
         [HttpPost("{id}")]
         public async Task<ActionResult> MakeActive(int Id)
         {
-            await walletService.MakeActive(Id);
+            await walletService.MakeActiveAsync(Id);
             return new OkResult();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Details(int Id)
         {
-            var wallet = await walletService.Get(Id);
-            wallet.Transactions = await walletService.GetTransactions(Id);
+            var wallet = await walletService.GetAsync(Id);
+            wallet.Transactions = await walletService.GetTransactionsAsync(Id);
             return new OkObjectResult(wallet);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Update(int id)
         {
-            return new OkObjectResult(await walletService.Get(id));
+            return new OkObjectResult(await walletService.GetAsync(id));
         }
 
         [HttpPut("{id}")]
@@ -52,7 +52,7 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                await walletService.Update(id, wallet);
+                await walletService.UpdateAsync(id, wallet);
                 return new OkResult();
             }
             return Content("Invalid inputs");
@@ -61,15 +61,15 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int? id)
         {
-            return new OkObjectResult(await walletService.Get((int)id));
+            return new OkObjectResult(await walletService.GetAsync((int)id));
         }
 
         [ActionName("Delete")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWallet(int? id)
         {
-            var wallet = walletService.Get((int)id);
-            await walletService.Delete((int)id);
+            var wallet = walletService.GetAsync((int)id);
+            await walletService.DeleteAsync((int)id);
             return new OkResult();
         }
 
@@ -87,7 +87,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(WalletDTO wallet)
         {
-            await walletService.Create(wallet);
+            await walletService.CreateAsync(wallet);
             return new OkResult();
         }
     }

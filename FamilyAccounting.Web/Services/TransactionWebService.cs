@@ -23,7 +23,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                TransactionDTO transaction = await transactionService.Get(walletId, transactionId);
+                TransactionDTO transaction = await transactionService.GetAsync(walletId, transactionId);
                 return mapper.Map<TransactionViewModel>(transaction);
             }
             catch (Exception ex)
@@ -34,13 +34,13 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<IEnumerable<CategoryViewModel>> GetExpenseCategories()
         {
-            IEnumerable<CategoryDTO> categories = await transactionService.GetExpenseCategories();
+            IEnumerable<CategoryDTO> categories = await transactionService.GetExpenseCategoriesAsync();
             return mapper.Map<IEnumerable<CategoryViewModel>>(categories);
         }
 
         public async Task<IEnumerable<CategoryViewModel>> GetIncomeCategories()
         {
-            IEnumerable<CategoryDTO> categories = await transactionService.GetIncomeCategories();
+            IEnumerable<CategoryDTO> categories = await transactionService.GetIncomeCategoriesAsync();
             return mapper.Map<IEnumerable<CategoryViewModel>>(categories);
         }
 
@@ -48,7 +48,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                TransactionDTO _transaction = await transactionService.MakeExpense(mapper.Map<TransactionDTO>(transaction));
+                TransactionDTO _transaction = await transactionService.MakeExpenseAsync(mapper.Map<TransactionDTO>(transaction));
                 return mapper.Map<TransactionViewModel>(_transaction);
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                TransactionDTO _transaction = await transactionService.MakeIncome(mapper.Map<TransactionDTO>(transaction));
+                TransactionDTO _transaction = await transactionService.MakeIncomeAsync(mapper.Map<TransactionDTO>(transaction));
                 return mapper.Map<TransactionViewModel>(_transaction);
             }
             catch (Exception ex)
@@ -74,7 +74,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                TransactionDTO _transaction = await transactionService.MakeTransfer(mapper.Map<TransactionDTO>(transaction));
+                TransactionDTO _transaction = await transactionService.MakeTransferAsync(mapper.Map<TransactionDTO>(transaction));
                 return mapper.Map<TransactionViewModel>(_transaction);
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                TransactionDTO _transaction =await transactionService.SetInitialBalance(mapper.Map<TransactionDTO>(transaction));
+                TransactionDTO _transaction =await transactionService.SetInitialBalanceAsync(mapper.Map<TransactionDTO>(transaction));
                 return mapper.Map<TransactionViewModel>(_transaction);
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace FamilyAccounting.Web.Services
             try
             {
                 TransactionDTO newTransaction = mapper.Map<TransactionDTO>(transaction);
-                TransactionDTO updatedTransaction = await transactionService.Update(id, newTransaction);
+                TransactionDTO updatedTransaction = await transactionService.UpdateAsync(id, newTransaction);
                 return mapper.Map<TransactionViewModel>(updatedTransaction);
             }
             catch (Exception ex)

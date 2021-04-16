@@ -24,7 +24,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.Update(transactionId, It.IsAny<TransactionDTO>()));
+            mockTransactions.Setup(p => p.UpdateAsync(transactionId, It.IsAny<TransactionDTO>()));
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -43,7 +43,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.SetInitialBalance(It.IsAny<TransactionDTO>()));
+            mockTransactions.Setup(p => p.SetInitialBalanceAsync(It.IsAny<TransactionDTO>()));
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -62,7 +62,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.MakeExpense(It.IsAny<TransactionDTO>()));
+            mockTransactions.Setup(p => p.MakeExpenseAsync(It.IsAny<TransactionDTO>()));
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -81,7 +81,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.MakeIncome(It.IsAny<TransactionDTO>()));
+            mockTransactions.Setup(p => p.MakeIncomeAsync(It.IsAny<TransactionDTO>()));
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -100,7 +100,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.MakeTransfer(It.IsAny<TransactionDTO>()));
+            mockTransactions.Setup(p => p.MakeTransferAsync(It.IsAny<TransactionDTO>()));
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -119,7 +119,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var transaction = new TransactionDTO() { Id = transactionId };
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.Get(1, 1)).ReturnsAsync(It.IsAny<TransactionDTO>());
+            mockTransactions.Setup(p => p.GetAsync(1, 1)).ReturnsAsync(It.IsAny<TransactionDTO>());
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act
@@ -154,7 +154,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             string shuoldBe = JsonConvert.SerializeObject(transaction);
             var mockTransactions = new Mock<ITransactionService>();
             var mockWallets = new Mock<IWalletService>();
-            mockTransactions.Setup(p => p.Get(14, 159)).ReturnsAsync(transaction);
+            mockTransactions.Setup(p => p.GetAsync(14, 159)).ReturnsAsync(transaction);
             var controller = new TransactionsController(mockTransactions.Object, mockWallets.Object);
 
             // Act

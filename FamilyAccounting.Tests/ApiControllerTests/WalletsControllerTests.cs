@@ -19,7 +19,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             //Arrange
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
-            mockWallet.Setup(a => a.Get());
+            mockWallet.Setup(a => a.GetAsync());
 
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
@@ -43,7 +43,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var result = controller.GetWallets();
 
             //Assert
-            mockWallet.Verify(a => a.Get(), Times.Once);
+            mockWallet.Verify(a => a.GetAsync(), Times.Once);
         }
 
         [Test]
@@ -74,13 +74,13 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
             WalletsController controller =  new WalletsController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Create(It.IsAny<WalletDTO>())).ReturnsAsync(It.IsAny<WalletDTO>());
+            mockWallet.Setup(x => x.CreateAsync(It.IsAny<WalletDTO>())).ReturnsAsync(It.IsAny<WalletDTO>());
 
             //Act
             await controller.Create(walletDTO);
 
             //Assert
-            mockWallet.Verify(x => x.Create(It.IsAny<WalletDTO>()), Times.Once);
+            mockWallet.Verify(x => x.CreateAsync(It.IsAny<WalletDTO>()), Times.Once);
         }
 
         [Test]
@@ -127,13 +127,13 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Update((int)walletDTO.Id, walletDTO));
+            mockWallet.Setup(x => x.UpdateAsync((int)walletDTO.Id, walletDTO));
 
             //Act
             await controller.Update((int)walletDTO.Id, walletDTO);
 
             //Assert
-            mockWallet.Verify(x => x.Update((int)walletDTO.Id, walletDTO));
+            mockWallet.Verify(x => x.UpdateAsync((int)walletDTO.Id, walletDTO));
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var wallet = new WalletDTO() { Id = walletId };
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
-            mockWallet.Setup(p => p.Update(walletId, It.IsAny<WalletDTO>()));
+            mockWallet.Setup(p => p.UpdateAsync(walletId, It.IsAny<WalletDTO>()));
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
@@ -163,7 +163,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var testWallet = new WalletDTO() { Id = walletId };
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
-            mockWallet.Setup(g => g.Get(walletId)).ReturnsAsync(testWallet);
+            mockWallet.Setup(g => g.GetAsync(walletId)).ReturnsAsync(testWallet);
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
 
             // Act
@@ -181,13 +181,13 @@ namespace FamilyAccounting.Tests.ControllerTests
             var mockWallet = new Mock<IWalletService>();
             var mockPerson = new Mock<IPersonService>();
             WalletsController controller = new WalletsController(mockWallet.Object, mockPerson.Object);
-            mockWallet.Setup(x => x.Delete(1));
+            mockWallet.Setup(x => x.DeleteAsync(1));
 
             //Act
             await controller.DeleteWallet(1);
 
             //Assert
-            mockWallet.Verify(x => x.Delete(1), Times.Once);
+            mockWallet.Verify(x => x.DeleteAsync(1), Times.Once);
         }
 
         [Test]

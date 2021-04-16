@@ -24,7 +24,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
                 Description = "Wallet",
                 Balance = 500
             };
-            WalletRepoMock.Setup(r => r.Create(It.IsAny<Wallet>())).ReturnsAsync(new Wallet());
+            WalletRepoMock.Setup(r => r.CreateAsync(It.IsAny<Wallet>())).ReturnsAsync(new Wallet());
             var newWalletJson = JsonConvert.SerializeObject(newWallet);
             var content = new StringContent(newWalletJson, Encoding.UTF8, "application/json");
 
@@ -34,7 +34,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            WalletRepoMock.Verify(r => r.Create(It.IsAny<Wallet>()), Times.Once);
+            WalletRepoMock.Verify(r => r.CreateAsync(It.IsAny<Wallet>()), Times.Once);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
                 Description = "Wallet",
                 Balance = 500
             };
-            WalletRepoMock.Setup(r => r.Update(walletId, It.IsAny<Wallet>())).ReturnsAsync(new Wallet());
+            WalletRepoMock.Setup(r => r.UpdateAsync(walletId, It.IsAny<Wallet>())).ReturnsAsync(new Wallet());
             var newWalletJson = JsonConvert.SerializeObject(newWallet);
             var content = new StringContent(newWalletJson, Encoding.UTF8, "application/json");
 
@@ -58,7 +58,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            WalletRepoMock.Verify(r => r.Update(walletId, It.IsAny<Wallet>()), Times.Once);
+            WalletRepoMock.Verify(r => r.UpdateAsync(walletId, It.IsAny<Wallet>()), Times.Once);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
         {
             // Arrange
             var walletId = 1;
-            WalletRepoMock.Setup(r => r.Delete(walletId)).ReturnsAsync(0);
+            WalletRepoMock.Setup(r => r.DeleteAsync(walletId)).ReturnsAsync(0);
 
             // Act
             var response = await Client.DeleteAsync($"/api/wallets/Delete/{walletId}");
@@ -74,7 +74,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            WalletRepoMock.Verify(r => r.Delete(walletId), Times.Once);
+            WalletRepoMock.Verify(r => r.DeleteAsync(walletId), Times.Once);
         }
 
 
@@ -84,12 +84,12 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             var walletId = 1;
             var transactionId = 2;
-            WalletRepoMock.Setup(r => r.Get(walletId)).ReturnsAsync(new Wallet {
+            WalletRepoMock.Setup(r => r.GetAsync(walletId)).ReturnsAsync(new Wallet {
                 Id = walletId,
                 Description = "Wallet",
                 Balance = 500
             });
-            WalletRepoMock.Setup(r => r.GetTransactions(walletId)).ReturnsAsync(new List<Transaction>() { new Transaction { Id = transactionId } });
+            WalletRepoMock.Setup(r => r.GetTransactionsAsync(walletId)).ReturnsAsync(new List<Transaction>() { new Transaction { Id = transactionId } });
 
             // Act
             var response = await Client.GetAsync($"/api/wallets/Details/{walletId}");
