@@ -21,14 +21,14 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> Details(int walletId, int transactionId)
         {
-            return await transactionService.Get(walletId, transactionId);
+            return await transactionService.GetAsync(walletId, transactionId);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> MakeExpense(int id)
         {
-            var wallet = await walletService.Get(id);
-            var categories = await transactionService.GetExpenseCategories();
+            var wallet = await walletService.GetAsync(id);
+            var categories = await transactionService.GetExpenseCategoriesAsync();
             var transaction = new TransactionDTO
             {
                 SourceWalletId = (int)wallet.Id,
@@ -40,15 +40,15 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> MakeExpense(TransactionDTO transaction)
         {
-            await transactionService.MakeExpense(transaction);
+            await transactionService.MakeExpenseAsync(transaction);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> MakeIncome(int id)
         {
-            var wallet = await walletService.Get(id);
-            var categories = await transactionService.GetIncomeCategories();
+            var wallet = await walletService.GetAsync(id);
+            var categories = await transactionService.GetIncomeCategoriesAsync();
             var transaction = new TransactionDTO
             {
                 TargetWalletId = (int)wallet.Id,
@@ -60,35 +60,35 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> MakeIncome(TransactionDTO transaction)
         {
-            await transactionService.MakeIncome(transaction);
+            await transactionService.MakeIncomeAsync(transaction);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> MakeTransfer(int id)
         {
-            var wallet = await walletService.Get(id);
+            var wallet = await walletService.GetAsync(id);
             var transaction = new TransactionDTO
             {
                 SourceWalletId = (int)wallet.Id,
                 SourceWallet = wallet.Description,
 
             };
-            var wallets = await walletService.Get();
+            var wallets = await walletService.GetAsync();
             return transaction;
         }
 
         [HttpPost]
         public async Task<ActionResult> MakeTransfer(TransactionDTO transaction)
         {
-            await transactionService.MakeTransfer(transaction);
+            await transactionService.MakeTransferAsync(transaction);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDTO>> Update(int id, int transactionId)
         {
-            return await transactionService.Get(id, transactionId);
+            return await transactionService.GetAsync(id, transactionId);
         }
 
         [HttpPut("{id}")]
@@ -96,7 +96,7 @@ namespace FamilyAccounting.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                await transactionService.Update(id, transaction);
+                await transactionService.UpdateAsync(id, transaction);
                 return Ok();
             }
             return Content("Invalid inputs");
@@ -105,7 +105,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<TransactionDTO>> SetInitialBalance(int id)
         {
-            var wallet = await walletService.Get(id);
+            var wallet = await walletService.GetAsync(id);
             var transaction = new TransactionDTO
             {
 
@@ -118,7 +118,7 @@ namespace FamilyAccounting.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> SetInitialBalance(TransactionDTO transaction)
         {
-            await transactionService.SetInitialBalance(transaction);
+            await transactionService.SetInitialBalanceAsync(transaction);
             return Ok();
         }
     }

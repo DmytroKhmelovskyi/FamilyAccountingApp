@@ -203,7 +203,7 @@ namespace FamilyAccounting.Tests.ServiceTests
             var personService = new PersonService(personRepoMock.Object, mapper);
 
             //Act
-            var result = personService.Get(personDTO.Id);
+            var result = personService.GetAsync(personDTO.Id);
 
             //Assert
             Assert.IsNotNull(result);

@@ -51,7 +51,7 @@ namespace FamilyAccounting.Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            PersonRepoMock.Verify(r => r.Add(It.IsAny<Person>()), Times.Once);
+            PersonRepoMock.Verify(r => r.AddAsync(It.IsAny<Person>()), Times.Once);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace FamilyAccounting.Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            PersonRepoMock.Verify(r => r.Update(personId, It.IsAny<Person>()), Times.Once);
+            PersonRepoMock.Verify(r => r.UpdateAsync(personId, It.IsAny<Person>()), Times.Once);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace FamilyAccounting.Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            PersonRepoMock.Verify(r => r.Delete(personId), Times.Once);
+            PersonRepoMock.Verify(r => r.DeleteAsync(personId), Times.Once);
         }
 
         [Test]

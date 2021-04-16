@@ -21,7 +21,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             int walletId = 1;
             int transactionId = 1;
             var transaction = new Transaction { SourceWalletId = walletId, Amount = 433, Description = "transact" };
-            TransactionRepoMock.Setup(r => r.Get(walletId, transactionId)).ReturnsAsync(transaction);
+            TransactionRepoMock.Setup(r => r.GetAsync(walletId, transactionId)).ReturnsAsync(transaction);
 
             // Act
             var response = await Client.GetAsync($"/api/transactions/details/1?walletId=1&transactionId=1");
@@ -41,7 +41,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             int walletId = 1;
             var transaction = new Transaction { SourceWalletId = walletId, Amount = 433, Description = "transact" };
-            TransactionRepoMock.Setup(r => r.MakeExpense(transaction)).ReturnsAsync(transaction);
+            TransactionRepoMock.Setup(r => r.MakeExpenseAsync(transaction)).ReturnsAsync(transaction);
             var newTransactionJson = JsonConvert.SerializeObject(transaction);
             var content = new StringContent(newTransactionJson, Encoding.UTF8, "application/json");
 
@@ -51,7 +51,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            TransactionRepoMock.Verify(r => r.MakeExpense(It.IsAny<Transaction>()), Times.Once);
+            TransactionRepoMock.Verify(r => r.MakeExpenseAsync(It.IsAny<Transaction>()), Times.Once);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             int walletId = 1;
             var transaction = new Transaction { TargetWalletId = walletId, Amount = 433, Description = "transact" };
-            TransactionRepoMock.Setup(r => r.MakeIncome(transaction)).ReturnsAsync(transaction);
+            TransactionRepoMock.Setup(r => r.MakeIncomeAsync(transaction)).ReturnsAsync(transaction);
             var newTransactionJson = JsonConvert.SerializeObject(transaction);
             var content = new StringContent(newTransactionJson, Encoding.UTF8, "application/json");
 
@@ -70,7 +70,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            TransactionRepoMock.Verify(r => r.MakeIncome(It.IsAny<Transaction>()), Times.Once);
+            TransactionRepoMock.Verify(r => r.MakeIncomeAsync(It.IsAny<Transaction>()), Times.Once);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             int walletSourseId = 1;
             int walletTaretId = 1;
             var transaction = new Transaction { TargetWalletId = walletTaretId, SourceWalletId = walletSourseId, Amount = 433, Description = "transact" };
-            TransactionRepoMock.Setup(r => r.MakeTransfer(transaction)).ReturnsAsync(transaction);
+            TransactionRepoMock.Setup(r => r.MakeTransferAsync(transaction)).ReturnsAsync(transaction);
             var newTransactionJson = JsonConvert.SerializeObject(transaction);
             var content = new StringContent(newTransactionJson, Encoding.UTF8, "application/json");
 
@@ -90,7 +90,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            TransactionRepoMock.Verify(r => r.MakeTransfer(It.IsAny<Transaction>()), Times.Once);
+            TransactionRepoMock.Verify(r => r.MakeTransferAsync(It.IsAny<Transaction>()), Times.Once);
 
         }
 
@@ -100,7 +100,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             var transactionId = 1;
             var transaction = new TransactionDTO { Id = transactionId, Description = "desc" };
-            TransactionRepoMock.Setup(r => r.Update(transactionId, It.IsAny<Transaction>())).ReturnsAsync(new Transaction());
+            TransactionRepoMock.Setup(r => r.UpdateAsync(transactionId, It.IsAny<Transaction>())).ReturnsAsync(new Transaction());
             var newTransactionJson = JsonConvert.SerializeObject(transaction);
             var content = new StringContent(newTransactionJson, Encoding.UTF8, "application/json");
 
@@ -110,7 +110,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            TransactionRepoMock.Verify(r => r.Update(transactionId, It.IsAny<Transaction>()), Times.Once);
+            TransactionRepoMock.Verify(r => r.UpdateAsync(transactionId, It.IsAny<Transaction>()), Times.Once);
         }
 
         [Test]
@@ -119,7 +119,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Arrange
             int walletSourseId = 1;
             var transaction = new Transaction { SourceWalletId = walletSourseId, Amount = 433, Description = "transact" };
-            TransactionRepoMock.Setup(r => r.SetInitialBalance(transaction)).ReturnsAsync(transaction);
+            TransactionRepoMock.Setup(r => r.SetInitialBalanceAsync(transaction)).ReturnsAsync(transaction);
             var newTransactionJson = JsonConvert.SerializeObject(transaction);
             var content = new StringContent(newTransactionJson, Encoding.UTF8, "application/json");
 
@@ -129,7 +129,7 @@ namespace FamilyAccounting.Tests.Integration_Tests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            TransactionRepoMock.Verify(r => r.SetInitialBalance(It.IsAny<Transaction>()), Times.Once);
+            TransactionRepoMock.Verify(r => r.SetInitialBalanceAsync(It.IsAny<Transaction>()), Times.Once);
 
         }
     }

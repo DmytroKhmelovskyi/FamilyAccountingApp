@@ -23,7 +23,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                WalletDTO _wallet = await walletService.Create(mapper.Map<WalletDTO>(wallet));
+                WalletDTO _wallet = await walletService.CreateAsync(mapper.Map<WalletDTO>(wallet));
                 return mapper.Map<WalletViewModel>(_wallet);
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                return await walletService.Delete(id);
+                return await walletService.DeleteAsync(id);
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                IEnumerable<WalletDTO> wallet = await walletService.Get();
+                IEnumerable<WalletDTO> wallet = await walletService.GetAsync();
                 return mapper.Map<IEnumerable<WalletViewModel>>(wallet);
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<WalletViewModel> Get(int id)
         {
-            WalletDTO wallet = await walletService.Get(id);
+            WalletDTO wallet = await walletService.GetAsync(id);
             return mapper.Map<WalletViewModel>(wallet);
         }
 
@@ -67,7 +67,7 @@ namespace FamilyAccounting.Web.Services
         {
             try
             {
-                IEnumerable<TransactionDTO> transactions = await walletService.GetTransactions(walletId);
+                IEnumerable<TransactionDTO> transactions = await walletService.GetTransactionsAsync(walletId);
                 return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
             }
             catch (Exception ex)
@@ -78,13 +78,13 @@ namespace FamilyAccounting.Web.Services
 
         public async Task<IEnumerable<TransactionViewModel>> GetTransactions(int walletId, DateTime from, DateTime to)
         {
-            IEnumerable<TransactionDTO> transactions = await walletService.GetTransactions(walletId, from, to);
+            IEnumerable<TransactionDTO> transactions = await walletService.GetTransactionsAsync(walletId, from, to);
             return mapper.Map<IEnumerable<TransactionViewModel>>(transactions);
         }
 
         public async Task<WalletViewModel> MakeActive(int id)
         {
-            WalletDTO _wallet = await walletService.MakeActive(id);
+            WalletDTO _wallet = await walletService.MakeActiveAsync(id);
             return mapper.Map<WalletViewModel>(_wallet);
         }
 
@@ -93,7 +93,7 @@ namespace FamilyAccounting.Web.Services
             try
             {
                 WalletDTO newWallet = mapper.Map<WalletDTO>(wallet);
-                WalletDTO updatedWallet = await walletService.Update(id, newWallet);
+                WalletDTO updatedWallet = await walletService.UpdateAsync(id, newWallet);
                 return mapper.Map<WalletViewModel>(updatedWallet);
             }
             catch (Exception ex)

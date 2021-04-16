@@ -63,7 +63,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             await controller.Create(cardVM);
 
             //Assert
-            mockCard.Verify(x => x.Create(It.IsAny<CardDTO>()), Times.Once);
+            mockCard.Verify(x => x.CreateAsync(It.IsAny<CardDTO>()), Times.Once);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var result = await controller.Details(1) as OkObjectResult;
 
             //Assert
-            mockCard.Verify(a => a.Get(WalletId), Times.Once);
+            mockCard.Verify(a => a.GetAsync(WalletId), Times.Once);
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace FamilyAccounting.Tests.ControllerTests
             var result = await controller.Update(card.WalletId, card) as OkResult;
 
             //Assert
-            mockCard.Verify(a => a.Update(card.WalletId, card), Times.Once);
+            mockCard.Verify(a => a.UpdateAsync(card.WalletId, card), Times.Once);
         }
         [Test]
         public void DeleteCard_ShouldRedirectToActionDelete()
