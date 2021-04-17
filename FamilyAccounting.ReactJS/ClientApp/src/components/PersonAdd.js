@@ -15,20 +15,23 @@ export class PersonAdd extends React.Component {
     }
     Addperson = () => {
         axios.post(`${API_BASE_URL}/persons/add/`, {
+            headers: {
+                "Content-Type": "x-custom-header"
+            },
             FirstName: this.state.FirstName, LastName: this.state.LastName,
             Email: this.state.Email, Phone: this.state.Phone
         })
             .then(json => {
-                if (json.data.Status === 'Success') {
-                    console.log(json.data.Status);
-                    alert("Data Save Successfully");
+                //if (json.data.Status === 'Success') {
+                //    console.log(json.data.Status);
+                //    alert("Data Save Successfully");
+                //    this.props.history.push('/persons')
+                //}
+                //else {
+                //    alert('Data not Saved');
+                //    debugger;
                     this.props.history.push('/persons')
-                }
-                else {
-                    alert('Data not Saved');
-                    debugger;
-                    this.props.history.push('/persons')
-                }
+               // }
             })
     }
 
