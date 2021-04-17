@@ -7,6 +7,9 @@ import { Person } from './components/Person';
 import { PersonDetails } from './components/PersonDetails';
 import { WalletDetails } from './components/WalletDetails';
 import { PersonAdd } from './components/PersonAdd';
+import { PersonUpdate } from './components/PersonUpdate';
+import { PersonDelete } from './components/PersonDelete';
+
 
 import './custom.css'
 
@@ -21,6 +24,9 @@ export default class App extends Component {
             <Route exact path='/persons/details/:personid' component={PersonDetails} />
             <Route exact path='/wallets/details/:walletid' component={WalletDetails} />
             <Route exact path='/persons/add' component={PersonAdd} />
+            <Route exact path='/wallets/details/:walletid' component={WalletDetails} />
+            <Route exact path='/persons/update/:personid' component={PersonUpdate} />
+            <Route exact path='/persons/delete/:personid' component={PersonDelete} />
       </Layout>
     );
   }
