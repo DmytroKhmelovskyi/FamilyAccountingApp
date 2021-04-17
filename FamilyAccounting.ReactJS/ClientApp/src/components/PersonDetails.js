@@ -31,6 +31,8 @@ export class PersonDetails extends React.Component {
                     <td>{personDetails.email}</td>
                     <td>{personDetails.phone}</td>
                     <td>{personDetails.balance}</td>
+                    <Link to={`/persons/update/${personDetails.id}`} className="btn btn-success">Edit</Link>  
+                    <Link to={`/persons/delete/${personDetails.id}`} className="btn btn-success">Delete</Link>  
                     <table>
                     <thead>
                         <tr>
