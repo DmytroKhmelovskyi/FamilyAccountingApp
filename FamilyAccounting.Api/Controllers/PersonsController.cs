@@ -22,7 +22,7 @@ namespace FamilyAccounting.Api.Controllers
             return new OkObjectResult(await personsService.GetAsync());
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Add(PersonDTO person)
         {

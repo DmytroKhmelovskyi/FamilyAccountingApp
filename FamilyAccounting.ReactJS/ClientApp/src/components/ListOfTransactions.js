@@ -4,19 +4,12 @@ import { API_BASE_URL } from '../config';
 export class Transactions extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            empData: {}, loading: true,
-        };
     }
-    componentDidMount() {
-        this.populateTransactionsData();
-    }
-    static renderTransactionsData(empData) {
+    render() {
         return (
             <div>
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
+                <table className='table table-striped table-primary' aria-labelledby="tabelLabel">
+                    <thead className='thead-dark'>
                         <tr>
                             <th>Amount</th>
                             <th>Before</th>
@@ -29,41 +22,24 @@ export class Transactions extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {empData.transactions.map(person =>
-                            <tr key={person.walletid}>
-                                <td>{person.amount}</td>
-                                <td>{person.balanceBefore}</td>
-                                <td>{person.balanceAfter}</td>
-                                <td>{person.catagory}</td>
-                                <td>{person.timeStamp}</td>
-                                <td>{person.description}</td>
-                                <td>{person.transactionType}</td>
-                                <td>details</td>
+                        {this.props.dataFromParent.transactions.map(trans =>
+                            <tr key={trans.walletid}>
+                                <td>{trans.amount}</td>
+                                <td>{trans.balanceBefore}</td>
+                                <td>{trans.balanceAfter}</td>
+                                <td>{trans.catagory}</td>
+                                <td>{trans.timeStamp}</td>
+                                <td>{trans.description}</td>
+                                <td>{trans.transactionType}</td>
+                                <td>
+                                    <a class="btn btn-outline-dark">👁
+                                    </a>
+                                </td>
                             </tr>
                         )}
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         );
-    }
-    render() {
-        console.log(API_BASE_URL)
-
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : Transactions.renderTransactionsData(this.state.empData.transactions);
-
-        return (
-            <div>
-                {contents}
-            </div>
-        );
-    }
-
-
-    async populateTransactionsData() {
-        const response = await fetch(`${API_BASE_URL}/wallets/details/` + this.props.transactions.match.params.walletid);
-        const data = await response.json();
-        this.setState({ empData: data, loading: false });
     }
 }
