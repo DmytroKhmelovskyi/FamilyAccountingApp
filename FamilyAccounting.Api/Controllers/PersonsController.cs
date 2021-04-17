@@ -1,12 +1,15 @@
 ﻿using FamilyAccounting.BL.DTO;
 using FamilyAccounting.BL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FamilyAccounting.Api.Controllers
+
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class PersonsController : ControllerBase
@@ -22,7 +25,7 @@ namespace FamilyAccounting.Api.Controllers
             return new OkObjectResult(await personsService.GetAsync());
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Add(PersonDTO person)
         {

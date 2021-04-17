@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace FamilyAccounting.Api
 {
@@ -26,6 +27,17 @@ namespace FamilyAccounting.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins(
+                            "https://localhost:44393",
+                            "https://localhost:5001").WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                                .WithMethods("PUT", "DELETE", "GET");
+                    });
+            });
             services.AddControllers();
             services.AddServices();
             services.AddModelMapping();
@@ -45,7 +57,7 @@ namespace FamilyAccounting.Api
                    Version = "v1"
                });
            });
-            services.AddCors();
+            //services.AddCors();
             services.AddMvc();
         }
 
